@@ -85,9 +85,19 @@ export function Header() {
 					{/* Desktop CTA Button */}
 					<div className="hidden md:flex items-center gap-3">
 						<Button
-							size="sm"
-							variant="outline"
-							className="border-slate-300/60 dark:border-slate-700/60 bg-white/60 dark:bg-slate-900/40 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:border-slate-400/80 dark:hover:border-slate-600/80 font-sans font-light text-[14px] tracking-wide transition-all duration-300"
+							size="default"
+							className="border-0 shadow-md hover:shadow-lg font-sans font-light text-[14px] tracking-wide transition-all duration-300 text-white"
+							style={{
+								backgroundColor: '#D97D55',
+							}}
+							onMouseEnter={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#C86A45';
+							}}
+							onMouseLeave={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#D97D55';
+							}}
 							asChild
 						>
 							<a
@@ -141,9 +151,19 @@ export function Header() {
 								About
 							</Link>
 							<Button
-								size="sm"
-								variant="outline"
-								className="border-slate-300/60 dark:border-slate-700/60 bg-white/60 dark:bg-slate-900/40 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:border-slate-400/80 dark:hover:border-slate-600/80 font-sans font-light text-[14px] tracking-wide transition-all duration-300 w-full justify-center mt-2"
+								size="default"
+								className="border-0 shadow-md hover:shadow-lg font-sans font-light text-[14px] tracking-wide transition-all duration-300 w-full justify-center mt-2 text-white"
+								style={{
+									backgroundColor: '#D97D55',
+								}}
+								onMouseEnter={(e) => {
+									e.currentTarget.style.backgroundColor =
+										'#C86A45';
+								}}
+								onMouseLeave={(e) => {
+									e.currentTarget.style.backgroundColor =
+										'#D97D55';
+								}}
 								asChild
 							>
 								<a
