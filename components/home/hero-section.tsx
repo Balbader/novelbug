@@ -96,13 +96,6 @@ export function HeroSection() {
 							<BookOpen className="size-5 mr-2" />
 							Create My First Story
 						</Button>
-						<Button
-							size="lg"
-							variant="outline"
-							className="text-lg px-8 py-6 border-2 border-amber-700/60 bg-amber-50/60 dark:bg-amber-900/40 backdrop-blur-sm text-amber-900 dark:text-amber-100 hover:bg-amber-100 dark:hover:bg-amber-800/60 hover:border-amber-700 font-serif rounded-lg transition-all"
-						>
-							Watch Demo
-						</Button>
 					</div>
 				</div>
 			</div>

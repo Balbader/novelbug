@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Coffee } from 'lucide-react';
 
 export function Header() {
 	const headerRef = useRef<HTMLElement>(null);
@@ -77,14 +77,24 @@ export function Header() {
 						</Link>
 					</div>
 
-					{/* CTA Button */}
-					<Button
-						size="sm"
-						className="bg-amber-700 hover:bg-amber-800 text-amber-50 font-serif border border-amber-800/50"
-					>
-						<BookOpen className="size-4 mr-2" />
-						Get Started
-					</Button>
+					{/* CTA Buttons */}
+					<div className="flex items-center gap-3">
+						<Button
+							size="sm"
+							variant="outline"
+							className="border-amber-700/60 bg-amber-50/60 dark:bg-amber-900/40 text-amber-900 dark:text-amber-100 hover:bg-amber-100 dark:hover:bg-amber-800/60 font-serif"
+							asChild
+						>
+							<a
+								href="https://buymeacoffee.com/novelbug"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<Coffee className="size-4 mr-2" />
+								Buy me a coffee
+							</a>
+						</Button>
+					</div>
 				</div>
 			</nav>
 		</header>
