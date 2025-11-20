@@ -5,7 +5,7 @@ import { Env } from './env';
 config({ path: '.env' });
 
 export default defineConfig({
-	schema: './drizzle/schema/**/*.ts',
+	schema: './drizzle/schemas/**/*.ts',
 	out: './drizzle/migrations',
 	dialect: 'turso',
 	dbCredentials: {
