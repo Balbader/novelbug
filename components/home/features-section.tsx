@@ -3,6 +3,8 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { Wand2, Globe, Heart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { BookOpen } from 'lucide-react';
 
 export function FeaturesSection() {
 	const featuresRef = useRef<HTMLDivElement>(null);
@@ -121,6 +123,19 @@ export function FeaturesSection() {
 							</p>
 						</div>
 					</div>
+				</div>
+
+				{/* CTA Button */}
+				<div className="mt-12 sm:mt-16 md:mt-20 flex justify-center">
+					<Button
+						size="lg"
+						className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 bg-amber-500/90 dark:bg-amber-500/80 text-white hover:bg-amber-600/90 dark:hover:bg-amber-600/80 font-sans font-light tracking-wide rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
+					>
+						<BookOpen className="size-4 mr-2.5 sm:mr-3 transition-transform duration-300 group-hover:rotate-6" />
+						<span className="whitespace-nowrap">
+							Start Creating Stories
+						</span>
+					</Button>
 				</div>
 			</div>
 		</section>
