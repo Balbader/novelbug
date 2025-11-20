@@ -53,7 +53,7 @@ This message was sent from the NovelBug contact form.
 		if (process.env.RESEND_API_KEY) {
 			try {
 				await resend.emails.send({
-					from: 'NovelBug Contact Form <onboarding@resend.dev>', // You'll need to verify your domain with Resend
+					from: 'NovelBug Contact Form <hello@novelbug.com>', // You'll need to verify your domain with Resend
 					to: 'hello@novelbug.com',
 					replyTo: sanitizedEmail,
 					subject: `Contact Form: ${sanitizedSubject}`,
