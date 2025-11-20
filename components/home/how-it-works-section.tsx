@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { BookOpen, Sparkles, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export function HowItWorksSection() {
 	const sectionRef = useRef<HTMLDivElement>(null);
@@ -119,24 +120,28 @@ export function HowItWorksSection() {
 
 				{/* CTA Button */}
 				<div className="mt-12 sm:mt-16 md:mt-20 flex justify-center">
-					<Button
-						size="lg"
-						className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 text-white font-sans font-light tracking-wide rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
-						style={{
-							backgroundColor: '#D97D55',
-						}}
-						onMouseEnter={(e) => {
-							e.currentTarget.style.backgroundColor = '#C86A45';
-						}}
-						onMouseLeave={(e) => {
-							e.currentTarget.style.backgroundColor = '#D97D55';
-						}}
-					>
-						<BookOpen className="size-4 mr-2.5 sm:mr-3 transition-transform duration-300 group-hover:rotate-6" />
-						<span className="whitespace-nowrap">
-							Create Your First Story
-						</span>
-					</Button>
+					<Link href="/generate">
+						<Button
+							size="lg"
+							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 text-white font-sans font-light tracking-wide rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
+							style={{
+								backgroundColor: '#D97D55',
+							}}
+							onMouseEnter={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#C86A45';
+							}}
+							onMouseLeave={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#D97D55';
+							}}
+						>
+							<BookOpen className="size-4 mr-2.5 sm:mr-3 transition-transform duration-300 group-hover:rotate-6" />
+							<span className="whitespace-nowrap">
+								Create Your First Story
+							</span>
+						</Button>
+					</Link>
 				</div>
 			</div>
 		</section>
