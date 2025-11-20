@@ -28,50 +28,50 @@ export function Header() {
 	return (
 		<header
 			ref={headerRef}
-			className="sticky top-0 z-50 w-full border-b border-amber-200/50 dark:border-amber-800/50 bg-amber-50/95 dark:bg-amber-950/95 backdrop-blur-md"
+			className="sticky top-0 z-50 w-full border-b border-slate-200/40 dark:border-slate-800/40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl"
 			style={{
-				boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+				boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)',
 			}}
 		>
-			<nav className="container mx-auto max-w-7xl px-4 py-4">
+			<nav className="container mx-auto max-w-7xl px-4 py-5">
 				<div className="flex items-center justify-between">
 					{/* Logo */}
-					<Link href="/" className="flex items-center gap-3">
+					<Link href="/" className="flex items-center gap-3 group">
 						<div ref={logoRef} className="relative">
 							<Image
 								src="/book.gif"
 								alt="NovelBug Logo"
-								width={50}
-								height={50}
-								className="drop-shadow-lg"
+								width={48}
+								height={48}
+								className="drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
 								style={{
 									mixBlendMode: 'multiply',
 								}}
 								priority
 							/>
 						</div>
-						<span className="text-2xl font-serif font-bold text-amber-900 dark:text-amber-100">
+						<span className="text-2xl font-serif font-light text-slate-900 dark:text-slate-50 tracking-tight">
 							NovelBug
 						</span>
 					</Link>
 
 					{/* Navigation Links */}
-					<div className="hidden md:flex items-center gap-8">
+					<div className="hidden md:flex items-center gap-10">
 						<Link
 							href="/"
-							className="text-amber-800 dark:text-amber-200 hover:text-amber-700 dark:hover:text-amber-300 transition-colors font-serif font-medium"
+							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
 						>
 							Home
 						</Link>
 						<Link
 							href="/stories"
-							className="text-amber-800 dark:text-amber-200 hover:text-amber-700 dark:hover:text-amber-300 transition-colors font-serif font-medium"
+							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
 						>
 							Stories
 						</Link>
 						<Link
 							href="/about"
-							className="text-amber-800 dark:text-amber-200 hover:text-amber-700 dark:hover:text-amber-300 transition-colors font-serif font-medium"
+							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
 						>
 							About
 						</Link>
@@ -82,7 +82,7 @@ export function Header() {
 						<Button
 							size="sm"
 							variant="outline"
-							className="border-amber-700/60 bg-amber-50/60 dark:bg-amber-900/40 text-amber-900 dark:text-amber-100 hover:bg-amber-100 dark:hover:bg-amber-800/60 font-serif"
+							className="border-slate-300/60 dark:border-slate-700/60 bg-white/60 dark:bg-slate-900/40 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:border-slate-400/80 dark:hover:border-slate-600/80 font-sans font-light text-[14px] tracking-wide transition-all duration-300"
 							asChild
 						>
 							<a

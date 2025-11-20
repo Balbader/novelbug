@@ -15,25 +15,25 @@ export function HeroSection() {
 		const ctx = gsap.context(() => {
 			gsap.from(titleRef.current, {
 				opacity: 0,
-				y: 40,
-				duration: 1,
-				ease: 'power3.out',
+				y: 30,
+				duration: 1.2,
+				ease: 'power2.out',
 			});
 
 			gsap.from(subtitleRef.current, {
 				opacity: 0,
-				y: 30,
+				y: 20,
 				duration: 1,
-				delay: 0.3,
-				ease: 'power3.out',
+				delay: 0.4,
+				ease: 'power2.out',
 			});
 
 			gsap.from(ctaRef.current, {
 				opacity: 0,
-				y: 20,
-				duration: 0.8,
-				delay: 0.6,
-				ease: 'power3.out',
+				y: 15,
+				duration: 0.9,
+				delay: 0.7,
+				ease: 'power2.out',
 			});
 		}, heroRef);
 
@@ -43,57 +43,56 @@ export function HeroSection() {
 	return (
 		<section
 			ref={heroRef}
-			className="relative overflow-hidden px-4 py-20 md:py-28 lg:py-32 min-h-[90vh] flex items-center"
-			style={{
-				backgroundImage: 'url(/bedtimeStory.png)',
-				backgroundSize: 'cover',
-				backgroundPosition: 'center',
-				backgroundRepeat: 'no-repeat',
-			}}
+			className="relative overflow-hidden px-4 py-24 md:py-32 lg:py-40 min-h-[92vh] flex items-center"
 		>
-			{/* Subtle overlay */}
-			<div className="absolute inset-0 bg-gradient-to-b from-amber-900/10 via-transparent to-amber-900/15 dark:from-amber-950/20 dark:via-transparent dark:to-amber-950/25 z-0" />
+			{/* Background with subtle parallax effect */}
+			<div
+				className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+				style={{
+					backgroundImage: 'url(/bedtimeStory.png)',
+					transform: 'scale(1.05)',
+				}}
+			/>
 
-			<div className="container mx-auto max-w-6xl relative z-10">
-				<div className="max-w-4xl mx-auto text-center">
-					{/* Main headline */}
+			{/* Refined gradient overlays */}
+			<div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/20 to-slate-950/50 z-0" />
+			<div className="absolute inset-0 bg-gradient-to-r from-slate-950/30 via-transparent to-slate-950/30 z-0" />
+
+			{/* Subtle vignette effect */}
+			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_transparent_50%,_rgba(15,23,42,0.3)_100%)] z-0" />
+
+			<div className="container mx-auto max-w-5xl relative z-10">
+				<div className="max-w-3xl mx-auto text-center space-y-8">
+					{/* Main headline with refined typography */}
 					<h1
 						ref={titleRef}
-						className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-tight text-white mb-6"
-						style={{
-							textShadow:
-								'0 2px 20px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2)',
-						}}
+						className="text-5xl md:text-6xl lg:text-7xl font-serif font-light tracking-tight text-white/95 leading-[1.1]"
 					>
 						Turn Knowledge into
 						<br />
-						<span className="text-white">Bedtime Stories</span>
+						<span className="font-normal">Bedtime Stories</span>
 					</h1>
 
-					{/* Subtitle */}
+					{/* Subtitle with refined spacing */}
 					<p
 						ref={subtitleRef}
-						className="text-xl md:text-2xl text-white leading-relaxed max-w-3xl mx-auto mb-8 font-serif"
-						style={{
-							textShadow:
-								'0 1px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.2)',
-						}}
+						className="text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-wide"
 					>
 						Every lesson, concept, or curiosity becomes a magical
 						bedtime adventure. Transform what you want your child to
 						learn into stories they'll want to hear.
 					</p>
 
-					{/* CTA buttons */}
+					{/* CTA with refined styling */}
 					<div
 						ref={ctaRef}
-						className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+						className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4"
 					>
 						<Button
 							size="lg"
-							className="text-lg px-8 py-6 bg-amber-700 hover:bg-amber-800 text-amber-50 shadow-lg hover:shadow-xl transition-all font-serif rounded-lg"
+							className="group relative text-base px-10 py-7 bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/15 hover:border-white/30 transition-all duration-300 font-sans font-medium tracking-wide rounded-full shadow-lg hover:shadow-xl hover:scale-105"
 						>
-							<BookOpen className="size-5 mr-2" />
+							<BookOpen className="size-4 mr-2.5 transition-transform group-hover:rotate-12" />
 							Create My First Story
 						</Button>
 					</div>
