@@ -61,13 +61,13 @@ export function HowItWorksSection() {
 	];
 
 	return (
-		<section className="py-32 px-4 bg-white dark:bg-slate-950">
+		<section className="py-20 sm:py-24 md:py-32 px-4 sm:px-6 bg-white dark:bg-slate-950">
 			<div className="container mx-auto max-w-6xl">
-				<div className="text-center mb-20">
-					<h2 className="text-4xl md:text-5xl font-serif font-light mb-5 text-slate-900 dark:text-slate-50 tracking-tight">
+				<div className="text-center mb-12 sm:mb-16 md:mb-20">
+					<h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light mb-4 sm:mb-5 text-slate-900 dark:text-slate-50 tracking-tight px-2 sm:px-0">
 						How It Works
 					</h2>
-					<p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-sans font-light tracking-wide">
+					<p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-sans font-light tracking-wide px-4 sm:px-0">
 						Simple, automated, and powerful. Transform any topic
 						into an engaging bedtime story in just a few steps.
 					</p>
@@ -75,23 +75,23 @@ export function HowItWorksSection() {
 
 				<div
 					ref={sectionRef}
-					className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+					className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8"
 				>
 					{steps.map((step, index) => {
 						const Icon = step.icon;
 						return (
 							<div
 								key={index}
-								className="group relative p-8 bg-gradient-to-br from-slate-50/80 to-white dark:from-slate-900/80 dark:to-slate-950 rounded-2xl border border-slate-200/60 dark:border-slate-800/60 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:shadow-xl transition-all duration-500"
+								className="group relative p-6 sm:p-7 md:p-8 bg-gradient-to-br from-slate-50/80 to-white dark:from-slate-900/80 dark:to-slate-950 rounded-2xl border border-slate-200/60 dark:border-slate-800/60 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:shadow-xl transition-all duration-500"
 							>
 								<div className="flex flex-col items-center text-center">
-									<div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-100/60 to-amber-50/60 dark:from-amber-900/30 dark:to-amber-950/30 flex items-center justify-center mb-6 border border-amber-200/40 dark:border-amber-800/40 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-										<Icon className="size-9 text-amber-700/80 dark:text-amber-400/80" />
+									<div className="w-16 h-16 sm:w-20 sm:h-20 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-amber-100/60 to-amber-50/60 dark:from-amber-900/30 dark:to-amber-950/30 flex items-center justify-center mb-5 sm:mb-6 border border-amber-200/40 dark:border-amber-800/40 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+										<Icon className="size-7 sm:size-8 md:size-9 text-amber-700/80 dark:text-amber-400/80" />
 									</div>
-									<h3 className="text-xl font-serif font-normal mb-3 text-slate-900 dark:text-slate-50 tracking-tight">
+									<h3 className="text-lg sm:text-xl font-serif font-normal mb-2 sm:mb-3 text-slate-900 dark:text-slate-50 tracking-tight">
 										{step.title}
 									</h3>
-									<p className="text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light text-sm tracking-wide">
+									<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
 										{step.description}
 									</p>
 								</div>

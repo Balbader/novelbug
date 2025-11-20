@@ -10,6 +10,8 @@ export function HeroSection() {
 	const titleRef = useRef<HTMLHeadingElement>(null);
 	const subtitleRef = useRef<HTMLParagraphElement>(null);
 	const ctaRef = useRef<HTMLDivElement>(null);
+	const iconRef = useRef<SVGSVGElement>(null);
+	const sprinklesContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const ctx = gsap.context(() => {
@@ -40,10 +42,171 @@ export function HeroSection() {
 		return () => ctx.revert();
 	}, []);
 
+	useEffect(() => {
+		const buttonContainer = ctaRef.current;
+		if (!buttonContainer) return;
+
+		// Wait a bit for button to render
+		const timeout = setTimeout(() => {
+			const button = buttonContainer.querySelector(
+				'button',
+			) as HTMLButtonElement;
+			const icon = iconRef.current;
+			const sprinklesContainer = sprinklesContainerRef.current;
+
+			if (!button || !sprinklesContainer) {
+				console.warn('Button or sprinkles container not found');
+				return;
+			}
+
+			const createSprinkle = () => {
+				if (!sprinklesContainer || !button) return;
+
+				const sprinkle = document.createElement('div');
+				sprinkle.className = 'absolute pointer-events-none';
+
+				// Get button position relative to container
+				const buttonRect = button.getBoundingClientRect();
+				const containerRect = buttonContainer.getBoundingClientRect();
+
+				// Start from center of button
+				const startX =
+					buttonRect.left - containerRect.left + buttonRect.width / 2;
+				const startY =
+					buttonRect.top - containerRect.top + buttonRect.height / 2;
+
+				// Random size - more variety for fireworks effect
+				const size = Math.random() * 6 + 1; // 1-7px
+				const isLarge = Math.random() > 0.7; // 30% chance of larger particle
+				const finalSize = isLarge ? size * 1.8 : size;
+
+				// Vibrant firework colors
+				const colors = [
+					'rgba(255, 100, 100, 1)', // Red
+					'rgba(100, 200, 255, 1)', // Blue
+					'rgba(255, 255, 100, 1)', // Yellow
+					'rgba(150, 255, 150, 1)', // Green
+					'rgba(255, 150, 255, 1)', // Magenta
+					'rgba(255, 200, 100, 1)', // Orange
+					'rgba(200, 150, 255, 1)', // Purple
+					'rgba(255, 255, 255, 1)', // White
+				];
+				const color = colors[Math.floor(Math.random() * colors.length)];
+
+				sprinkle.style.width = `${finalSize}px`;
+				sprinkle.style.height = `${finalSize}px`;
+				sprinkle.style.left = `${startX}px`;
+				sprinkle.style.top = `${startY}px`;
+				sprinkle.style.background = `radial-gradient(circle, ${color} 0%, ${color}80 40%, transparent 70%)`;
+				sprinkle.style.borderRadius = '50%';
+				sprinkle.style.boxShadow = `0 0 ${finalSize * 3}px ${color}, 0 0 ${finalSize * 6}px ${color}40`;
+				sprinkle.style.transform = 'translate(-50%, -50%)';
+
+				sprinklesContainer.appendChild(sprinkle);
+
+				// Animate sprinkle with more dramatic firework effect
+				const angle = Math.random() * Math.PI * 2;
+				const distance = Math.random() * 100 + 50; // 50-150px
+				const duration = Math.random() * 1.2 + 0.8; // 0.8-2s
+				const rotation = Math.random() * 360;
+
+				gsap.fromTo(
+					sprinkle,
+					{
+						opacity: 0,
+						scale: 0,
+						x: 0,
+						y: 0,
+						rotation: 0,
+					},
+					{
+						opacity: 1,
+						scale: isLarge ? 1.5 : 1.3,
+						x: Math.cos(angle) * distance,
+						y: Math.sin(angle) * distance - 30,
+						rotation: rotation,
+						duration: duration * 0.3,
+						ease: 'power3.out',
+					},
+				);
+
+				gsap.to(sprinkle, {
+					opacity: 0,
+					scale: 0.3,
+					duration: duration * 0.7,
+					delay: duration * 0.3,
+					ease: 'power2.in',
+					onComplete: () => {
+						sprinkle.remove();
+					},
+				});
+			};
+
+			const createSprinkles = () => {
+				const count = 35; // More sprinkles for firework effect
+				for (let i = 0; i < count; i++) {
+					setTimeout(() => {
+						createSprinkle();
+					}, i * 20); // Faster stagger for more simultaneous effect
+				}
+			};
+
+			const handleMouseEnter = () => {
+				gsap.to(button, {
+					scale: 1.02,
+					boxShadow: '0 10px 40px rgba(255, 255, 255, 0.15)',
+					borderColor: 'rgba(255, 255, 255, 0.25)',
+					backgroundColor: 'rgba(255, 255, 255, 0.1)',
+					duration: 0.6,
+					ease: 'power2.out',
+				});
+
+				if (icon) {
+					gsap.to(icon, {
+						rotation: 8,
+						scale: 1.1,
+						duration: 0.6,
+						ease: 'back.out(1.7)',
+					});
+				}
+
+				// Create sprinkles
+				createSprinkles();
+			};
+
+			const handleMouseLeave = () => {
+				gsap.to(button, {
+					scale: 1,
+					boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+					borderColor: 'rgba(255, 255, 255, 0.1)',
+					backgroundColor: 'rgba(255, 255, 255, 0.05)',
+					duration: 0.5,
+					ease: 'power2.out',
+				});
+
+				if (icon) {
+					gsap.to(icon, {
+						rotation: 0,
+						scale: 1,
+						duration: 0.5,
+						ease: 'power2.out',
+					});
+				}
+			};
+
+			button.addEventListener('mouseenter', handleMouseEnter);
+			button.addEventListener('mouseleave', handleMouseLeave);
+		}, 100);
+
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, []);
+
 	return (
 		<section
 			ref={heroRef}
-			className="relative overflow-hidden px-4 py-24 md:py-32 lg:py-40 min-h-[92vh] flex items-center"
+			className="relative overflow-hidden px-4 sm:px-6 py-20 sm:py-24 md:py-32 lg:py-40 min-h-[85vh] sm:min-h-[90vh] lg:min-h-[92vh] flex items-center"
 		>
 			{/* Background with subtle parallax effect */}
 			<div
@@ -62,21 +225,22 @@ export function HeroSection() {
 			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_transparent_50%,_rgba(15,23,42,0.3)_100%)] z-0" />
 
 			<div className="container mx-auto max-w-5xl relative z-10">
-				<div className="max-w-3xl mx-auto text-center space-y-8">
+				<div className="max-w-3xl mx-auto text-center space-y-6 sm:space-y-8">
 					{/* Main headline with refined typography */}
 					<h1
 						ref={titleRef}
-						className="text-5xl md:text-6xl lg:text-7xl font-serif font-light tracking-tight text-white/95 leading-[1.1]"
+						className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-light tracking-tight text-white/95 leading-[1.1] px-2 sm:px-0"
 					>
 						Turn Knowledge into
-						<br />
+						<br className="hidden sm:block" />
+						<span className="sm:hidden"> </span>
 						<span className="font-normal">Bedtime Stories</span>
 					</h1>
 
 					{/* Subtitle with refined spacing */}
 					<p
 						ref={subtitleRef}
-						className="text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-wide"
+						className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-wide px-2 sm:px-0"
 					>
 						Every lesson, concept, or curiosity becomes a magical
 						bedtime adventure. Transform what you want your child to
@@ -86,14 +250,180 @@ export function HeroSection() {
 					{/* CTA with refined styling */}
 					<div
 						ref={ctaRef}
-						className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4"
+						className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-2 sm:pt-4 w-full sm:w-auto relative"
 					>
+						{/* Sprinkles container */}
+						<div
+							ref={sprinklesContainerRef}
+							className="absolute inset-0 pointer-events-none z-20"
+						/>
+
 						<Button
 							size="lg"
-							className="group relative text-base px-10 py-7 bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/15 hover:border-white/30 transition-all duration-300 font-sans font-medium tracking-wide rounded-full shadow-lg hover:shadow-xl hover:scale-105"
+							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 bg-white/5 backdrop-blur-sm border border-white/10 text-white/95 font-sans font-light tracking-wide rounded-2xl shadow-sm w-full sm:w-auto overflow-hidden z-10"
+							onMouseEnter={(e) => {
+								const button = e.currentTarget;
+								const icon = iconRef.current;
+								const sprinklesContainer =
+									sprinklesContainerRef.current;
+
+								if (!sprinklesContainer) return;
+
+								gsap.to(button, {
+									scale: 1.02,
+									boxShadow:
+										'0 10px 40px rgba(255, 255, 255, 0.15)',
+									borderColor: 'rgba(255, 255, 255, 0.25)',
+									backgroundColor: 'rgba(255, 255, 255, 0.1)',
+									duration: 0.6,
+									ease: 'power2.out',
+								});
+
+								if (icon) {
+									gsap.to(icon, {
+										rotation: 8,
+										scale: 1.1,
+										duration: 0.6,
+										ease: 'back.out(1.7)',
+									});
+								}
+
+								// Create sprinkles
+								const createSprinkle = () => {
+									if (!sprinklesContainer || !button) return;
+
+									const sprinkle =
+										document.createElement('div');
+									sprinkle.className =
+										'absolute pointer-events-none';
+
+									const buttonRect =
+										button.getBoundingClientRect();
+									const containerRect =
+										ctaRef.current!.getBoundingClientRect();
+
+									const startX =
+										buttonRect.left -
+										containerRect.left +
+										buttonRect.width / 2;
+									const startY =
+										buttonRect.top -
+										containerRect.top +
+										buttonRect.height / 2;
+
+									const size = Math.random() * 6 + 1;
+									const isLarge = Math.random() > 0.7;
+									const finalSize = isLarge
+										? size * 1.8
+										: size;
+
+									const colors = [
+										'rgba(255, 100, 100, 1)',
+										'rgba(100, 200, 255, 1)',
+										'rgba(255, 255, 100, 1)',
+										'rgba(150, 255, 150, 1)',
+										'rgba(255, 150, 255, 1)',
+										'rgba(255, 200, 100, 1)',
+										'rgba(200, 150, 255, 1)',
+										'rgba(255, 255, 255, 1)',
+									];
+									const color =
+										colors[
+											Math.floor(
+												Math.random() * colors.length,
+											)
+										];
+
+									sprinkle.style.width = `${finalSize}px`;
+									sprinkle.style.height = `${finalSize}px`;
+									sprinkle.style.left = `${startX}px`;
+									sprinkle.style.top = `${startY}px`;
+									sprinkle.style.background = `radial-gradient(circle, ${color} 0%, ${color}80 40%, transparent 70%)`;
+									sprinkle.style.borderRadius = '50%';
+									sprinkle.style.boxShadow = `0 0 ${finalSize * 3}px ${color}, 0 0 ${finalSize * 6}px ${color}40`;
+									sprinkle.style.transform =
+										'translate(-50%, -50%)';
+
+									sprinklesContainer.appendChild(sprinkle);
+
+									const angle = Math.random() * Math.PI * 2;
+									const distance = Math.random() * 100 + 50;
+									const duration = Math.random() * 1.2 + 0.8;
+									const rotation = Math.random() * 360;
+
+									gsap.fromTo(
+										sprinkle,
+										{
+											opacity: 0,
+											scale: 0,
+											x: 0,
+											y: 0,
+											rotation: 0,
+										},
+										{
+											opacity: 1,
+											scale: isLarge ? 1.5 : 1.3,
+											x: Math.cos(angle) * distance,
+											y: Math.sin(angle) * distance - 30,
+											rotation: rotation,
+											duration: duration * 0.3,
+											ease: 'power3.out',
+										},
+									);
+
+									gsap.to(sprinkle, {
+										opacity: 0,
+										scale: 0.3,
+										duration: duration * 0.7,
+										delay: duration * 0.3,
+										ease: 'power2.in',
+										onComplete: () => {
+											sprinkle.remove();
+										},
+									});
+								};
+
+								const count = 35;
+								for (let i = 0; i < count; i++) {
+									setTimeout(() => {
+										createSprinkle();
+									}, i * 20);
+								}
+							}}
+							onMouseLeave={(e) => {
+								const button = e.currentTarget;
+								const icon = iconRef.current;
+
+								gsap.to(button, {
+									scale: 1,
+									boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+									borderColor: 'rgba(255, 255, 255, 0.1)',
+									backgroundColor:
+										'rgba(255, 255, 255, 0.05)',
+									duration: 0.5,
+									ease: 'power2.out',
+								});
+
+								if (icon) {
+									gsap.to(icon, {
+										rotation: 0,
+										scale: 1,
+										duration: 0.5,
+										ease: 'power2.out',
+									});
+								}
+							}}
 						>
-							<BookOpen className="size-4 mr-2.5 transition-transform group-hover:rotate-12" />
-							Create My First Story
+							{/* Animated shimmer effect */}
+							<span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+
+							<BookOpen
+								ref={iconRef}
+								className="size-4 mr-2.5 sm:mr-3 relative z-10"
+							/>
+							<span className="whitespace-nowrap relative z-10">
+								Create My First Story
+							</span>
 						</Button>
 					</div>
 				</div>
