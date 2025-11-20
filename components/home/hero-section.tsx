@@ -59,98 +59,6 @@ export function HeroSection() {
 				return;
 			}
 
-			const createSprinkle = () => {
-				if (!sprinklesContainer || !button) return;
-
-				const sprinkle = document.createElement('div');
-				sprinkle.className = 'absolute pointer-events-none';
-
-				// Get button position relative to container
-				const buttonRect = button.getBoundingClientRect();
-				const containerRect = buttonContainer.getBoundingClientRect();
-
-				// Start from center of button
-				const startX =
-					buttonRect.left - containerRect.left + buttonRect.width / 2;
-				const startY =
-					buttonRect.top - containerRect.top + buttonRect.height / 2;
-
-				// Random size - more variety for fireworks effect
-				const size = Math.random() * 6 + 1; // 1-7px
-				const isLarge = Math.random() > 0.7; // 30% chance of larger particle
-				const finalSize = isLarge ? size * 1.8 : size;
-
-				// Vibrant firework colors
-				const colors = [
-					'rgba(255, 100, 100, 1)', // Red
-					'rgba(100, 200, 255, 1)', // Blue
-					'rgba(255, 255, 100, 1)', // Yellow
-					'rgba(150, 255, 150, 1)', // Green
-					'rgba(255, 150, 255, 1)', // Magenta
-					'rgba(255, 200, 100, 1)', // Orange
-					'rgba(200, 150, 255, 1)', // Purple
-					'rgba(255, 255, 255, 1)', // White
-				];
-				const color = colors[Math.floor(Math.random() * colors.length)];
-
-				sprinkle.style.width = `${finalSize}px`;
-				sprinkle.style.height = `${finalSize}px`;
-				sprinkle.style.left = `${startX}px`;
-				sprinkle.style.top = `${startY}px`;
-				sprinkle.style.background = `radial-gradient(circle, ${color} 0%, ${color}80 40%, transparent 70%)`;
-				sprinkle.style.borderRadius = '50%';
-				sprinkle.style.boxShadow = `0 0 ${finalSize * 3}px ${color}, 0 0 ${finalSize * 6}px ${color}40`;
-				sprinkle.style.transform = 'translate(-50%, -50%)';
-
-				sprinklesContainer.appendChild(sprinkle);
-
-				// Animate sprinkle with more dramatic firework effect
-				const angle = Math.random() * Math.PI * 2;
-				const distance = Math.random() * 100 + 50; // 50-150px
-				const duration = Math.random() * 1.2 + 0.8; // 0.8-2s
-				const rotation = Math.random() * 360;
-
-				gsap.fromTo(
-					sprinkle,
-					{
-						opacity: 0,
-						scale: 0,
-						x: 0,
-						y: 0,
-						rotation: 0,
-					},
-					{
-						opacity: 1,
-						scale: isLarge ? 1.5 : 1.3,
-						x: Math.cos(angle) * distance,
-						y: Math.sin(angle) * distance - 30,
-						rotation: rotation,
-						duration: duration * 0.3,
-						ease: 'power3.out',
-					},
-				);
-
-				gsap.to(sprinkle, {
-					opacity: 0,
-					scale: 0.3,
-					duration: duration * 0.7,
-					delay: duration * 0.3,
-					ease: 'power2.in',
-					onComplete: () => {
-						sprinkle.remove();
-					},
-				});
-			};
-
-			const createSprinkles = () => {
-				const count = 35; // More sprinkles for firework effect
-				for (let i = 0; i < count; i++) {
-					setTimeout(() => {
-						createSprinkle();
-					}, i * 20); // Faster stagger for more simultaneous effect
-				}
-			};
-
 			const handleMouseEnter = () => {
 				gsap.to(button, {
 					scale: 1.02,
@@ -169,9 +77,6 @@ export function HeroSection() {
 						ease: 'back.out(1.7)',
 					});
 				}
-
-				// Create sprinkles
-				createSprinkles();
 			};
 
 			const handleMouseLeave = () => {
