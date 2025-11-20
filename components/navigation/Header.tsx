@@ -29,8 +29,9 @@ export function Header() {
 	return (
 		<header
 			ref={headerRef}
-			className="sticky top-0 z-50 w-full border-b border-slate-200/40 dark:border-slate-800/40 bg-white dark:bg-white"
+			className="sticky top-0 z-50 w-full border-b border-slate-200/40 dark:border-slate-800/40"
 			style={{
+				backgroundColor: '#F9F7F4',
 				boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)',
 			}}
 		>

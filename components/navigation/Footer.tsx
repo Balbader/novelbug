@@ -5,8 +5,9 @@ import { Heart } from 'lucide-react';
 export function Footer() {
 	return (
 		<footer
-			className="border-t border-slate-200/40 dark:border-slate-800/40 bg-white dark:bg-white"
+			className="border-t border-slate-200/40 dark:border-slate-800/40"
 			style={{
+				backgroundColor: '#F9F7F4',
 				boxShadow: '0 -1px 3px rgba(0, 0, 0, 0.03)',
 			}}
 		>
