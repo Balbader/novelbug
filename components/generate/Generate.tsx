@@ -190,8 +190,8 @@ export function Generate() {
 			style={{
 				backgroundColor: '#F5F1E8',
 				backgroundImage: `
-					linear-gradient(rgba(139, 111, 71, 0.12) 1px, transparent 1px),
-					linear-gradient(90deg, rgba(139, 111, 71, 0.12) 1px, transparent 1px)
+					linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+					linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
 				`,
 				backgroundSize: '20px 20px',
 			}}
