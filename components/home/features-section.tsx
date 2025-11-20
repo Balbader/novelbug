@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { BookOpen, Sparkles, Heart } from 'lucide-react';
+import { Wand2, Globe, Heart } from 'lucide-react';
 
 export function FeaturesSection() {
 	const featuresRef = useRef<HTMLDivElement>(null);
@@ -75,16 +75,15 @@ export function FeaturesSection() {
 					className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8"
 				>
 					{/* Feature Card 1 */}
-					<div className="group relative p-6 sm:p-8 md:p-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-200/70 dark:border-slate-800/70 hover:border-slate-300/90 dark:hover:border-slate-700/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 opacity-100">
-						<div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-amber-50/30 dark:from-amber-950/0 dark:to-amber-950/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-						<div className="relative z-10">
-							<div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-amber-100/80 to-amber-50/80 dark:from-amber-900/40 dark:to-amber-950/40 flex items-center justify-center mb-5 sm:mb-6 md:mb-7 border border-amber-200/30 dark:border-amber-800/30 group-hover:scale-110 transition-transform duration-500">
-								<BookOpen className="size-6 sm:size-7 text-amber-700/90 dark:text-amber-400/90" />
+					<div className="group relative p-6 sm:p-7 md:p-8 bg-gradient-to-br from-slate-50/80 to-white dark:from-slate-900/80 dark:to-slate-950 rounded-2xl border border-slate-200/60 dark:border-slate-800/60 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:shadow-xl transition-all duration-500 opacity-100">
+						<div className="flex flex-col items-center text-center">
+							<div className="w-16 h-16 sm:w-20 sm:h-20 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-amber-100/60 to-amber-50/60 dark:from-amber-900/30 dark:to-amber-950/30 flex items-center justify-center mb-5 sm:mb-6 border border-amber-200/40 dark:border-amber-800/40 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+								<Wand2 className="size-7 sm:size-8 md:size-9 text-amber-700/80 dark:text-amber-400/80" />
 							</div>
-							<h3 className="text-xl sm:text-2xl font-serif font-normal mb-3 sm:mb-4 text-slate-900 dark:text-slate-50 tracking-tight">
+							<h3 className="text-lg sm:text-xl font-serif font-normal mb-2 sm:mb-3 text-slate-900 dark:text-slate-50 tracking-tight">
 								Magical Stories
 							</h3>
-							<p className="text-sm sm:text-[15px] text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
+							<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
 								Every lesson becomes a captivating bedtime
 								adventure that your child will look forward to.
 							</p>
@@ -92,33 +91,31 @@ export function FeaturesSection() {
 					</div>
 
 					{/* Feature Card 2 */}
-					<div className="group relative p-6 sm:p-8 md:p-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-200/70 dark:border-slate-800/70 hover:border-slate-300/90 dark:hover:border-slate-700/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 opacity-100">
-						<div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-amber-50/30 dark:from-amber-950/0 dark:to-amber-950/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-						<div className="relative z-10">
-							<div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-amber-100/80 to-amber-50/80 dark:from-amber-900/40 dark:to-amber-950/40 flex items-center justify-center mb-5 sm:mb-6 md:mb-7 border border-amber-200/30 dark:border-amber-800/30 group-hover:scale-110 transition-transform duration-500">
-								<Sparkles className="size-6 sm:size-7 text-amber-700/90 dark:text-amber-400/90" />
+					<div className="group relative p-6 sm:p-7 md:p-8 bg-gradient-to-br from-slate-50/80 to-white dark:from-slate-900/80 dark:to-slate-950 rounded-2xl border border-slate-200/60 dark:border-slate-800/60 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:shadow-xl transition-all duration-500 opacity-100">
+						<div className="flex flex-col items-center text-center">
+							<div className="w-16 h-16 sm:w-20 sm:h-20 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-amber-100/60 to-amber-50/60 dark:from-amber-900/30 dark:to-amber-950/30 flex items-center justify-center mb-5 sm:mb-6 border border-amber-200/40 dark:border-amber-800/40 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+								<Globe className="size-7 sm:size-8 md:size-9 text-amber-700/80 dark:text-amber-400/80" />
 							</div>
-							<h3 className="text-xl sm:text-2xl font-serif font-normal mb-3 sm:mb-4 text-slate-900 dark:text-slate-50 tracking-tight">
-								Any Topic
+							<h3 className="text-lg sm:text-xl font-serif font-normal mb-2 sm:mb-3 text-slate-900 dark:text-slate-50 tracking-tight">
+								Feed Their Curiosity
 							</h3>
-							<p className="text-sm sm:text-[15px] text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
+							<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
 								From science to values, history to emotions, we
-								turn any concept into an engaging story.
+								turn any concept into an engaging bedtime story.
 							</p>
 						</div>
 					</div>
 
 					{/* Feature Card 3 */}
-					<div className="group relative p-6 sm:p-8 md:p-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-200/70 dark:border-slate-800/70 hover:border-slate-300/90 dark:hover:border-slate-700/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 opacity-100 sm:col-span-2 md:col-span-1">
-						<div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-amber-50/30 dark:from-amber-950/0 dark:to-amber-950/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-						<div className="relative z-10">
-							<div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-amber-100/80 to-amber-50/80 dark:from-amber-900/40 dark:to-amber-950/40 flex items-center justify-center mb-5 sm:mb-6 md:mb-7 border border-amber-200/30 dark:border-amber-800/30 group-hover:scale-110 transition-transform duration-500">
-								<Heart className="size-6 sm:size-7 text-amber-700/90 dark:text-amber-400/90" />
+					<div className="group relative p-6 sm:p-7 md:p-8 bg-gradient-to-br from-slate-50/80 to-white dark:from-slate-900/80 dark:to-slate-950 rounded-2xl border border-slate-200/60 dark:border-slate-800/60 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:shadow-xl transition-all duration-500 opacity-100 sm:col-span-2 md:col-span-1">
+						<div className="flex flex-col items-center text-center">
+							<div className="w-16 h-16 sm:w-20 sm:h-20 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-amber-100/60 to-amber-50/60 dark:from-amber-900/30 dark:to-amber-950/30 flex items-center justify-center mb-5 sm:mb-6 border border-amber-200/40 dark:border-amber-800/40 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+								<Heart className="size-7 sm:size-8 md:size-9 text-amber-700/80 dark:text-amber-400/80" />
 							</div>
-							<h3 className="text-xl sm:text-2xl font-serif font-normal mb-3 sm:mb-4 text-slate-900 dark:text-slate-50 tracking-tight">
+							<h3 className="text-lg sm:text-xl font-serif font-normal mb-2 sm:mb-3 text-slate-900 dark:text-slate-50 tracking-tight">
 								Bedtime Bonding
 							</h3>
-							<p className="text-sm sm:text-[15px] text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
+							<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
 								Create special moments while learning together,
 								making bedtime both educational and magical.
 							</p>

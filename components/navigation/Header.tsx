@@ -47,11 +47,12 @@ export function Header() {
 								alt="NovelBug Logo"
 								width={70}
 								height={70}
-								className=" drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
+								className="sm:w-18 sm:h-18 drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
 								style={{
 									mixBlendMode: 'multiply',
 								}}
 								priority
+								unoptimized
 							/>
 						</div>
 						<span className="text-xl sm:text-2xl font-serif font-light text-slate-900 dark:text-slate-50 tracking-tight">
