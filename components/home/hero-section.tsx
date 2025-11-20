@@ -247,185 +247,27 @@ export function HeroSection() {
 						learn into stories they'll want to hear.
 					</p>
 
-					{/* CTA with refined styling */}
-					<div
-						ref={ctaRef}
-						className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-2 sm:pt-4 w-full sm:w-auto relative"
+					<Button
+						size="lg"
+						className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 text-white font-sans font-light tracking-wide rounded-2xl shadow-sm w-full sm:w-auto overflow-hidden z-10 border-0 cursor-pointer"
+						style={{
+							backgroundColor: '#D97D55',
+						}}
+						onMouseEnter={(e) => {
+							e.currentTarget.style.backgroundColor = '#C86A45';
+						}}
+						onMouseLeave={(e) => {
+							e.currentTarget.style.backgroundColor = '#D97D55';
+						}}
 					>
-						{/* Sprinkles container */}
-						<div
-							ref={sprinklesContainerRef}
-							className="absolute inset-0 pointer-events-none z-20"
+						<BookOpen
+							ref={iconRef}
+							className="size-4 mr-2.5 sm:mr-3 relative z-10"
 						/>
-
-						<Button
-							size="lg"
-							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 bg-white/5 backdrop-blur-sm border border-white/10 text-white/95 font-sans font-light tracking-wide rounded-2xl shadow-sm w-full sm:w-auto overflow-hidden z-10"
-							onMouseEnter={(e) => {
-								const button = e.currentTarget;
-								const icon = iconRef.current;
-								const sprinklesContainer =
-									sprinklesContainerRef.current;
-
-								if (!sprinklesContainer) return;
-
-								gsap.to(button, {
-									scale: 1.02,
-									boxShadow:
-										'0 10px 40px rgba(255, 255, 255, 0.15)',
-									borderColor: 'rgba(255, 255, 255, 0.25)',
-									backgroundColor: 'rgba(255, 255, 255, 0.1)',
-									duration: 0.6,
-									ease: 'power2.out',
-								});
-
-								if (icon) {
-									gsap.to(icon, {
-										rotation: 8,
-										scale: 1.1,
-										duration: 0.6,
-										ease: 'back.out(1.7)',
-									});
-								}
-
-								// Create sprinkles
-								const createSprinkle = () => {
-									if (!sprinklesContainer || !button) return;
-
-									const sprinkle =
-										document.createElement('div');
-									sprinkle.className =
-										'absolute pointer-events-none';
-
-									const buttonRect =
-										button.getBoundingClientRect();
-									const containerRect =
-										ctaRef.current!.getBoundingClientRect();
-
-									const startX =
-										buttonRect.left -
-										containerRect.left +
-										buttonRect.width / 2;
-									const startY =
-										buttonRect.top -
-										containerRect.top +
-										buttonRect.height / 2;
-
-									const size = Math.random() * 6 + 1;
-									const isLarge = Math.random() > 0.7;
-									const finalSize = isLarge
-										? size * 1.8
-										: size;
-
-									const colors = [
-										'rgba(255, 100, 100, 1)',
-										'rgba(100, 200, 255, 1)',
-										'rgba(255, 255, 100, 1)',
-										'rgba(150, 255, 150, 1)',
-										'rgba(255, 150, 255, 1)',
-										'rgba(255, 200, 100, 1)',
-										'rgba(200, 150, 255, 1)',
-										'rgba(255, 255, 255, 1)',
-									];
-									const color =
-										colors[
-											Math.floor(
-												Math.random() * colors.length,
-											)
-										];
-
-									sprinkle.style.width = `${finalSize}px`;
-									sprinkle.style.height = `${finalSize}px`;
-									sprinkle.style.left = `${startX}px`;
-									sprinkle.style.top = `${startY}px`;
-									sprinkle.style.background = `radial-gradient(circle, ${color} 0%, ${color}80 40%, transparent 70%)`;
-									sprinkle.style.borderRadius = '50%';
-									sprinkle.style.boxShadow = `0 0 ${finalSize * 3}px ${color}, 0 0 ${finalSize * 6}px ${color}40`;
-									sprinkle.style.transform =
-										'translate(-50%, -50%)';
-
-									sprinklesContainer.appendChild(sprinkle);
-
-									const angle = Math.random() * Math.PI * 2;
-									const distance = Math.random() * 100 + 50;
-									const duration = Math.random() * 1.2 + 0.8;
-									const rotation = Math.random() * 360;
-
-									gsap.fromTo(
-										sprinkle,
-										{
-											opacity: 0,
-											scale: 0,
-											x: 0,
-											y: 0,
-											rotation: 0,
-										},
-										{
-											opacity: 1,
-											scale: isLarge ? 1.5 : 1.3,
-											x: Math.cos(angle) * distance,
-											y: Math.sin(angle) * distance - 30,
-											rotation: rotation,
-											duration: duration * 0.3,
-											ease: 'power3.out',
-										},
-									);
-
-									gsap.to(sprinkle, {
-										opacity: 0,
-										scale: 0.3,
-										duration: duration * 0.7,
-										delay: duration * 0.3,
-										ease: 'power2.in',
-										onComplete: () => {
-											sprinkle.remove();
-										},
-									});
-								};
-
-								const count = 35;
-								for (let i = 0; i < count; i++) {
-									setTimeout(() => {
-										createSprinkle();
-									}, i * 20);
-								}
-							}}
-							onMouseLeave={(e) => {
-								const button = e.currentTarget;
-								const icon = iconRef.current;
-
-								gsap.to(button, {
-									scale: 1,
-									boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-									borderColor: 'rgba(255, 255, 255, 0.1)',
-									backgroundColor:
-										'rgba(255, 255, 255, 0.05)',
-									duration: 0.5,
-									ease: 'power2.out',
-								});
-
-								if (icon) {
-									gsap.to(icon, {
-										rotation: 0,
-										scale: 1,
-										duration: 0.5,
-										ease: 'power2.out',
-									});
-								}
-							}}
-						>
-							{/* Animated shimmer effect */}
-							<span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-
-							<BookOpen
-								ref={iconRef}
-								className="size-4 mr-2.5 sm:mr-3 relative z-10"
-							/>
-							<span className="whitespace-nowrap relative z-10">
-								Create My First Story
-							</span>
-						</Button>
-					</div>
+						<span className="whitespace-nowrap relative z-10">
+							Create My First Story
+						</span>
+					</Button>
 				</div>
 			</div>
 		</section>
