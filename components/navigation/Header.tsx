@@ -28,23 +28,29 @@ export function Header() {
 	return (
 		<header
 			ref={headerRef}
-			className="sticky top-0 z-50 w-full border-b border-slate-200/50 dark:border-slate-800/50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md"
+			className="sticky top-0 z-50 w-full border-b border-amber-200/50 dark:border-amber-800/50 bg-amber-50/95 dark:bg-amber-950/95 backdrop-blur-md"
+			style={{
+				boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+			}}
 		>
 			<nav className="container mx-auto max-w-7xl px-4 py-4">
 				<div className="flex items-center justify-between">
 					{/* Logo */}
 					<Link href="/" className="flex items-center gap-3">
-						<div ref={logoRef}>
+						<div ref={logoRef} className="relative">
 							<Image
 								src="/book.gif"
 								alt="NovelBug Logo"
 								width={50}
 								height={50}
 								className="drop-shadow-lg"
+								style={{
+									mixBlendMode: 'multiply',
+								}}
 								priority
 							/>
 						</div>
-						<span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+						<span className="text-2xl font-serif font-bold text-amber-900 dark:text-amber-100">
 							NovelBug
 						</span>
 					</Link>
@@ -53,19 +59,19 @@ export function Header() {
 					<div className="hidden md:flex items-center gap-8">
 						<Link
 							href="/"
-							className="text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors font-medium"
+							className="text-amber-800 dark:text-amber-200 hover:text-amber-700 dark:hover:text-amber-300 transition-colors font-serif font-medium"
 						>
 							Home
 						</Link>
 						<Link
 							href="/stories"
-							className="text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors font-medium"
+							className="text-amber-800 dark:text-amber-200 hover:text-amber-700 dark:hover:text-amber-300 transition-colors font-serif font-medium"
 						>
 							Stories
 						</Link>
 						<Link
 							href="/about"
-							className="text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors font-medium"
+							className="text-amber-800 dark:text-amber-200 hover:text-amber-700 dark:hover:text-amber-300 transition-colors font-serif font-medium"
 						>
 							About
 						</Link>
@@ -74,7 +80,7 @@ export function Header() {
 					{/* CTA Button */}
 					<Button
 						size="sm"
-						className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+						className="bg-amber-700 hover:bg-amber-800 text-amber-50 font-serif border border-amber-800/50"
 					>
 						<BookOpen className="size-4 mr-2" />
 						Get Started

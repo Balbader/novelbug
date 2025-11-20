@@ -4,7 +4,12 @@ import { Heart } from 'lucide-react';
 
 export function Footer() {
 	return (
-		<footer className="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+		<footer
+			className="border-t border-amber-200/50 dark:border-amber-800/50 bg-amber-50/95 dark:bg-amber-950/95"
+			style={{
+				boxShadow: '0 -2px 8px rgba(0, 0, 0, 0.05)',
+			}}
+		>
 			<div className="container mx-auto max-w-7xl px-4 py-12">
 				<div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 					{/* Logo and Description */}
@@ -16,32 +21,36 @@ export function Footer() {
 								width={50}
 								height={50}
 								className="drop-shadow-lg"
+								style={{
+									mixBlendMode: 'multiply',
+								}}
 							/>
-							<span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+							<span className="text-2xl font-serif font-bold text-amber-900 dark:text-amber-100">
 								NovelBug
 							</span>
 						</Link>
-						<p className="text-slate-600 dark:text-slate-400 max-w-md mb-4">
+						<p className="text-amber-700 dark:text-amber-300 max-w-md mb-4 font-serif leading-relaxed">
 							Turn Knowledge into Bedtime Stories. Every lesson,
 							concept, or curiosity becomes a magical bedtime
 							adventure.
 						</p>
-						<p className="text-sm text-slate-500 dark:text-slate-500 flex items-center gap-2">
-							Made with <Heart className="size-4 text-pink-500" />{' '}
+						<p className="text-sm text-amber-600 dark:text-amber-400 flex items-center gap-2 font-serif">
+							Made with{' '}
+							<Heart className="size-4 text-amber-700 dark:text-amber-300" />{' '}
 							for curious minds
 						</p>
 					</div>
 
 					{/* Quick Links */}
 					<div>
-						<h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-4">
+						<h3 className="font-serif font-semibold text-amber-900 dark:text-amber-100 mb-4">
 							Quick Links
 						</h3>
 						<ul className="space-y-2">
 							<li>
 								<Link
 									href="/"
-									className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+									className="text-amber-700 dark:text-amber-300 hover:text-amber-800 dark:hover:text-amber-200 transition-colors font-serif"
 								>
 									Home
 								</Link>
@@ -49,7 +58,7 @@ export function Footer() {
 							<li>
 								<Link
 									href="/stories"
-									className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+									className="text-amber-700 dark:text-amber-300 hover:text-amber-800 dark:hover:text-amber-200 transition-colors font-serif"
 								>
 									Stories
 								</Link>
@@ -57,7 +66,7 @@ export function Footer() {
 							<li>
 								<Link
 									href="/about"
-									className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+									className="text-amber-700 dark:text-amber-300 hover:text-amber-800 dark:hover:text-amber-200 transition-colors font-serif"
 								>
 									About
 								</Link>
@@ -67,14 +76,14 @@ export function Footer() {
 
 					{/* Contact */}
 					<div>
-						<h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-4">
+						<h3 className="font-serif font-semibold text-amber-900 dark:text-amber-100 mb-4">
 							Contact
 						</h3>
 						<ul className="space-y-2">
 							<li>
 								<Link
 									href="/contact"
-									className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+									className="text-amber-700 dark:text-amber-300 hover:text-amber-800 dark:hover:text-amber-200 transition-colors font-serif"
 								>
 									Get in Touch
 								</Link>
@@ -82,7 +91,7 @@ export function Footer() {
 							<li>
 								<Link
 									href="/faq"
-									className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+									className="text-amber-700 dark:text-amber-300 hover:text-amber-800 dark:hover:text-amber-200 transition-colors font-serif"
 								>
 									FAQ
 								</Link>
@@ -92,7 +101,7 @@ export function Footer() {
 				</div>
 
 				{/* Copyright */}
-				<div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500 dark:text-slate-500">
+				<div className="mt-8 pt-8 border-t border-amber-200/50 dark:border-amber-800/50 text-center text-sm text-amber-600 dark:text-amber-400 font-serif">
 					<p>
 						© {new Date().getFullYear()} NovelBug. All rights
 						reserved.

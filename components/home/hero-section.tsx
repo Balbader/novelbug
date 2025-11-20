@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Moon, BookOpen, Star } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
 export function HeroSection() {
 	const heroRef = useRef<HTMLDivElement>(null);
@@ -13,10 +13,9 @@ export function HeroSection() {
 
 	useEffect(() => {
 		const ctx = gsap.context(() => {
-			// Hero section animations
 			gsap.from(titleRef.current, {
 				opacity: 0,
-				y: 50,
+				y: 40,
 				duration: 1,
 				ease: 'power3.out',
 			});
@@ -36,16 +35,6 @@ export function HeroSection() {
 				delay: 0.6,
 				ease: 'power3.out',
 			});
-
-			// Floating animation for decorative elements
-			gsap.to('.floating-star', {
-				y: -20,
-				duration: 2,
-				repeat: -1,
-				yoyo: true,
-				ease: 'power1.inOut',
-				stagger: 0.3,
-			});
 		}, heroRef);
 
 		return () => ctx.revert();
@@ -54,80 +43,65 @@ export function HeroSection() {
 	return (
 		<section
 			ref={heroRef}
-			className="relative overflow-hidden px-4 py-20 md:py-32 min-h-[90vh] flex items-center bg-cover bg-center bg-no-repeat"
+			className="relative overflow-hidden px-4 py-20 md:py-28 lg:py-32 min-h-[90vh] flex items-center"
 			style={{
 				backgroundImage: 'url(/bedtimeStory.png)',
+				backgroundSize: 'cover',
+				backgroundPosition: 'center',
+				backgroundRepeat: 'no-repeat',
 			}}
 		>
-			{/* Overlay for text readability */}
-			<div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60 dark:from-black/70 dark:via-black/50 dark:to-black/70 z-0" />
+			{/* Subtle overlay */}
+			<div className="absolute inset-0 bg-gradient-to-b from-amber-900/10 via-transparent to-amber-900/15 dark:from-amber-950/20 dark:via-transparent dark:to-amber-950/25 z-0" />
 
-			{/* Decorative stars */}
-			<div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
-				<Star className="floating-star absolute top-20 left-10 text-yellow-400/50 size-6" />
-				<Star className="floating-star absolute top-40 right-20 text-purple-400/50 size-4" />
-				<Star className="floating-star absolute bottom-40 left-1/4 text-blue-400/50 size-5" />
-				<Sparkles className="floating-star absolute top-1/3 right-1/4 text-pink-400/50 size-5" />
-			</div>
-
-			<div className="container mx-auto max-w-7xl relative z-10">
-				<div className="flex flex-col items-center text-center space-y-8">
-					{/* Badge */}
-					<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 dark:bg-white/10 backdrop-blur-sm text-white border border-white/30 mb-4">
-						<Moon className="size-4" />
-						<span className="text-sm font-medium">
-							Where learning curls up under the covers
-						</span>
-					</div>
-
-					{/* Title */}
+			<div className="container mx-auto max-w-6xl relative z-10">
+				<div className="max-w-4xl mx-auto text-center">
+					{/* Main headline */}
 					<h1
 						ref={titleRef}
-						className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight"
+						className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-tight text-white mb-6"
+						style={{
+							textShadow:
+								'0 2px 20px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.2)',
+						}}
 					>
-						<span className="bg-gradient-to-r from-purple-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
-							Welcome to
-						</span>
+						Turn Knowledge into
 						<br />
-						<span className="text-white drop-shadow-lg">
-							NovelBug
-						</span>
+						<span className="text-white">Bedtime Stories</span>
 					</h1>
 
 					{/* Subtitle */}
 					<p
 						ref={subtitleRef}
-						className="text-xl md:text-2xl text-white/90 leading-relaxed max-w-3xl drop-shadow-md"
+						className="text-xl md:text-2xl text-white leading-relaxed max-w-3xl mx-auto mb-8 font-serif"
+						style={{
+							textShadow:
+								'0 1px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.2)',
+						}}
 					>
 						Every lesson, concept, or curiosity becomes a magical
-						bedtime adventure.
+						bedtime adventure. Transform what you want your child to
+						learn into stories they'll want to hear.
 					</p>
 
-					{/* Description */}
-					<p className="text-lg text-white/80 leading-relaxed max-w-3xl drop-shadow-md">
-						Whether it's gravity or gratitude, moons or mindsets,
-						NovelBug transforms what you want your child to learn
-						into stories they'll want to hear.
-					</p>
-
-					{/* CTA Buttons */}
+					{/* CTA buttons */}
 					<div
 						ref={ctaRef}
-						className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
+						className="flex flex-col sm:flex-row gap-4 justify-center items-center"
 					>
 						<Button
 							size="lg"
-							className="text-lg px-8 py-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transition-all backdrop-blur-sm"
+							className="text-lg px-8 py-6 bg-amber-700 hover:bg-amber-800 text-amber-50 shadow-lg hover:shadow-xl transition-all font-serif rounded-lg"
 						>
 							<BookOpen className="size-5 mr-2" />
-							Start Your Story
+							Create My First Story
 						</Button>
 						<Button
 							size="lg"
 							variant="outline"
-							className="text-lg px-8 py-6 border-2 border-white/50 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 hover:border-white"
+							className="text-lg px-8 py-6 border-2 border-amber-700/60 bg-amber-50/60 dark:bg-amber-900/40 backdrop-blur-sm text-amber-900 dark:text-amber-100 hover:bg-amber-100 dark:hover:bg-amber-800/60 hover:border-amber-700 font-serif rounded-lg transition-all"
 						>
-							Learn More
+							Watch Demo
 						</Button>
 					</div>
 				</div>
