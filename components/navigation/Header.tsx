@@ -43,11 +43,11 @@ export function Header() {
 					>
 						<div ref={logoRef} className="relative">
 							<Image
-								src="/rainbow-book.gif"
+								src="/novelbug_bounce.gif"
 								alt="NovelBug Logo"
-								width={40}
-								height={40}
-								className="sm:w-12 sm:h-12 drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
+								width={70}
+								height={70}
+								className=" drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
 								style={{
 									mixBlendMode: 'multiply',
 								}}
