@@ -134,10 +134,10 @@ export default function About() {
 								Our mission is simple but profound: to make
 								bedtime the perfect moment for planting
 								curiosity. We envision a world where parents
-								feel empowered to teach their children
-								anything, from gravity to gratitude, from
-								photosynthesis to friendship—through the power
-								of storytelling.
+								feel empowered to teach their children anything,
+								from gravity to gratitude, from photosynthesis
+								to friendship, through the power of
+								storytelling.
 							</p>
 							<p>
 								Long-term, we see NovelBug becoming a trusted
