@@ -4,11 +4,9 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Moon, BookOpen, Star } from 'lucide-react';
-import Image from 'next/image';
 
 export function HeroSection() {
 	const heroRef = useRef<HTMLDivElement>(null);
-	const logoRef = useRef<HTMLDivElement>(null);
 	const titleRef = useRef<HTMLHeadingElement>(null);
 	const subtitleRef = useRef<HTMLParagraphElement>(null);
 	const ctaRef = useRef<HTMLDivElement>(null);
@@ -16,18 +14,10 @@ export function HeroSection() {
 	useEffect(() => {
 		const ctx = gsap.context(() => {
 			// Hero section animations
-			gsap.from(logoRef.current, {
-				opacity: 0,
-				scale: 0.8,
-				duration: 1,
-				ease: 'power3.out',
-			});
-
 			gsap.from(titleRef.current, {
 				opacity: 0,
 				y: 50,
 				duration: 1,
-				delay: 0.2,
 				ease: 'power3.out',
 			});
 
@@ -35,7 +25,7 @@ export function HeroSection() {
 				opacity: 0,
 				y: 30,
 				duration: 1,
-				delay: 0.5,
+				delay: 0.3,
 				ease: 'power3.out',
 			});
 
@@ -43,7 +33,7 @@ export function HeroSection() {
 				opacity: 0,
 				y: 20,
 				duration: 0.8,
-				delay: 0.8,
+				delay: 0.6,
 				ease: 'power3.out',
 			});
 
@@ -82,18 +72,6 @@ export function HeroSection() {
 
 			<div className="container mx-auto max-w-7xl relative z-10">
 				<div className="flex flex-col items-center text-center space-y-8">
-					{/* Logo */}
-					<div ref={logoRef} className="mb-4">
-						<Image
-							src="/book.gif"
-							alt="NovelBug Logo"
-							width={120}
-							height={120}
-							className="drop-shadow-2xl"
-							priority
-						/>
-					</div>
-
 					{/* Badge */}
 					<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 dark:bg-white/10 backdrop-blur-sm text-white border border-white/30 mb-4">
 						<Moon className="size-4" />
