@@ -253,12 +253,6 @@ export function HeroSection() {
 						style={{
 							backgroundColor: '#D97D55',
 						}}
-						onMouseEnter={(e) => {
-							e.currentTarget.style.backgroundColor = '#C86A45';
-						}}
-						onMouseLeave={(e) => {
-							e.currentTarget.style.backgroundColor = '#D97D55';
-						}}
 					>
 						<BookOpen
 							ref={iconRef}
