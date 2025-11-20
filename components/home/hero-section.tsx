@@ -148,7 +148,7 @@ export function HeroSection() {
 						ref={subtitleRef}
 						className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-wide px-2 sm:px-0"
 					>
-						Every lesson, concept, or curiosity becomes a magical
+						Every subject, concept, or curiosity becomes a magical
 						bedtime adventure. Transform what you want your child to
 						learn into stories they'll want to hear.
 					</p>
