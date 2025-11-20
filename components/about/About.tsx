@@ -93,14 +93,14 @@ export default function About() {
 								definition felt too cold, too distant. But when
 								that same concept became a story about a little
 								astronaut floating through space, something
-								magical happened—the child's eyes lit up with
+								magical happened, the child's eyes lit up with
 								wonder.
 							</p>
 							<p>
 								That spark of curiosity, that moment when
 								learning transforms into wonder, became our
 								mission. We realized that bedtime wasn't just
-								about sleep—it was the perfect time to plant
+								about sleep, it was the perfect time to plant
 								seeds of knowledge. When children are relaxed,
 								when their minds are open and their hearts are
 								ready, that's when the most meaningful learning
@@ -111,7 +111,7 @@ export default function About() {
 								every parent experience that magic. NovelBug is
 								our answer: a way to turn any lesson, any
 								concept, any curiosity into a story that doesn't
-								just teach—it enchants.
+								just teach, it enchants.
 							</p>
 						</div>
 					</section>
@@ -135,7 +135,7 @@ export default function About() {
 								bedtime the perfect moment for planting
 								curiosity. We envision a world where parents
 								feel empowered to teach their children
-								anything—from gravity to gratitude, from
+								anything, from gravity to gratitude, from
 								photosynthesis to friendship—through the power
 								of storytelling.
 							</p>
@@ -198,7 +198,7 @@ export default function About() {
 								analytical mind and speak directly to the heart.
 								When a child hears about a brave little seed
 								learning to grow, they're not just learning
-								about photosynthesis—they're feeling the
+								about photosynthesis, they're feeling the
 								journey. They're rooting for the seed. They're
 								invested.
 							</p>
@@ -250,7 +250,7 @@ export default function About() {
 								more valuable: genuine care for every family who
 								uses NovelBug. Every story generated, every
 								moment of wonder created, every bedtime made
-								more meaningful—that's what drives us.
+								more meaningful, that's what drives us.
 							</p>
 							<p>
 								Being a small startup means we move fast, listen
@@ -289,7 +289,7 @@ export default function About() {
 								to your bedtime routine, if it's helped you
 								teach your child something new, if it's made
 								those quiet moments before sleep a little more
-								magical—we'd be honored if you'd consider
+								magical, we'd be honored if you'd consider
 								supporting our journey.
 							</p>
 							<p className="font-normal text-slate-900 dark:text-slate-50">
