@@ -21,7 +21,15 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Sparkles } from 'lucide-react';
+import {
+	Sparkles,
+	BookOpen,
+	Users,
+	Globe,
+	BookMarked,
+	Tag,
+	Palette,
+} from 'lucide-react';
 
 const storyFormSchema = z.object({
 	title: z
@@ -235,22 +243,26 @@ export function Generate() {
 						<Form {...form}>
 							<form
 								onSubmit={form.handleSubmit(onSubmit)}
-								className="space-y-6"
+								className="space-y-8"
 							>
 								{/* Title Field */}
 								<FormField
 									control={form.control}
 									name="title"
 									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Story Title</FormLabel>
+										<FormItem className="space-y-3">
+											<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
+												<BookOpen className="h-4 w-4 text-[#8B6F47]" />
+												Story Title
+											</FormLabel>
 											<FormControl>
 												<Input
 													placeholder="e.g., The Adventure of the Curious Cat"
+													className="bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11 text-base"
 													{...field}
 												/>
 											</FormControl>
-											<FormDescription>
+											<FormDescription className="text-sm text-slate-500">
 												Give your story a title
 												(optional - we can generate one
 												for you)
@@ -260,85 +272,111 @@ export function Generate() {
 									)}
 								/>
 
-								{/* Age Group Field */}
-								<FormField
-									control={form.control}
-									name="age_group"
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Age Group</FormLabel>
-											<Select
-												onValueChange={field.onChange}
-												value={field.value}
-											>
-												<FormControl>
-													<SelectTrigger className="w-full">
-														<SelectValue placeholder="Select age group" />
-													</SelectTrigger>
-												</FormControl>
-												<SelectContent>
-													{ageGroups.map((age) => (
-														<SelectItem
-															key={age.value}
-															value={age.value}
-														>
-															{age.label}
-														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
-											<FormDescription>
-												Choose the age range for your
-												child
-											</FormDescription>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
+								{/* Two Column Layout for Age and Language */}
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+									{/* Age Group Field */}
+									<FormField
+										control={form.control}
+										name="age_group"
+										render={({ field }) => (
+											<FormItem className="space-y-3">
+												<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
+													<Users className="h-4 w-4 text-[#8B6F47]" />
+													Age Group
+												</FormLabel>
+												<Select
+													onValueChange={
+														field.onChange
+													}
+													value={field.value}
+												>
+													<FormControl>
+														<SelectTrigger className="w-full bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11">
+															<SelectValue placeholder="Select age group" />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														{ageGroups.map(
+															(age) => (
+																<SelectItem
+																	key={
+																		age.value
+																	}
+																	value={
+																		age.value
+																	}
+																>
+																	{age.label}
+																</SelectItem>
+															),
+														)}
+													</SelectContent>
+												</Select>
+												<FormDescription className="text-sm text-slate-500">
+													Choose the age range
+												</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 
-								{/* Language Field */}
-								<FormField
-									control={form.control}
-									name="language"
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Language</FormLabel>
-											<Select
-												onValueChange={field.onChange}
-												value={field.value}
-											>
-												<FormControl>
-													<SelectTrigger className="w-full">
-														<SelectValue placeholder="Select language" />
-													</SelectTrigger>
-												</FormControl>
-												<SelectContent>
-													{languages.map((lang) => (
-														<SelectItem
-															key={lang.value}
-															value={lang.value}
-														>
-															{lang.label}
-														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
-											<FormDescription>
-												Choose the language for your
-												story
-											</FormDescription>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
+									{/* Language Field */}
+									<FormField
+										control={form.control}
+										name="language"
+										render={({ field }) => (
+											<FormItem className="space-y-3">
+												<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
+													<Globe className="h-4 w-4 text-[#8B6F47]" />
+													Language
+												</FormLabel>
+												<Select
+													onValueChange={
+														field.onChange
+													}
+													value={field.value}
+												>
+													<FormControl>
+														<SelectTrigger className="w-full bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11">
+															<SelectValue placeholder="Select language" />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														{languages.map(
+															(lang) => (
+																<SelectItem
+																	key={
+																		lang.value
+																	}
+																	value={
+																		lang.value
+																	}
+																>
+																	{lang.label}
+																</SelectItem>
+															),
+														)}
+													</SelectContent>
+												</Select>
+												<FormDescription className="text-sm text-slate-500">
+													Choose the language
+												</FormDescription>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
 
 								{/* Topic Field */}
 								<FormField
 									control={form.control}
 									name="topic"
 									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Topic</FormLabel>
+										<FormItem className="space-y-3">
+											<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
+												<BookMarked className="h-4 w-4 text-[#8B6F47]" />
+												Topic
+											</FormLabel>
 											<Select
 												onValueChange={
 													handleTopicChange
@@ -346,7 +384,7 @@ export function Generate() {
 												value={field.value}
 											>
 												<FormControl>
-													<SelectTrigger className="w-full">
+													<SelectTrigger className="w-full bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11">
 														<SelectValue placeholder="Select a topic" />
 													</SelectTrigger>
 												</FormControl>
@@ -361,7 +399,7 @@ export function Generate() {
 													))}
 												</SelectContent>
 											</Select>
-											<FormDescription>
+											<FormDescription className="text-sm text-slate-500">
 												What subject would you like the
 												story to be about?
 											</FormDescription>
@@ -375,8 +413,11 @@ export function Generate() {
 									control={form.control}
 									name="subtopic"
 									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Subtopic</FormLabel>
+										<FormItem className="space-y-3">
+											<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
+												<Tag className="h-4 w-4 text-[#8B6F47]" />
+												Subtopic
+											</FormLabel>
 											<Select
 												onValueChange={field.onChange}
 												value={field.value}
@@ -387,7 +428,7 @@ export function Generate() {
 												}
 											>
 												<FormControl>
-													<SelectTrigger className="w-full">
+													<SelectTrigger className="w-full bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11 disabled:opacity-50">
 														<SelectValue
 															placeholder={
 																!selectedTopic
@@ -414,7 +455,7 @@ export function Generate() {
 													)}
 												</SelectContent>
 											</Select>
-											<FormDescription>
+											<FormDescription className="text-sm text-slate-500">
 												Choose a specific area within
 												your selected topic
 											</FormDescription>
@@ -428,14 +469,17 @@ export function Generate() {
 									control={form.control}
 									name="style"
 									render={({ field }) => (
-										<FormItem>
-											<FormLabel>Story Style</FormLabel>
+										<FormItem className="space-y-3">
+											<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
+												<Palette className="h-4 w-4 text-[#8B6F47]" />
+												Story Style
+											</FormLabel>
 											<Select
 												onValueChange={field.onChange}
 												value={field.value}
 											>
 												<FormControl>
-													<SelectTrigger className="w-full">
+													<SelectTrigger className="w-full bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11">
 														<SelectValue placeholder="Select story style" />
 													</SelectTrigger>
 												</FormControl>
@@ -450,7 +494,7 @@ export function Generate() {
 													))}
 												</SelectContent>
 											</Select>
-											<FormDescription>
+											<FormDescription className="text-sm text-slate-500">
 												What kind of story would you
 												like?
 											</FormDescription>
@@ -460,14 +504,16 @@ export function Generate() {
 								/>
 
 								{/* Submit Button */}
-								<Button
-									type="submit"
-									size="lg"
-									className="w-full sm:w-auto min-w-[200px] bg-[#D97D55] hover:bg-[#C86A45] text-white"
-								>
-									<Sparkles className="mr-2 h-4 w-4" />
-									Generate Story
-								</Button>
+								<div className="pt-4 flex justify-center sm:justify-start">
+									<Button
+										type="submit"
+										size="lg"
+										className="w-full sm:w-auto min-w-[240px] bg-[#D97D55] hover:bg-[#C86A45] text-white text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 h-12 px-8"
+									>
+										<Sparkles className="mr-2 h-5 w-5" />
+										Generate Story
+									</Button>
+								</div>
 							</form>
 						</Form>
 					</div>
