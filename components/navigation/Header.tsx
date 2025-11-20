@@ -72,7 +72,7 @@ export function Header() {
 							href="/stories"
 							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
 						>
-							Stories
+							Sample Stories
 						</Link>
 						<Link
 							href="/about"
