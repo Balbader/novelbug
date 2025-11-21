@@ -73,7 +73,7 @@ export function Header() {
 							href="/stories"
 							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
 						>
-							Sample Stories
+							Community Stories
 						</Link>
 						<Link
 							href="/about"
@@ -142,7 +142,7 @@ export function Header() {
 								onClick={() => setMobileMenuOpen(false)}
 								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide py-2"
 							>
-								Stories
+								Community Stories
 							</Link>
 							<Link
 								href="/about"

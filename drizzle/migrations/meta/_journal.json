@@ -15,6 +15,13 @@
       "when": 1763650366765,
       "tag": "0001_equal_gateway",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1763706695373,
+      "tag": "0002_elite_piledriver",
+      "breakpoints": true
     }
   ]
 }
