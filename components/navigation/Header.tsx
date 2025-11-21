@@ -113,11 +113,11 @@ export function Header() {
 									Get Started
 								</Button>
 							</DialogTrigger>
-							<DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0 border-0 shadow-xl">
+							<DialogContent className="w-[calc(100vw-1rem)] max-w-2xl max-h-[90vh] overflow-y-auto p-0 border-0 shadow-xl sm:w-full">
 								<DialogTitle className="sr-only">
 									Welcome to NovelBug - Sign In or Sign Up
 								</DialogTitle>
-								<div className="p-6">
+								<div className="p-4 sm:p-6">
 									<AuthTabsDialog />
 								</div>
 							</DialogContent>

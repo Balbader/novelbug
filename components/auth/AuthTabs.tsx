@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookOpen, Eye, EyeOff, Loader2, LogIn, UserPlus } from 'lucide-react';
+import Image from 'next/image';
 
 // Login Schema
 const loginSchema = z.object({
@@ -260,11 +261,19 @@ export function AuthTabs() {
 			>
 				<CardHeader className="space-y-1 text-center">
 					<div className="flex justify-center mb-4">
-						<div
-							className="p-3 rounded-full"
-							style={{ backgroundColor: '#D97D55' }}
-						>
-							<BookOpen className="size-6 text-white" />
+						<div className="relative">
+							<Image
+								src="/novelbug_bounce.gif"
+								alt="NovelBug Logo"
+								width={70}
+								height={70}
+								className="drop-shadow-sm"
+								style={{
+									mixBlendMode: 'multiply',
+								}}
+								priority
+								unoptimized
+							/>
 						</div>
 					</div>
 					<CardTitle className="text-3xl font-serif font-light tracking-tight text-slate-900">

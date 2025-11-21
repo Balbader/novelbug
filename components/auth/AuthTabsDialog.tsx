@@ -17,7 +17,8 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, Eye, EyeOff, Loader2, LogIn, UserPlus } from 'lucide-react';
+import { Eye, EyeOff, Loader2, LogIn, UserPlus } from 'lucide-react';
+import Image from 'next/image';
 
 // Login Schema
 const loginSchema = z.object({
@@ -226,21 +227,29 @@ export function AuthTabsDialog() {
 	};
 
 	return (
-		<div ref={containerRef} className="w-full">
+		<div ref={containerRef} className="w-full min-w-0">
 			{/* Header */}
-			<div className="space-y-1 text-center mb-6">
-				<div className="flex justify-center mb-4">
-					<div
-						className="p-3 rounded-full"
-						style={{ backgroundColor: '#D97D55' }}
-					>
-						<BookOpen className="size-6 text-white" />
+			<div className="space-y-1 text-center mb-4 sm:mb-6">
+				<div className="flex justify-center mb-3 sm:mb-4">
+					<div className="relative">
+						<Image
+							src="/novelbug_bounce.gif"
+							alt="NovelBug Logo"
+							width={70}
+							height={70}
+							className="drop-shadow-sm w-14 h-14 sm:w-[70px] sm:h-[70px]"
+							style={{
+								mixBlendMode: 'multiply',
+							}}
+							priority
+							unoptimized
+						/>
 					</div>
 				</div>
-				<h2 className="text-2xl font-serif font-light tracking-tight text-slate-900">
+				<h2 className="text-xl sm:text-2xl font-serif font-light tracking-tight text-slate-900 px-2">
 					Welcome to NovelBug
 				</h2>
-				<p className="text-slate-600 font-sans font-light text-sm">
+				<p className="text-slate-600 font-sans font-light text-xs sm:text-sm px-2">
 					Sign in or create an account to start creating magical
 					bedtime stories
 				</p>
@@ -249,31 +258,31 @@ export function AuthTabsDialog() {
 			<Tabs
 				value={activeTab}
 				onValueChange={setActiveTab}
-				className="w-full"
+				className="w-full min-w-0"
 			>
-				<TabsList className="grid w-full grid-cols-2 mb-6 bg-slate-100/50">
+				<TabsList className="grid w-full grid-cols-2 mb-4 sm:mb-6 bg-slate-100/50 h-9 sm:h-10">
 					<TabsTrigger
 						value="signup"
-						className="font-sans font-light data-[state=active]:bg-white data-[state=active]:shadow-sm"
+						className="font-sans font-light text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm px-2 sm:px-3"
 					>
-						<UserPlus className="size-4 mr-2" />
+						<UserPlus className="size-3 sm:size-4 mr-1 sm:mr-2" />
 						Sign Up
 					</TabsTrigger>
 					<TabsTrigger
 						value="login"
-						className="font-sans font-light data-[state=active]:bg-white data-[state=active]:shadow-sm"
+						className="font-sans font-light text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm px-2 sm:px-3"
 					>
-						<LogIn className="size-4 mr-2" />
+						<LogIn className="size-3 sm:size-4 mr-1 sm:mr-2" />
 						Sign In
 					</TabsTrigger>
 				</TabsList>
 
 				{/* Sign Up Tab */}
-				<TabsContent value="signup" className="mt-0">
+				<TabsContent value="signup" className="mt-0 min-w-0">
 					<Form {...signUpForm}>
 						<form
 							onSubmit={signUpForm.handleSubmit(onSignUpSubmit)}
-							className="space-y-4"
+							className="space-y-3 sm:space-y-4"
 						>
 							<FormField
 								control={signUpForm.control}
@@ -295,7 +304,7 @@ export function AuthTabsDialog() {
 								)}
 							/>
 
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
 								<FormField
 									control={signUpForm.control}
 									name="firstName"
@@ -358,7 +367,7 @@ export function AuthTabsDialog() {
 								)}
 							/>
 
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
 								<FormField
 									control={signUpForm.control}
 									name="dateOfBirth"
@@ -529,11 +538,11 @@ export function AuthTabsDialog() {
 				</TabsContent>
 
 				{/* Login Tab */}
-				<TabsContent value="login" className="mt-0">
+				<TabsContent value="login" className="mt-0 min-w-0">
 					<Form {...loginForm}>
 						<form
 							onSubmit={loginForm.handleSubmit(onLoginSubmit)}
-							className="space-y-4"
+							className="space-y-3 sm:space-y-4"
 						>
 							<FormField
 								control={loginForm.control}

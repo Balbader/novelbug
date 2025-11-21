@@ -24,7 +24,8 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { BookOpen, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import Image from 'next/image';
 
 const loginSchema = z.object({
 	email: z.string().email('Please enter a valid email address'),
@@ -123,18 +124,26 @@ export function Login() {
 		>
 			<Card
 				ref={cardRef}
-				className="w-full max-w-md shadow-lg border-slate-200/40 dark:border-slate-800/40"
+				className="w-full max-w-md shadow-lg border-slate-200/40 dark:border-slate-800/40 mx-2 sm:mx-0"
 				style={{
 					backgroundColor: 'white',
 				}}
 			>
-				<CardHeader className="space-y-1 text-center">
+				<CardHeader className="space-y-1 text-center px-4 sm:px-6">
 					<div className="flex justify-center mb-4">
-						<div
-							className="p-3 rounded-full"
-							style={{ backgroundColor: '#D97D55' }}
-						>
-							<BookOpen className="size-6 text-white" />
+						<div className="relative">
+							<Image
+								src="/novelbug_bounce.gif"
+								alt="NovelBug Logo"
+								width={70}
+								height={70}
+								className="drop-shadow-sm w-14 h-14 sm:w-[70px] sm:h-[70px]"
+								style={{
+									mixBlendMode: 'multiply',
+								}}
+								priority
+								unoptimized
+							/>
 						</div>
 					</div>
 					<CardTitle className="text-3xl font-serif font-light tracking-tight text-slate-900">
@@ -145,11 +154,11 @@ export function Login() {
 					</CardDescription>
 				</CardHeader>
 
-				<CardContent>
+				<CardContent className="px-4 sm:px-6">
 					<Form {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}
-							className="space-y-4"
+							className="space-y-3 sm:space-y-4"
 						>
 							{/* Email */}
 							<FormField
