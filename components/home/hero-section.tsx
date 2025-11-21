@@ -153,7 +153,32 @@ export function HeroSection() {
 						learn into stories they'll want to hear.
 					</p>
 
-					<Link href="/generate">
+					<Link href="/auth" className="sm:hidden">
+						<Button
+							size="lg"
+							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 text-white font-sans font-light tracking-wide rounded-2xl shadow-sm w-full sm:w-auto overflow-hidden z-10 border-0 cursor-pointer"
+							style={{
+								backgroundColor: '#D97D55',
+							}}
+							onMouseEnter={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#C86A45';
+							}}
+							onMouseLeave={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#D97D55';
+							}}
+						>
+							<BookOpen
+								ref={iconRef}
+								className="size-4 mr-2.5 sm:mr-3 relative z-10"
+							/>
+							<span className="whitespace-nowrap relative z-10">
+								Get Started
+							</span>
+						</Button>
+					</Link>
+					<Link href="/generate" className="hidden sm:inline-block">
 						<Button
 							size="lg"
 							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 text-white font-sans font-light tracking-wide rounded-2xl shadow-sm w-full sm:w-auto overflow-hidden z-10 border-0 cursor-pointer"

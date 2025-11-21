@@ -124,7 +124,7 @@ const COUNTRIES = [
 export function AuthTabs() {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const cardRef = useRef<HTMLDivElement>(null);
-	const [activeTab, setActiveTab] = useState('login');
+	const [activeTab, setActiveTab] = useState('signup');
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -293,142 +293,20 @@ export function AuthTabs() {
 					>
 						<TabsList className="grid w-full grid-cols-2 mb-6 bg-slate-100/50">
 							<TabsTrigger
-								value="login"
-								className="font-sans font-light data-[state=active]:bg-white data-[state=active]:shadow-sm"
-							>
-								<LogIn className="size-4 mr-2" />
-								Sign In
-							</TabsTrigger>
-							<TabsTrigger
 								value="signup"
 								className="font-sans font-light data-[state=active]:bg-white data-[state=active]:shadow-sm"
 							>
 								<UserPlus className="size-4 mr-2" />
 								Sign Up
 							</TabsTrigger>
+							<TabsTrigger
+								value="login"
+								className="font-sans font-light data-[state=active]:bg-white data-[state=active]:shadow-sm"
+							>
+								<LogIn className="size-4 mr-2" />
+								Sign In
+							</TabsTrigger>
 						</TabsList>
-
-						{/* Login Tab */}
-						<TabsContent value="login" className="mt-0">
-							<Form {...loginForm}>
-								<form
-									onSubmit={loginForm.handleSubmit(
-										onLoginSubmit,
-									)}
-									className="space-y-4"
-								>
-									<FormField
-										control={loginForm.control}
-										name="email"
-										render={({ field }) => (
-											<FormItem data-form-field>
-												<FormLabel className="font-sans font-light">
-													Email
-												</FormLabel>
-												<FormControl>
-													<Input
-														type="email"
-														placeholder="you@example.com"
-														{...field}
-														className="font-sans"
-													/>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									<FormField
-										control={loginForm.control}
-										name="password"
-										render={({ field }) => (
-											<FormItem data-form-field>
-												<div className="flex items-center justify-between">
-													<FormLabel className="font-sans font-light">
-														Password
-													</FormLabel>
-													<Link
-														href="/forgot-password"
-														className="text-sm font-sans font-light hover:underline"
-														style={{
-															color: '#D97D55',
-														}}
-													>
-														Forgot password?
-													</Link>
-												</div>
-												<FormControl>
-													<div className="relative">
-														<Input
-															type={
-																showPassword
-																	? 'text'
-																	: 'password'
-															}
-															placeholder="Enter your password"
-															{...field}
-															className="font-sans pr-10"
-														/>
-														<button
-															type="button"
-															onClick={() =>
-																setShowPassword(
-																	!showPassword,
-																)
-															}
-															className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition-colors"
-															aria-label="Toggle password visibility"
-														>
-															{showPassword ? (
-																<EyeOff className="size-4" />
-															) : (
-																<Eye className="size-4" />
-															)}
-														</button>
-													</div>
-												</FormControl>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
-									{loginForm.formState.errors.root && (
-										<div className="text-sm text-destructive font-sans">
-											{
-												loginForm.formState.errors.root
-													.message
-											}
-										</div>
-									)}
-
-									<Button
-										type="submit"
-										className="w-full font-sans font-light text-white shadow-md hover:shadow-lg transition-all duration-300"
-										style={{
-											backgroundColor: '#D97D55',
-										}}
-										onMouseEnter={(e) => {
-											e.currentTarget.style.backgroundColor =
-												'#C86A45';
-										}}
-										onMouseLeave={(e) => {
-											e.currentTarget.style.backgroundColor =
-												'#D97D55';
-										}}
-										disabled={isSubmitting}
-									>
-										{isSubmitting ? (
-											<>
-												<Loader2 className="mr-2 size-4 animate-spin" />
-												Signing in...
-											</>
-										) : (
-											'Sign In'
-										)}
-									</Button>
-								</form>
-							</Form>
-						</TabsContent>
 
 						{/* Sign Up Tab */}
 						<TabsContent value="signup" className="mt-0">
@@ -692,6 +570,128 @@ export function AuthTabs() {
 											</>
 										) : (
 											'Create Account'
+										)}
+									</Button>
+								</form>
+							</Form>
+						</TabsContent>
+
+						{/* Login Tab */}
+						<TabsContent value="login" className="mt-0">
+							<Form {...loginForm}>
+								<form
+									onSubmit={loginForm.handleSubmit(
+										onLoginSubmit,
+									)}
+									className="space-y-4"
+								>
+									<FormField
+										control={loginForm.control}
+										name="email"
+										render={({ field }) => (
+											<FormItem data-form-field>
+												<FormLabel className="font-sans font-light">
+													Email
+												</FormLabel>
+												<FormControl>
+													<Input
+														type="email"
+														placeholder="you@example.com"
+														{...field}
+														className="font-sans"
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+
+									<FormField
+										control={loginForm.control}
+										name="password"
+										render={({ field }) => (
+											<FormItem data-form-field>
+												<div className="flex items-center justify-between">
+													<FormLabel className="font-sans font-light">
+														Password
+													</FormLabel>
+													<Link
+														href="/forgot-password"
+														className="text-sm font-sans font-light hover:underline"
+														style={{
+															color: '#D97D55',
+														}}
+													>
+														Forgot password?
+													</Link>
+												</div>
+												<FormControl>
+													<div className="relative">
+														<Input
+															type={
+																showPassword
+																	? 'text'
+																	: 'password'
+															}
+															placeholder="Enter your password"
+															{...field}
+															className="font-sans pr-10"
+														/>
+														<button
+															type="button"
+															onClick={() =>
+																setShowPassword(
+																	!showPassword,
+																)
+															}
+															className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition-colors"
+															aria-label="Toggle password visibility"
+														>
+															{showPassword ? (
+																<EyeOff className="size-4" />
+															) : (
+																<Eye className="size-4" />
+															)}
+														</button>
+													</div>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+
+									{loginForm.formState.errors.root && (
+										<div className="text-sm text-destructive font-sans">
+											{
+												loginForm.formState.errors.root
+													.message
+											}
+										</div>
+									)}
+
+									<Button
+										type="submit"
+										className="w-full font-sans font-light text-white shadow-md hover:shadow-lg transition-all duration-300"
+										style={{
+											backgroundColor: '#D97D55',
+										}}
+										onMouseEnter={(e) => {
+											e.currentTarget.style.backgroundColor =
+												'#C86A45';
+										}}
+										onMouseLeave={(e) => {
+											e.currentTarget.style.backgroundColor =
+												'#D97D55';
+										}}
+										disabled={isSubmitting}
+									>
+										{isSubmitting ? (
+											<>
+												<Loader2 className="mr-2 size-4 animate-spin" />
+												Signing in...
+											</>
+										) : (
+											'Sign In'
 										)}
 									</Button>
 								</form>

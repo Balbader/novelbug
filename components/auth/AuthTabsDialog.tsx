@@ -227,17 +227,20 @@ export function AuthTabsDialog() {
 	};
 
 	return (
-		<div ref={containerRef} className="w-full min-w-0">
+		<div
+			ref={containerRef}
+			className="w-full min-w-0 max-w-full overflow-hidden"
+		>
 			{/* Header */}
-			<div className="space-y-1 text-center mb-4 sm:mb-6">
-				<div className="flex justify-center mb-3 sm:mb-4">
-					<div className="relative">
+			<div className="space-y-1 text-center mb-3 sm:mb-4 md:mb-6">
+				<div className="flex justify-center mb-2 sm:mb-3 md:mb-4">
+					<div className="relative flex-shrink-0">
 						<Image
 							src="/novelbug_bounce.gif"
 							alt="NovelBug Logo"
 							width={70}
 							height={70}
-							className="drop-shadow-sm w-14 h-14 sm:w-[70px] sm:h-[70px]"
+							className="drop-shadow-sm w-12 h-12 sm:w-14 sm:h-14 md:w-[70px] md:h-[70px]"
 							style={{
 								mixBlendMode: 'multiply',
 							}}
@@ -246,10 +249,10 @@ export function AuthTabsDialog() {
 						/>
 					</div>
 				</div>
-				<h2 className="text-xl sm:text-2xl font-serif font-light tracking-tight text-slate-900 px-2">
+				<h2 className="text-lg sm:text-xl md:text-2xl font-serif font-light tracking-tight text-slate-900 px-1 sm:px-2">
 					Welcome to NovelBug
 				</h2>
-				<p className="text-slate-600 font-sans font-light text-xs sm:text-sm px-2">
+				<p className="text-slate-600 font-sans font-light text-xs sm:text-sm px-1 sm:px-2">
 					Sign in or create an account to start creating magical
 					bedtime stories
 				</p>
@@ -258,31 +261,34 @@ export function AuthTabsDialog() {
 			<Tabs
 				value={activeTab}
 				onValueChange={setActiveTab}
-				className="w-full min-w-0"
+				className="w-full min-w-0 max-w-full"
 			>
-				<TabsList className="grid w-full grid-cols-2 mb-4 sm:mb-6 bg-slate-100/50 h-9 sm:h-10">
+				<TabsList className="grid w-full grid-cols-2 mb-3 sm:mb-4 md:mb-6 bg-slate-100/50 h-8 sm:h-9 md:h-10 gap-1 sm:gap-[3px]">
 					<TabsTrigger
 						value="signup"
-						className="font-sans font-light text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm px-2 sm:px-3"
+						className="font-sans font-light text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm px-2 sm:px-3 text-center"
 					>
-						<UserPlus className="size-3 sm:size-4 mr-1 sm:mr-2" />
-						Sign Up
+						<UserPlus className="size-3 sm:size-4 mr-1 sm:mr-1.5 md:mr-2 flex-shrink-0" />
+						<span className="truncate">Sign Up</span>
 					</TabsTrigger>
 					<TabsTrigger
 						value="login"
-						className="font-sans font-light text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm px-2 sm:px-3"
+						className="font-sans font-light text-xs sm:text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm px-2 sm:px-3 text-center"
 					>
-						<LogIn className="size-3 sm:size-4 mr-1 sm:mr-2" />
-						Sign In
+						<LogIn className="size-3 sm:size-4 mr-1 sm:mr-1.5 md:mr-2 flex-shrink-0" />
+						<span className="truncate">Sign In</span>
 					</TabsTrigger>
 				</TabsList>
 
 				{/* Sign Up Tab */}
-				<TabsContent value="signup" className="mt-0 min-w-0">
+				<TabsContent
+					value="signup"
+					className="mt-0 min-w-0 max-w-full overflow-visible"
+				>
 					<Form {...signUpForm}>
 						<form
 							onSubmit={signUpForm.handleSubmit(onSignUpSubmit)}
-							className="space-y-3 sm:space-y-4"
+							className="space-y-2.5 sm:space-y-3 md:space-y-4"
 						>
 							<FormField
 								control={signUpForm.control}
@@ -538,11 +544,14 @@ export function AuthTabsDialog() {
 				</TabsContent>
 
 				{/* Login Tab */}
-				<TabsContent value="login" className="mt-0 min-w-0">
+				<TabsContent
+					value="login"
+					className="mt-0 min-w-0 max-w-full overflow-visible"
+				>
 					<Form {...loginForm}>
 						<form
 							onSubmit={loginForm.handleSubmit(onLoginSubmit)}
-							className="space-y-3 sm:space-y-4"
+							className="space-y-2.5 sm:space-y-3 md:space-y-4"
 						>
 							<FormField
 								control={loginForm.control}
