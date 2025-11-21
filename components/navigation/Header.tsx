@@ -5,7 +5,14 @@ import { gsap } from 'gsap';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Coffee, Menu, X } from 'lucide-react';
+import {
+	Dialog,
+	DialogContent,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
+import { AuthTabsDialog } from '@/components/auth/AuthTabsDialog';
+import { Coffee, Menu, X, Sparkles } from 'lucide-react';
 
 export function Header() {
 	const headerRef = useRef<HTMLElement>(null);
@@ -83,22 +90,42 @@ export function Header() {
 						</Link>
 					</div>
 
-					{/* Desktop CTA Button */}
+					{/* Desktop CTA Buttons */}
 					<div className="hidden md:flex items-center gap-3">
+						<Dialog>
+							<DialogTrigger asChild>
+								<Button
+									size="default"
+									className="border-0 shadow-md hover:shadow-lg font-sans font-light text-[14px] tracking-wide transition-all duration-300 text-white"
+									style={{
+										backgroundColor: '#D97D55',
+									}}
+									onMouseEnter={(e) => {
+										e.currentTarget.style.backgroundColor =
+											'#C86A45';
+									}}
+									onMouseLeave={(e) => {
+										e.currentTarget.style.backgroundColor =
+											'#D97D55';
+									}}
+								>
+									<Sparkles className="size-4 mr-2" />
+									Get Started
+								</Button>
+							</DialogTrigger>
+							<DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0 border-0 shadow-xl">
+								<DialogTitle className="sr-only">
+									Welcome to NovelBug - Sign In or Sign Up
+								</DialogTitle>
+								<div className="p-6">
+									<AuthTabsDialog />
+								</div>
+							</DialogContent>
+						</Dialog>
 						<Button
 							size="default"
-							className="border-0 shadow-md hover:shadow-lg font-sans font-light text-[14px] tracking-wide transition-all duration-300 text-white"
-							style={{
-								backgroundColor: '#D97D55',
-							}}
-							onMouseEnter={(e) => {
-								e.currentTarget.style.backgroundColor =
-									'#C86A45';
-							}}
-							onMouseLeave={(e) => {
-								e.currentTarget.style.backgroundColor =
-									'#D97D55';
-							}}
+							variant="outline"
+							className="border-slate-200 shadow-sm hover:shadow-md font-sans font-light text-[14px] tracking-wide transition-all duration-300"
 							asChild
 						>
 							<a
@@ -151,20 +178,41 @@ export function Header() {
 							>
 								About
 							</Link>
+							<Dialog>
+								<DialogTrigger asChild>
+									<Button
+										size="default"
+										className="border-0 shadow-md hover:shadow-lg font-sans font-light text-[14px] tracking-wide transition-all duration-300 w-full justify-center mt-2 text-white"
+										style={{
+											backgroundColor: '#D97D55',
+										}}
+										onMouseEnter={(e) => {
+											e.currentTarget.style.backgroundColor =
+												'#C86A45';
+										}}
+										onMouseLeave={(e) => {
+											e.currentTarget.style.backgroundColor =
+												'#D97D55';
+										}}
+										onClick={() => setMobileMenuOpen(false)}
+									>
+										<Sparkles className="size-4 mr-2" />
+										Get Started
+									</Button>
+								</DialogTrigger>
+								<DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0 border-0 shadow-xl">
+									<DialogTitle className="sr-only">
+										Welcome to NovelBug - Sign In or Sign Up
+									</DialogTitle>
+									<div className="p-6">
+										<AuthTabsDialog />
+									</div>
+								</DialogContent>
+							</Dialog>
 							<Button
 								size="default"
-								className="border-0 shadow-md hover:shadow-lg font-sans font-light text-[14px] tracking-wide transition-all duration-300 w-full justify-center mt-2 text-white"
-								style={{
-									backgroundColor: '#D97D55',
-								}}
-								onMouseEnter={(e) => {
-									e.currentTarget.style.backgroundColor =
-										'#C86A45';
-								}}
-								onMouseLeave={(e) => {
-									e.currentTarget.style.backgroundColor =
-										'#D97D55';
-								}}
+								variant="outline"
+								className="border-slate-200 shadow-sm hover:shadow-md font-sans font-light text-[14px] tracking-wide transition-all duration-300 w-full justify-center mt-2"
 								asChild
 							>
 								<a
