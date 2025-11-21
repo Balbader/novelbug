@@ -108,7 +108,7 @@ export function Footer() {
 				{/* Copyright */}
 				<div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-slate-200/40 dark:border-slate-800/40 text-center text-xs sm:text-sm text-slate-500 dark:text-slate-500 font-sans font-light tracking-wide">
 					<p>
-						© {new Date().getFullYear()} NovelBug. All rights
+						© {new Date().getFullYear()} NoirDoor, Inc. All rights
 						reserved.
 					</p>
 				</div>
