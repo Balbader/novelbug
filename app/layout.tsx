@@ -19,6 +19,11 @@ export const metadata: Metadata = {
 	title: 'NovelBug - Turn Knowledge into Bedtime Stories',
 	description:
 		'Welcome to NovelBug, where learning curls up under the covers. Every lesson, concept, or curiosity becomes a magical bedtime adventure.',
+	icons: {
+		icon: '/novelbug_bounce.gif',
+		shortcut: '/novelbug_bounce.gif',
+		apple: '/novelbug_bounce.gif',
+	},
 };
 
 export default function RootLayout({
