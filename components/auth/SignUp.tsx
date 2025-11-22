@@ -495,7 +495,7 @@ export function SignUp() {
 					<div className="text-sm text-center text-slate-600 font-sans font-light">
 						Already have an account?{' '}
 						<Link
-							href="/login"
+							href="/auth/signin"
 							className="font-medium hover:underline"
 							style={{ color: '#D97D55' }}
 						>
