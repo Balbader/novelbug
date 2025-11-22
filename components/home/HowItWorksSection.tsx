@@ -47,7 +47,7 @@ export function HowItWorksSection() {
 			icon: BookOpen,
 			title: 'Choose Your Topic',
 			description:
-				'Select any lesson, concept, or curiosity you want to transform into a bedtime story.',
+				'Select any topic, concept, or curiosity you want to transform into a bedtime story for your child.',
 			iconColor: '#6FA4AF',
 		},
 		{
@@ -60,7 +60,8 @@ export function HowItWorksSection() {
 		{
 			icon: Play,
 			title: 'Story Ready',
-			description: 'Your personalized bedtime story is ready to read.',
+			description:
+				'Your personalized bedtime story is ready to read. Share it with your child and watch them fall asleep.',
 			iconColor: '#D97D55',
 		},
 	];

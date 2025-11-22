@@ -100,7 +100,7 @@ export function FeaturesSection() {
 							</h3>
 							<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
 								Every lesson becomes a captivating bedtime
-								adventure that your child will look forward to.
+								adventure that your child will look forward to hearing every night.
 							</p>
 						</div>
 					</div>
@@ -150,7 +150,7 @@ export function FeaturesSection() {
 							</h3>
 							<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
 								Create special moments while learning together,
-								making bedtime both educational and magical.
+								making bedtime both educational, magical and special.
 							</p>
 						</div>
 					</div>
