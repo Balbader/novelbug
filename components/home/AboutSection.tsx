@@ -43,20 +43,6 @@ export function AboutSection() {
 		>
 			<div className="container mx-auto max-w-4xl">
 				<div className="text-center mb-12 sm:mb-16 md:mb-20">
-					<div className="flex justify-center mb-6 sm:mb-8">
-						<div
-							className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center border"
-							style={{
-								backgroundColor: '#F4E9D7',
-								borderColor: 'rgba(217, 125, 85, 0.2)',
-							}}
-						>
-							<Heart
-								className="size-8 sm:size-10"
-								style={{ color: '#D97D55' }}
-							/>
-						</div>
-					</div>
 					<h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light mb-4 sm:mb-5 text-slate-900 dark:text-slate-50 tracking-tight px-2 sm:px-0">
 						Our Mission
 					</h2>
