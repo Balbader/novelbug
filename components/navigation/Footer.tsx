@@ -35,7 +35,7 @@ export function Footer() {
 							</span>
 						</Link>
 						<p className="text-slate-600 dark:text-slate-400 max-w-md mb-4 sm:mb-6 font-sans font-light leading-relaxed text-sm sm:text-[15px] tracking-wide">
-							Turn Knowledge into Bedtime Stories. Every lesson,
+							Turn Knowledge into Bedtime Stories. Every subject,
 							concept, or curiosity becomes a magical bedtime
 							adventure.
 						</p>
