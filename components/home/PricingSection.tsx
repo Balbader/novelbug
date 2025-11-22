@@ -84,7 +84,10 @@ export function Pricing() {
 	};
 
 	return (
-		<section className="py-20 sm:py-24 md:py-32 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 dark:from-slate-950 dark:to-slate-900">
+		<section
+			id="pricing"
+			className="py-20 sm:py-24 md:py-32 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 dark:from-slate-950 dark:to-slate-900"
+		>
 			<div className="container mx-auto max-w-6xl">
 				<div className="text-center mb-12 sm:mb-16 md:mb-20">
 					<h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light mb-4 sm:mb-5 text-slate-900 dark:text-slate-50 tracking-tight px-2 sm:px-0">

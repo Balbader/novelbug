@@ -38,6 +38,7 @@ export function AboutSection() {
 
 	return (
 		<section
+			id="about"
 			ref={sectionRef}
 			className="py-20 sm:py-24 md:py-32 px-4 sm:px-6 dark:bg-slate-950"
 			style={{

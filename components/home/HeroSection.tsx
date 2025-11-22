@@ -111,6 +111,7 @@ export function HeroSection() {
 
 	return (
 		<section
+			id="hero"
 			ref={heroRef}
 			className="relative overflow-hidden px-4 sm:px-6 py-20 sm:py-24 md:py-32 lg:py-40 min-h-[85vh] sm:min-h-[90vh] lg:min-h-[92vh] flex items-center"
 		>

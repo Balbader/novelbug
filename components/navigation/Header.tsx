@@ -73,22 +73,28 @@ export function Header() {
 					{/* Desktop Navigation Links */}
 					<div className="hidden lg:flex items-center gap-6 xl:gap-8">
 						<Link
-							href="/"
+							href="/#how-it-works"
 							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
 						>
-							Home
+							How It Works
 						</Link>
 						<Link
-							href="/stories"
+							href="/#features"
 							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
 						>
-							Community Stories
+							Features
 						</Link>
 						<Link
-							href="/about"
+							href="/#about"
 							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
 						>
 							About
+						</Link>
+						<Link
+							href="/#pricing"
+							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
+						>
+							Pricing
 						</Link>
 					</div>
 
@@ -124,13 +130,13 @@ export function Header() {
 								</div>
 							</DialogContent>
 						</Dialog>
-						<Button
+						{/* <Button
 							size="default"
 							variant="outline"
 							className="border-slate-200 shadow-sm hover:shadow-md font-sans font-light text-xs xl:text-sm tracking-wide transition-all duration-300 px-3 xl:px-4"
 							asChild
 						>
-							<a
+							<Link
 								href="https://buymeacoffee.com/novelbug"
 								target="_blank"
 								rel="noopener noreferrer"
@@ -140,8 +146,8 @@ export function Header() {
 									Buy me a coffee
 								</span>
 								<span className="xl:hidden">Coffee</span>
-							</a>
-						</Button>
+							</Link>
+						</Button> */}
 					</div>
 
 					{/* Mobile/Tablet Menu Button */}
@@ -162,25 +168,39 @@ export function Header() {
 					<div className="lg:hidden mt-3 sm:mt-4 pb-3 sm:pb-4 border-t border-slate-200/40 dark:border-slate-800/40 pt-3 sm:pt-4">
 						<div className="flex flex-col gap-3 sm:gap-4">
 							<Link
-								href="/"
+								href="/#hero"
 								onClick={() => setMobileMenuOpen(false)}
 								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
 							>
 								Home
 							</Link>
 							<Link
-								href="/stories"
+								href="/#how-it-works"
 								onClick={() => setMobileMenuOpen(false)}
 								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
 							>
-								Community Stories
+								How It Works
 							</Link>
 							<Link
-								href="/about"
+								href="/#features"
+								onClick={() => setMobileMenuOpen(false)}
+								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
+							>
+								Features
+							</Link>
+							<Link
+								href="/#about"
 								onClick={() => setMobileMenuOpen(false)}
 								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
 							>
 								About
+							</Link>
+							<Link
+								href="/#pricing"
+								onClick={() => setMobileMenuOpen(false)}
+								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
+							>
+								Pricing
 							</Link>
 							{isMobile ? (
 								<Button
@@ -241,13 +261,13 @@ export function Header() {
 									</DialogContent>
 								</Dialog>
 							)}
-							<Button
+							{/* <Button
 								size="default"
 								variant="outline"
 								className="border-slate-200 shadow-sm hover:shadow-md font-sans font-light text-sm sm:text-base tracking-wide transition-all duration-300 w-full justify-center mt-1 sm:mt-2 py-2.5 sm:py-3"
 								asChild
 							>
-								<a
+								<Link
 									href="https://buymeacoffee.com/novelbug"
 									target="_blank"
 									rel="noopener noreferrer"
@@ -255,8 +275,8 @@ export function Header() {
 								>
 									<Coffee className="size-4 sm:size-5 mr-2" />
 									Buy me a coffee
-								</a>
-							</Button>
+								</Link>
+							</Button> */}
 						</div>
 					</div>
 				)}
