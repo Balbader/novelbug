@@ -147,7 +147,7 @@ export function HeroSection() {
 					{/* Subtitle with refined spacing */}
 					<p
 						ref={subtitleRef}
-						className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-wide px-2 sm:px-0"
+						className="text-base sm:text-lg md:text-xl text-white leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-wide px-2 sm:px-0"
 					>
 						Every subject, concept, or curiosity becomes a magical
 						bedtime adventure. Transform what you want your child to
