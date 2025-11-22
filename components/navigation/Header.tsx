@@ -73,6 +73,12 @@ export function Header() {
 					{/* Desktop Navigation Links */}
 					<div className="hidden lg:flex items-center gap-6 xl:gap-8">
 						<Link
+							href="/"
+							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
+						>
+							Home
+						</Link>
+						<Link
 							href="/#how-it-works"
 							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
 						>
@@ -168,7 +174,7 @@ export function Header() {
 					<div className="lg:hidden mt-3 sm:mt-4 pb-3 sm:pb-4 border-t border-slate-200/40 dark:border-slate-800/40 pt-3 sm:pt-4">
 						<div className="flex flex-col gap-3 sm:gap-4">
 							<Link
-								href="/#hero"
+								href="/"
 								onClick={() => setMobileMenuOpen(false)}
 								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
 							>
