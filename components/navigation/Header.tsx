@@ -157,7 +157,6 @@ export function Header() {
 						)}
 					</button>
 				</div>
-JetBrainsMono
 				{/* Mobile/Tablet Menu */}
 				{mobileMenuOpen && (
 					<div className="lg:hidden mt-3 sm:mt-4 pb-3 sm:pb-4 border-t border-slate-200/40 dark:border-slate-800/40 pt-3 sm:pt-4">

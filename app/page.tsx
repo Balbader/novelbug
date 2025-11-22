@@ -1,6 +1,8 @@
-import { HeroSection } from '@/components/home/hero-section';
-import { FeaturesSection } from '@/components/home/features-section';
-import { HowItWorksSection } from '@/components/home/how-it-works-section';
+import { HeroSection } from '@/components/home/HeroSection';
+import { FeaturesSection } from '@/components/home/FeaturesSection';
+import { HowItWorksSection } from '@/components/home/HowItWorksSection';
+import { AboutSection } from '@/components/home/AboutSection';
+import { Pricing } from '@/components/home/PricingSection';
 
 export default function Home() {
 	return (
@@ -8,6 +10,8 @@ export default function Home() {
 			<HeroSection />
 			<HowItWorksSection />
 			<FeaturesSection />
+			<AboutSection />
+			<Pricing />
 		</div>
 	);
 }
