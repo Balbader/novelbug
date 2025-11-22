@@ -1,6 +1,6 @@
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { storiesDataTable } from "./stories-data";
-import { integer } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { storiesDataTable } from './stories-data';
+import { integer } from 'drizzle-orm/sqlite-core';
 
 export const storiesOutputTable = sqliteTable('stories_output', {
 	id: text('id')
