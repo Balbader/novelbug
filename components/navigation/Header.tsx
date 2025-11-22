@@ -105,13 +105,13 @@ export function Header() {
 					{/* Desktop CTA Buttons */}
 					<div className="hidden lg:flex items-center gap-2 xl:gap-3">
 						<Link
-							href="/auth/signin"
+							href="/signin"
 							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-medium text-sm xl:text-[15px] tracking-wide px-3 xl:px-4 py-1.5 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30"
 						>
 							Sign in
 						</Link>
 						<Link
-							href="/auth/signup"
+							href="/signup"
 							className="text-[#D97D55] hover:text-white dark:text-[#D97D55] dark:hover:text-white transition-all duration-300 font-sans font-medium text-sm xl:text-[15px] tracking-wide px-3 xl:px-4 py-1.5 rounded-md border border-[#D97D55] hover:bg-[#D97D55] dark:hover:bg-[#D97D55] shadow-sm hover:shadow-md"
 						>
 							Sign up
@@ -218,14 +218,14 @@ export function Header() {
 							</Link>
 							<div className="flex flex-col gap-2 sm:gap-3 mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-200/40 dark:border-slate-800/40">
 								<Link
-									href="/auth/signin"
+									href="/signin"
 									onClick={() => setMobileMenuOpen(false)}
 									className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-medium text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 text-center"
 								>
 									Sign in
 								</Link>
 								<Link
-									href="/auth/signup"
+									href="/signup"
 									onClick={() => setMobileMenuOpen(false)}
 									className="text-[#D97D55] hover:text-white dark:text-[#D97D55] dark:hover:text-white transition-all duration-300 font-sans font-medium text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md border border-[#D97D55] hover:bg-[#D97D55] dark:hover:bg-[#D97D55] shadow-sm hover:shadow-md text-center"
 								>

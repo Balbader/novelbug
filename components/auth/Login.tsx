@@ -280,7 +280,7 @@ export function Login() {
 					<div className="text-sm text-center text-slate-600 font-sans font-light">
 						Don't have an account?{' '}
 						<Link
-							href="/auth/signup"
+							href="/signup"
 							className="font-medium hover:underline"
 							style={{ color: '#D97D55' }}
 						>
