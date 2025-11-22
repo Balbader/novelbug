@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { Heart } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
@@ -39,7 +39,10 @@ export function AboutSection() {
 	return (
 		<section
 			ref={sectionRef}
-			className="py-20 sm:py-24 md:py-32 px-4 sm:px-6 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950"
+			className="py-20 sm:py-24 md:py-32 px-4 sm:px-6 dark:bg-slate-950"
+			style={{
+				backgroundColor: '#F9F7F4',
+			}}
 		>
 			<div className="container mx-auto max-w-4xl">
 				<div className="text-center mb-12 sm:mb-16 md:mb-20">
@@ -82,9 +85,20 @@ export function AboutSection() {
 					<Link href="/about">
 						<Button
 							size="lg"
-							variant="outline"
-							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 font-sans font-light tracking-wide rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border-slate-200 dark:border-slate-800"
+							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 text-white font-sans font-light tracking-wide rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+							style={{
+								backgroundColor: '#D97D55',
+							}}
+							onMouseEnter={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#C86A45';
+							}}
+							onMouseLeave={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#D97D55';
+							}}
 						>
+							<BookOpen className="size-4 mr-2.5 sm:mr-3 transition-transform duration-300 group-hover:rotate-6" />
 							<span className="whitespace-nowrap">
 								Learn More About Us
 							</span>

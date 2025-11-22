@@ -138,7 +138,7 @@ export function Pricing() {
 						<CardFooter className="pt-6">
 							<Button
 								variant="outline"
-								className="w-full border-slate-200 shadow-sm hover:shadow-md font-sans font-light text-sm tracking-wide transition-all duration-300"
+								className="w-full border-slate-200 shadow-sm hover:shadow-md font-sans font-light text-sm tracking-wide transition-all duration-300 cursor-pointer"
 								asChild
 							>
 								<Link href="/auth">Get Started</Link>
@@ -189,7 +189,7 @@ export function Pricing() {
 						</CardContent>
 						<CardFooter className="pt-6">
 							<Button
-								className="w-full border-0 shadow-md hover:shadow-lg font-sans font-light text-sm tracking-wide transition-all duration-300 text-white"
+								className="w-full border-0 shadow-md hover:shadow-lg font-sans font-light text-sm tracking-wide transition-all duration-300 text-white cursor-pointer"
 								style={{
 									backgroundColor: '#D97D55',
 								}}

@@ -158,7 +158,7 @@ export function FeaturesSection() {
 					<Link href="/generate">
 						<Button
 							size="lg"
-							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 text-white font-sans font-light tracking-wide rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
+							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 text-white font-sans font-light tracking-wide rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
 							style={{
 								backgroundColor: '#D97D55',
 							}}
