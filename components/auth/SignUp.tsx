@@ -191,7 +191,12 @@ export function SignUp() {
 			ref={containerRef}
 			className="min-h-screen flex items-center justify-center px-4 py-12 sm:py-16"
 			style={{
-				backgroundColor: '#F9F7F4',
+				backgroundColor: '#F5F1E8',
+				backgroundImage: `
+					linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+					linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
+				`,
+				backgroundSize: '20px 20px',
 			}}
 		>
 			<Card
