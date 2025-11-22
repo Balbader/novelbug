@@ -254,22 +254,6 @@ export function Header() {
 									Try NovelBug for Free
 								</Link>
 							</Button>
-							{/* <Button
-								size="default"
-								variant="outline"
-								className="border-slate-200 shadow-sm hover:shadow-md font-sans font-light text-sm sm:text-base tracking-wide transition-all duration-300 w-full justify-center mt-1 sm:mt-2 py-2.5 sm:py-3"
-								asChild
-							>
-								<Link
-									href="https://buymeacoffee.com/novelbug"
-									target="_blank"
-									rel="noopener noreferrer"
-									onClick={() => setMobileMenuOpen(false)}
-								>
-									<Coffee className="size-4 sm:size-5 mr-2" />
-									Buy me a coffee
-								</Link>
-							</Button> */}
 						</div>
 					</div>
 				)}
