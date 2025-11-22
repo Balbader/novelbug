@@ -533,10 +533,10 @@ export function AuthTabsDialog() {
 								{isSubmitting ? (
 									<>
 										<Loader2 className="mr-2 size-4 animate-spin" />
-										Creating Account...
+										Signing up...
 									</>
 								) : (
-									'Create Account'
+									'Sign Up'
 								)}
 							</Button>
 						</form>
@@ -651,10 +651,10 @@ export function AuthTabsDialog() {
 								{isSubmitting ? (
 									<>
 										<Loader2 className="mr-2 size-4 animate-spin" />
-										Signing in...
+										Logging in...
 									</>
 								) : (
-									'Sign In'
+									'Login'
 								)}
 							</Button>
 						</form>

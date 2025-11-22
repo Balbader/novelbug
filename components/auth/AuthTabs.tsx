@@ -304,7 +304,7 @@ export function AuthTabs() {
 								className="font-sans font-light data-[state=active]:bg-white data-[state=active]:shadow-sm"
 							>
 								<LogIn className="size-4 mr-2" />
-								Sign In
+								Sign in
 							</TabsTrigger>
 						</TabsList>
 
@@ -688,10 +688,10 @@ export function AuthTabs() {
 										{isSubmitting ? (
 											<>
 												<Loader2 className="mr-2 size-4 animate-spin" />
-												Signing in...
+												Logging in...
 											</>
 										) : (
-											'Sign In'
+											'Login'
 										)}
 									</Button>
 								</form>

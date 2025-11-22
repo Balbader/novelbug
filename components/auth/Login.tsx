@@ -261,10 +261,10 @@ export function Login() {
 								{isSubmitting ? (
 									<>
 										<Loader2 className="mr-2 size-4 animate-spin" />
-										Signing in...
+										Logging in...
 									</>
 								) : (
-									'Sign In'
+									'Login'
 								)}
 							</Button>
 						</form>
@@ -279,7 +279,7 @@ export function Login() {
 							className="font-medium hover:underline"
 							style={{ color: '#D97D55' }}
 						>
-							Sign up
+							Sign Up
 						</Link>
 					</div>
 				</CardFooter>

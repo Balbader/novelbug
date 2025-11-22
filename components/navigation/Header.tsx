@@ -71,71 +71,79 @@ export function Header() {
 					</Link>
 
 					{/* Desktop Navigation Links */}
-					<div className="hidden lg:flex items-center gap-6 xl:gap-8">
+					<div className="hidden lg:flex items-center gap-1 xl:gap-2">
 						<Link
 							href="/"
-							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
+							className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-[15px] tracking-wide px-4 py-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 						>
-							Home
+							<span className="relative z-10">Home</span>
+							<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
 						</Link>
 						<Link
 							href="/#how-it-works"
-							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
+							className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-[15px] tracking-wide px-4 py-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 						>
-							How It Works
+							<span className="relative z-10">How It Works</span>
+							<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
 						</Link>
 						<Link
 							href="/#features"
-							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
+							className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-[15px] tracking-wide px-4 py-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 						>
-							Features
+							<span className="relative z-10">Features</span>
+							<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
 						</Link>
 						<Link
 							href="/#about"
-							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
+							className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-[15px] tracking-wide px-4 py-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 						>
-							About
+							<span className="relative z-10">About</span>
+							<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
 						</Link>
 						<Link
 							href="/#pricing"
-							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[15px] tracking-wide"
+							className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-[15px] tracking-wide px-4 py-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 						>
-							Pricing
+							<span className="relative z-10">Pricing</span>
+							<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
 						</Link>
 					</div>
 
 					{/* Desktop CTA Buttons */}
 					<div className="hidden lg:flex items-center gap-2 xl:gap-3">
-						<Dialog>
-							<DialogTrigger asChild>
-								<Button
-									size="default"
-									className="border-0 shadow-md hover:shadow-lg font-sans font-light text-xs xl:text-sm tracking-wide transition-all duration-300 text-white px-3 xl:px-4"
-									style={{
-										backgroundColor: '#D97D55',
-									}}
-									onMouseEnter={(e) => {
-										e.currentTarget.style.backgroundColor =
-											'#C86A45';
-									}}
-									onMouseLeave={(e) => {
-										e.currentTarget.style.backgroundColor =
-											'#D97D55';
-									}}
-								>
-									<Sparkles className="size-3 xl:size-4 mr-1.5 xl:mr-2" />
-									Get Started
-								</Button>
-							</DialogTrigger>
-							<DialogContent className="!w-[calc(100vw-2rem)] !max-w-[calc(100vw-2rem)] sm:!w-auto sm:!max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-y-auto p-0 border-0 shadow-xl">
-								<DialogTitle className="sr-only">
-									Welcome to NovelBug - Sign In or Sign Up
-								</DialogTitle>
-								<div className="p-4 sm:p-6">
-									<AuthTabsDialog />
-								</div>
-							</DialogContent>
-						</Dialog>
+						<Link
+							href="/auth"
+							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-medium text-sm xl:text-[15px] tracking-wide px-3 xl:px-4 py-1.5 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30"
+						>
+							Sign in
+						</Link>
+						<Link
+							href="/auth"
+							className="text-[#D97D55] hover:text-white dark:text-[#D97D55] dark:hover:text-white transition-all duration-300 font-sans font-medium text-sm xl:text-[15px] tracking-wide px-3 xl:px-4 py-1.5 rounded-md border border-[#D97D55] hover:bg-[#D97D55] dark:hover:bg-[#D97D55] shadow-sm hover:shadow-md"
+						>
+							Sign Up
+						</Link>
+						<Button
+							size="default"
+							className="border-0 shadow-md hover:shadow-lg font-sans font-light text-xs xl:text-sm tracking-wide transition-all duration-300 text-white px-3 xl:px-4"
+							style={{
+								backgroundColor: '#D97D55',
+							}}
+							onMouseEnter={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#C86A45';
+							}}
+							onMouseLeave={(e) => {
+								e.currentTarget.style.backgroundColor =
+									'#D97D55';
+							}}
+							asChild
+						>
+							<Link href="/generate">
+								<Sparkles className="size-3 xl:size-4 mr-1.5 xl:mr-2" />
+								Try NovelBug for Free
+							</Link>
+						</Button>
 						{/* <Button
 							size="default"
 							variant="outline"
@@ -172,101 +180,87 @@ export function Header() {
 				{/* Mobile/Tablet Menu */}
 				{mobileMenuOpen && (
 					<div className="lg:hidden mt-3 sm:mt-4 pb-3 sm:pb-4 border-t border-slate-200/40 dark:border-slate-800/40 pt-3 sm:pt-4">
-						<div className="flex flex-col gap-3 sm:gap-4">
+						<div className="flex flex-col gap-1 sm:gap-2">
 							<Link
 								href="/"
 								onClick={() => setMobileMenuOpen(false)}
-								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
+								className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 							>
-								Home
+								<span className="relative z-10">Home</span>
+								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
 							</Link>
 							<Link
 								href="/#how-it-works"
 								onClick={() => setMobileMenuOpen(false)}
-								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
+								className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 							>
-								How It Works
+								<span className="relative z-10">
+									How It Works
+								</span>
+								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
 							</Link>
 							<Link
 								href="/#features"
 								onClick={() => setMobileMenuOpen(false)}
-								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
+								className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 							>
-								Features
+								<span className="relative z-10">Features</span>
+								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
 							</Link>
 							<Link
 								href="/#about"
 								onClick={() => setMobileMenuOpen(false)}
-								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
+								className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 							>
-								About
+								<span className="relative z-10">About</span>
+								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
 							</Link>
 							<Link
 								href="/#pricing"
 								onClick={() => setMobileMenuOpen(false)}
-								className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-sm sm:text-base tracking-wide py-1.5 sm:py-2"
+								className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 							>
-								Pricing
+								<span className="relative z-10">Pricing</span>
+								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
 							</Link>
-							{isMobile ? (
-								<Button
-									size="default"
-									className="border-0 shadow-md hover:shadow-lg font-sans font-light text-sm sm:text-base tracking-wide transition-all duration-300 w-full justify-center mt-1 sm:mt-2 text-white py-2.5 sm:py-3"
-									style={{
-										backgroundColor: '#D97D55',
-									}}
-									onMouseEnter={(e) => {
-										e.currentTarget.style.backgroundColor =
-											'#C86A45';
-									}}
-									onMouseLeave={(e) => {
-										e.currentTarget.style.backgroundColor =
-											'#D97D55';
-									}}
+							<div className="flex flex-col gap-2 sm:gap-3 mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-200/40 dark:border-slate-800/40">
+								<Link
+									href="/auth"
 									onClick={() => setMobileMenuOpen(false)}
-									asChild
+									className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-medium text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 text-center"
 								>
-									<Link href="/auth">
-										<Sparkles className="size-4 sm:size-5 mr-2" />
-										Get Started
-									</Link>
-								</Button>
-							) : (
-								<Dialog>
-									<DialogTrigger asChild>
-										<Button
-											size="default"
-											className="border-0 shadow-md hover:shadow-lg font-sans font-light text-sm sm:text-base tracking-wide transition-all duration-300 w-full justify-center mt-1 sm:mt-2 text-white py-2.5 sm:py-3"
-											style={{
-												backgroundColor: '#D97D55',
-											}}
-											onMouseEnter={(e) => {
-												e.currentTarget.style.backgroundColor =
-													'#C86A45';
-											}}
-											onMouseLeave={(e) => {
-												e.currentTarget.style.backgroundColor =
-													'#D97D55';
-											}}
-											onClick={() =>
-												setMobileMenuOpen(false)
-											}
-										>
-											<Sparkles className="size-4 sm:size-5 mr-2" />
-											Get Started
-										</Button>
-									</DialogTrigger>
-									<DialogContent className="!w-[calc(100vw-2rem)] !max-w-[calc(100vw-2rem)] sm:!w-auto sm:!max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-y-auto p-0 border-0 shadow-xl">
-										<DialogTitle className="sr-only">
-											Welcome to NovelBug - Sign In or
-											Sign Up
-										</DialogTitle>
-										<div className="p-4 sm:p-6">
-											<AuthTabsDialog />
-										</div>
-									</DialogContent>
-								</Dialog>
-							)}
+									Sign in
+								</Link>
+								<Link
+									href="/auth"
+									onClick={() => setMobileMenuOpen(false)}
+									className="text-[#D97D55] hover:text-white dark:text-[#D97D55] dark:hover:text-white transition-all duration-300 font-sans font-medium text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md border border-[#D97D55] hover:bg-[#D97D55] dark:hover:bg-[#D97D55] shadow-sm hover:shadow-md text-center"
+								>
+									Sign up
+								</Link>
+							</div>
+							<Button
+								size="default"
+								className="border-0 shadow-md hover:shadow-lg font-sans font-light text-sm sm:text-base tracking-wide transition-all duration-300 w-full justify-center mt-1 sm:mt-2 text-white py-2.5 sm:py-3"
+								style={{
+									backgroundColor: '#D97D55',
+								}}
+								onMouseEnter={(e) => {
+									e.currentTarget.style.backgroundColor =
+										'#C86A45';
+								}}
+								onMouseLeave={(e) => {
+									e.currentTarget.style.backgroundColor =
+										'#D97D55';
+								}}
+								onClick={() => setMobileMenuOpen(false)}
+								asChild
+							>
+								<Link href="/generate">
+									<Sparkles className="size-4 sm:size-5 mr-2" />
+									Try NovelBug for Free
+								</Link>
+							</Button>
 							{/* <Button
 								size="default"
 								variant="outline"
