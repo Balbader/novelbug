@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 	description:
 		'Welcome to NovelBug, where learning curls up under the covers. Every lesson, concept, or curiosity becomes a magical bedtime adventure.',
 	icons: {
-		icon: '/novelbug_bounce.gif',
-		shortcut: '/novelbug_bounce.gif',
-		apple: '/novelbug_bounce.gif',
+		icon: '/rainbow-book.png',
+		shortcut: '/rainbow-book.png',
+		apple: '/rainbow-book.png',
 	},
 };
 
