@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Menu, X, Sparkles } from 'lucide-react';
+import { LoginLink, RegisterLink } from '@kinde-oss/kinde-auth-nextjs';
 
 export function Header() {
 	const headerRef = useRef<HTMLElement>(null);
@@ -104,18 +105,34 @@ export function Header() {
 
 					{/* Desktop CTA Buttons */}
 					<div className="hidden lg:flex items-center gap-2 xl:gap-3">
-						<Link
-							href="/signin"
-							className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-medium text-sm xl:text-[15px] tracking-wide px-3 xl:px-4 py-1.5 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30"
-						>
-							Sign in
-						</Link>
-						<Link
-							href="/signup"
-							className="text-[#D97D55] hover:text-white dark:text-[#D97D55] dark:hover:text-white transition-all duration-300 font-sans font-medium text-sm xl:text-[15px] tracking-wide px-3 xl:px-4 py-1.5 rounded-md border border-[#D97D55] hover:bg-[#D97D55] dark:hover:bg-[#D97D55] shadow-sm hover:shadow-md"
-						>
-							Sign up
-						</Link>
+						<LoginLink>
+							<Button
+								variant="outline"
+								className="border-0 shadow-md hover:shadow-lg font-sans font-light text-xs xl:text-sm tracking-wide transition-all duration-300 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 px-3 xl:px-4"
+							>
+								Sign in
+							</Button>
+						</LoginLink>
+						<RegisterLink>
+							<Button
+								variant="outline"
+								className="border-0 shadow-md hover:shadow-lg font-sans font-light text-xs xl:text-sm tracking-wide transition-all duration-300 text-white px-3 xl:px-4"
+								style={{
+									backgroundColor: '#D97D55',
+								}}
+								onMouseEnter={(e) => {
+									e.currentTarget.style.backgroundColor =
+										'#C86A45';
+								}}
+								onMouseLeave={(e) => {
+									e.currentTarget.style.backgroundColor =
+										'#D97D55';
+								}}
+							>
+								Sign up
+							</Button>
+						</RegisterLink>
+
 						<Button
 							size="default"
 							className="border-0 shadow-md hover:shadow-lg font-sans font-light text-xs xl:text-sm tracking-wide transition-all duration-300 text-white px-3 xl:px-4"
@@ -137,24 +154,6 @@ export function Header() {
 								Try NovelBug for Free
 							</Link>
 						</Button>
-						{/* <Button
-							size="default"
-							variant="outline"
-							className="border-slate-200 shadow-sm hover:shadow-md font-sans font-light text-xs xl:text-sm tracking-wide transition-all duration-300 px-3 xl:px-4"
-							asChild
-						>
-							<Link
-								href="https://buymeacoffee.com/novelbug"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<Coffee className="size-3 xl:size-4 mr-1.5 xl:mr-2" />
-								<span className="hidden xl:inline">
-									Buy me a coffee
-								</span>
-								<span className="xl:hidden">Coffee</span>
-							</Link>
-						</Button> */}
 					</div>
 
 					{/* Mobile/Tablet Menu Button */}
