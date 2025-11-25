@@ -45,7 +45,7 @@ const faqData = [
 	},
 	{
 		question: 'How much does NovelBug cost?',
-		answer: "NovelBug is currently in beta and we genuinely believe in the positive impact it can have on families. That's why the app is completely free to use during this phase. You can create as many bedtime stories as you want and explore everything NovelBug has to offer.\n\nBecause we're a small startup, any support means the world to us. If you'd like to help us continue building NovelBug, you can:\n• Buy us a coffee, or\n• Support us with a lifetime monthly membership at just $5/month.\n\nYour support helps us keep improving the magic 🐛💛",
+		answer: 'NovelBug is currently in beta, and we genuinely believe in the positive impact it can have on families. That’s why the app is completely free to use during this phase — you can create unlimited bedtime stories and explore everything NovelBug has to offer.For those who want to support us, we offer a lifetime membership deal at just $4.99/month. Anyone who joins during the beta will be locked in at this price forever, even as we grow and add new features.Your support helps us keep improving the magic 🐛💛',
 	},
 	{
 		question: 'What makes NovelBug different from other story apps?',
