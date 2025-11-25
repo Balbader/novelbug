@@ -107,26 +107,28 @@ export function Header() {
 					<div className="hidden lg:flex items-center gap-2 xl:gap-3">
 						<LoginLink>
 							<Button
-								variant="outline"
-								className="border-0 shadow-md hover:shadow-lg font-sans font-light text-xs xl:text-sm tracking-wide transition-all duration-300 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 px-3 xl:px-4"
+								variant="ghost"
+								className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100/50 dark:hover:bg-slate-800/30 font-sans font-light text-sm tracking-wide transition-all duration-300 px-4 cursor-pointer group rounded-md"
 							>
-								Sign in
+								<span className="relative z-10">Sign in</span>
+								<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
 							</Button>
 						</LoginLink>
 						<RegisterLink>
 							<Button
-								variant="outline"
-								className="border-0 shadow-md hover:shadow-lg font-sans font-light text-xs xl:text-sm tracking-wide transition-all duration-300 text-white px-3 xl:px-4"
+								className="border border-[#D97D55] text-[#D97D55] hover:text-white hover:bg-[#D97D55] dark:text-[#D97D55] dark:hover:text-white dark:hover:bg-[#D97D55] font-sans font-medium text-sm tracking-wide transition-all duration-300 px-4 shadow-sm hover:shadow-md bg-transparent dark:bg-transparent cursor-pointer"
 								style={{
-									backgroundColor: '#D97D55',
+									backgroundColor: 'transparent',
 								}}
 								onMouseEnter={(e) => {
 									e.currentTarget.style.backgroundColor =
-										'#C86A45';
+										'#D97D55';
+									e.currentTarget.style.color = 'white';
 								}}
 								onMouseLeave={(e) => {
 									e.currentTarget.style.backgroundColor =
-										'#D97D55';
+										'transparent';
+									e.currentTarget.style.color = '#D97D55';
 								}}
 							>
 								Sign up
