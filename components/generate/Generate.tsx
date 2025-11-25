@@ -42,8 +42,8 @@ import {
 const storyFormSchema = z.object({
 	title: z
 		.string()
-		.min(1, 'Title is required')
-		.max(255, 'Title must be less than 255 characters'),
+		.max(255, 'Title must be less than 255 characters')
+		.optional(),
 	first_name: z
 		.string()
 		.max(100, 'First name must be less than 100 characters')
@@ -794,6 +794,9 @@ export function Generate() {
 														placeholder="e.g., The Adventure of the Curious Cat"
 														className="bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11 text-base"
 														{...field}
+														value={
+															field.value || ''
+														}
 													/>
 												</FormControl>
 												<FormDescription className="text-sm text-slate-500">
@@ -823,6 +826,10 @@ export function Generate() {
 															placeholder="e.g., Emma"
 															className="bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11 text-base"
 															{...field}
+															value={
+																field.value ||
+																''
+															}
 														/>
 													</FormControl>
 													<FormDescription className="text-sm text-slate-500">
@@ -849,7 +856,10 @@ export function Generate() {
 														onValueChange={
 															field.onChange
 														}
-														value={field.value}
+														value={
+															field.value ||
+															undefined
+														}
 													>
 														<FormControl>
 															<SelectTrigger className="w-full bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11">
