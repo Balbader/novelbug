@@ -16,16 +16,13 @@ import {
 	SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { message, log, error } from '@/lib/print-helpers';
-
+import { usersService } from '@/backend/services/user.service';
 export default async function Page({
 	params,
 }: {
 	params: { username: string };
 }) {
 	const { getUser, isAuthenticated } = await getKindeServerSession();
-
-	const { username } = await params;
-	log('Username', username);
 
 	const user = await getUser();
 	log('User', user);
@@ -38,6 +35,10 @@ export default async function Page({
 		redirect('/');
 	}
 	message('User is authenticated');
+
+	const serviceUser = await usersService.getByUsername(user?.username ?? '');
+	log('Service User', serviceUser);
+
 	return (
 		<SidebarProvider>
 			<AppSidebar />
@@ -52,17 +53,20 @@ export default async function Page({
 						<Breadcrumb>
 							<BreadcrumbList>
 								<BreadcrumbItem className="hidden md:block">
-									<BreadcrumbLink href="#">
-										Building Your Application
+									<BreadcrumbLink
+										href={`/${user?.username}/dashboard`}
+									>
+										{user?.username}
 									</BreadcrumbLink>
 								</BreadcrumbItem>
 								<BreadcrumbSeparator className="hidden md:block" />
 								<BreadcrumbItem>
-									<BreadcrumbPage>Dashboard</BreadcrumbPage>
+									<BreadcrumbPage>
+										{user?.username}'s Dashboard
+									</BreadcrumbPage>
 								</BreadcrumbItem>
 							</BreadcrumbList>
 						</Breadcrumb>
-						JSON.stringify(
 					</div>
 				</header>
 				<div className="flex flex-1 flex-col gap-4 p-4 pt-0">
