@@ -5,6 +5,8 @@ import { storyGeneratorAgent } from '@/mastra/agents/story-generator-agent';
 
 interface StoryGenerationRequest {
 	title?: string;
+	first_name?: string;
+	gender?: string;
 	age_group: string;
 	language: string;
 	topic: string;
@@ -15,7 +17,16 @@ interface StoryGenerationRequest {
 export async function POST(request: NextRequest) {
 	try {
 		const body: StoryGenerationRequest = await request.json();
-		const { title, age_group, language, topic, subtopic, style } = body;
+		const {
+			title,
+			first_name,
+			gender,
+			age_group,
+			language,
+			topic,
+			subtopic,
+			style,
+		} = body;
 
 		// Validate required fields
 		if (!age_group || !language || !topic || !subtopic || !style) {
@@ -37,22 +48,42 @@ export async function POST(request: NextRequest) {
 
 		const languageName = languageNames[language] || language;
 
-		// Step 1: Generate characters using characterAgent
-		const characterPrompt = `Create 2-3 memorable characters for a ${age_group} year old story about ${topic} - specifically ${subtopic}. The story style is ${style}. The story should be written in ${languageName}. Make the characters engaging and appropriate for this age group.`;
+		// Build character prompt with optional personalization
+		let characterPrompt = `Create 2-3 memorable characters for a ${age_group} year old story about ${topic} - specifically ${subtopic}.`;
+		if (first_name && gender) {
+			characterPrompt = `Create 2-3 memorable characters for a ${age_group} year old ${gender} named ${first_name}. The story is about ${topic} - specifically ${subtopic}. Consider making ${first_name} the main character or a key character in the story.`;
+		} else if (first_name) {
+			characterPrompt = `Create 2-3 memorable characters for a ${age_group} year old child named ${first_name}. The story is about ${topic} - specifically ${subtopic}. Consider making ${first_name} the main character or a key character in the story.`;
+		} else if (gender) {
+			characterPrompt = `Create 2-3 memorable characters for a ${age_group} year old ${gender} child. The story is about ${topic} - specifically ${subtopic}.`;
+		}
+		characterPrompt += ` The story style is ${style}. The story should be written in ${languageName}. Make the characters engaging and appropriate for this age group.`;
 
 		const characterResult = await characterAgent.generate(characterPrompt);
 
-		// Step 2: Generate scenes using sceneAgent
-		const scenePrompt = `Design 3 key scenes for a ${age_group} year old story about ${topic} - specifically ${subtopic}. The story style is ${style}. The story should be written in ${languageName}. Here are the characters: ${characterResult.text}. Create scenes that form a complete narrative arc.`;
+		// Build scene prompt with optional personalization
+		let scenePrompt = `Design 3 key scenes for a ${age_group} year old story about ${topic} - specifically ${subtopic}.`;
+		if (first_name && gender) {
+			scenePrompt = `Design 3 key scenes for a ${age_group} year old story about ${topic} - specifically ${subtopic}. The main character is ${first_name}, a ${gender} child.`;
+		} else if (first_name) {
+			scenePrompt = `Design 3 key scenes for a ${age_group} year old story about ${topic} - specifically ${subtopic}. The main character is ${first_name}.`;
+		} else if (gender) {
+			scenePrompt = `Design 3 key scenes for a ${age_group} year old ${gender} child's story about ${topic} - specifically ${subtopic}.`;
+		}
+		scenePrompt += ` The story style is ${style}. The story should be written in ${languageName}. Here are the characters: ${characterResult.text}. Create scenes that form a complete narrative arc.`;
 
 		const sceneResult = await sceneAgent.generate(scenePrompt);
 
-		// Step 3: Generate the full story using storyGeneratorAgent
-		const storyPrompt = `Write a complete, engaging story for ${age_group} year old children about ${topic} - specifically ${subtopic}.
+		// Generate title if not provided
+		let finalTitle = title;
+		if (!finalTitle || finalTitle.trim() === '') {
+			const titlePrompt = `Generate an engaging, age-appropriate title for a ${age_group} year old child's story.
 
-Story Style: ${style}
-Language: ${languageName}
-${title ? `Title: ${title}` : ''}
+Story Details:
+- Topic: ${topic} - ${subtopic}
+- Style: ${style}
+- Language: ${languageName}
+${first_name ? `- Main character: ${first_name}${gender ? ` (${gender})` : ''}` : ''}
 
 Characters:
 ${characterResult.text}
@@ -60,7 +91,45 @@ ${characterResult.text}
 Scenes:
 ${sceneResult.text}
 
-Write a complete story that incorporates these characters and follows these scenes. The story should be age-appropriate, educational, engaging, and written in ${languageName}.`;
+Generate a creative, catchy title that:
+- Is appropriate for ${age_group} year old children
+- Reflects the story's topic (${topic} - ${subtopic})
+- Matches the ${style} style
+- Is written in ${languageName}
+- Is between 3-8 words
+- Is engaging and memorable
+
+Return ONLY the title, nothing else. No quotes, no explanations, just the title.`;
+
+			const titleResult = await storyGeneratorAgent.generate(titlePrompt);
+			finalTitle = titleResult.text.trim();
+			// Remove quotes if present
+			finalTitle = finalTitle.replace(/^["']|["']$/g, '');
+		}
+
+		// Build story prompt with optional personalization
+		let storyPrompt = `Write a complete, engaging story for a ${age_group} year old child. The story is about ${topic} - specifically ${subtopic}.`;
+		if (first_name && gender) {
+			storyPrompt = `Write a complete, engaging story for ${first_name}, a ${age_group} year old ${gender} child. The story is about ${topic} - specifically ${subtopic}.`;
+		} else if (first_name) {
+			storyPrompt = `Write a complete, engaging story for ${first_name}, a ${age_group} year old child. The story is about ${topic} - specifically ${subtopic}.`;
+		} else if (gender) {
+			storyPrompt = `Write a complete, engaging story for a ${age_group} year old ${gender} child. The story is about ${topic} - specifically ${subtopic}.`;
+		}
+
+		storyPrompt += `
+
+Story Title: ${finalTitle}
+Story Style: ${style}
+Language: ${languageName}
+
+Characters:
+${characterResult.text}
+
+Scenes:
+${sceneResult.text}
+
+Write a complete story that incorporates these characters and follows these scenes. The story should be age-appropriate, educational, engaging, and written in ${languageName}.${first_name ? ` Personalize the story for ${first_name} where appropriate.` : ''}`;
 
 		const storyResult = await storyGeneratorAgent.generate(storyPrompt);
 
@@ -71,7 +140,9 @@ Write a complete story that incorporates these characters and follows these scen
 				characters: characterResult.text,
 				scenes: sceneResult.text,
 				metadata: {
-					title: title || 'Untitled Story',
+					title: finalTitle,
+					first_name: first_name || '',
+					gender: gender || '',
 					age_group,
 					language,
 					topic,

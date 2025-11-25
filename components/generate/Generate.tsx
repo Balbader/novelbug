@@ -35,13 +35,20 @@ import {
 	Wand2,
 	Book,
 	PenTool,
+	User,
+	Heart,
 } from 'lucide-react';
 
 const storyFormSchema = z.object({
 	title: z
 		.string()
-		.min(1, 'Title is required')
-		.max(255, 'Title must be less than 255 characters'),
+		.max(255, 'Title must be less than 255 characters')
+		.optional(),
+	first_name: z
+		.string()
+		.max(100, 'First name must be less than 100 characters')
+		.optional(),
+	gender: z.string().optional(),
 	age_group: z.string().min(1, 'Age group is required'),
 	language: z.string().min(1, 'Language is required'),
 	topic: z.string().min(1, 'Topic is required'),
@@ -50,6 +57,13 @@ const storyFormSchema = z.object({
 });
 
 type StoryFormValues = z.infer<typeof storyFormSchema>;
+
+const genders = [
+	{ value: 'boy', label: 'Boy' },
+	{ value: 'girl', label: 'Girl' },
+	{ value: 'non-binary', label: 'Non-binary' },
+	{ value: 'prefer-not-to-say', label: 'Prefer not to say' },
+];
 
 const ageGroups = [
 	{ value: '3-5', label: '3-5 years (Preschool)' },
@@ -238,6 +252,8 @@ interface GeneratedStory {
 	scenes: string;
 	metadata: {
 		title: string;
+		first_name?: string;
+		gender?: string;
 		age_group: string;
 		language: string;
 		topic: string;
@@ -262,6 +278,8 @@ export function Generate() {
 		resolver: zodResolver(storyFormSchema),
 		defaultValues: {
 			title: '',
+			first_name: '',
+			gender: '',
 			age_group: '',
 			language: '',
 			topic: '',
@@ -353,12 +371,20 @@ export function Generate() {
 		setElapsedTime(0);
 
 		try {
+			// Filter out empty optional fields
+			const payload = {
+				...data,
+				title: data.title?.trim() || undefined,
+				first_name: data.first_name?.trim() || undefined,
+				gender: data.gender?.trim() || undefined,
+			};
+
 			const response = await fetch('/api/generate/story', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(data),
+				body: JSON.stringify(payload),
 			});
 
 			if (!response.ok) {
@@ -789,6 +815,86 @@ export function Generate() {
 											</FormItem>
 										)}
 									/>
+
+									{/* Two Column Layout for First Name and Gender */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+										{/* First Name Field */}
+										<FormField
+											control={form.control}
+											name="first_name"
+											render={({ field }) => (
+												<FormItem className="space-y-3">
+													<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
+														<User className="h-4 w-4 text-[#8B6F47]" />
+														First Name
+													</FormLabel>
+													<FormControl>
+														<Input
+															placeholder="e.g., Emma"
+															className="bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11 text-base"
+															{...field}
+														/>
+													</FormControl>
+													<FormDescription className="text-sm text-slate-500">
+														The child's first name
+														(optional - for
+														personalization)
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+
+										{/* Gender Field */}
+										<FormField
+											control={form.control}
+											name="gender"
+											render={({ field }) => (
+												<FormItem className="space-y-3">
+													<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
+														<Heart className="h-4 w-4 text-[#8B6F47]" />
+														Gender
+													</FormLabel>
+													<Select
+														onValueChange={
+															field.onChange
+														}
+														value={field.value}
+													>
+														<FormControl>
+															<SelectTrigger className="w-full bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11">
+																<SelectValue placeholder="Select gender" />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent>
+															{genders.map(
+																(gender) => (
+																	<SelectItem
+																		key={
+																			gender.value
+																		}
+																		value={
+																			gender.value
+																		}
+																	>
+																		{
+																			gender.label
+																		}
+																	</SelectItem>
+																),
+															)}
+														</SelectContent>
+													</Select>
+													<FormDescription className="text-sm text-slate-500">
+														Select the child's
+														gender (optional - for
+														personalization)
+													</FormDescription>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
+									</div>
 
 									{/* Two Column Layout for Age and Language */}
 									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
