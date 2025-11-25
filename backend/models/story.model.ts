@@ -14,4 +14,11 @@ export const storyModel = {
 			.where(eq(storiesTable.id, id));
 		return foundStory;
 	},
+	getByUserId: async (userId: string) => {
+		const foundStories = await db
+			.select()
+			.from(storiesTable)
+			.where(eq(storiesTable.user_id, userId));
+		return foundStories;
+	},
 };
