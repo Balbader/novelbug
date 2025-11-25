@@ -100,7 +100,6 @@ const topics = [
 	{ value: 'music', label: 'Music' },
 	{ value: 'sports', label: 'Sports' },
 	{ value: 'culture', label: 'Culture & Traditions' },
-	{ value: 'health', label: 'Health & Wellness' },
 ];
 
 const subtopics: Record<string, { value: string; label: string }[]> = {
@@ -157,7 +156,6 @@ const subtopics: Record<string, { value: string; label: string }[]> = {
 		{ value: 'oceans', label: 'Oceans & Seas' },
 		{ value: 'mountains', label: 'Mountains & Rivers' },
 		{ value: 'rivers', label: 'Rivers & Lakes' },
-		{ value: 'oceans', label: 'Oceans & Seas' },
 		{ value: 'climate', label: 'Climate & Weather' },
 		{ value: 'environment', label: 'Environment & Conservation' },
 		{ value: 'geology', label: 'Geology & Earth Science' },
@@ -371,7 +369,7 @@ export function Generate() {
 			const payload = {
 				...data,
 				title: data.title?.trim() || undefined,
-				first_name: data.first_name?.trim() || undefined,
+				first_name: data.first_name || undefined,
 				gender: data.gender?.trim() || undefined,
 			};
 
@@ -413,15 +411,28 @@ export function Generate() {
 	};
 
 	// Format story text to look like a real book
-	const formatStoryText = (text: string): React.ReactNode => {
+	const formatStoryText = (text: string, title?: string): React.ReactNode => {
 		if (!text) return null;
 
 		// Split by double newlines or single newlines to get paragraphs
 		// Also handle cases where text might have markdown-like formatting
-		const paragraphs = text
+		let paragraphs = text
 			.split(/\n\s*\n|\n(?=\S)/)
 			.map((p) => p.trim())
 			.filter((p) => p.length > 0);
+
+		// Remove the title if it appears as the first paragraph
+		if (title && paragraphs.length > 0) {
+			const firstParagraph = paragraphs[0];
+			// Check if the first paragraph matches the title (case-insensitive, ignoring extra whitespace)
+			if (
+				firstParagraph.toLowerCase().trim() ===
+					title.toLowerCase().trim() ||
+				firstParagraph.toLowerCase().includes(title.toLowerCase())
+			) {
+				paragraphs = paragraphs.slice(1);
+			}
+		}
 
 		return (
 			<div className="story-content">
@@ -545,10 +556,10 @@ export function Generate() {
 					<div
 						className="mb-8 rounded-lg shadow-2xl p-8 sm:p-10 md:p-12"
 						style={{
-							backgroundColor: '#F5F1E8',
+							backgroundColor: '#FFFFFF',
 							backgroundImage: `
-								linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
-								linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
+								linear-gradient(rgba(139, 111, 71, 0.08) 1px, transparent 1px),
+								linear-gradient(90deg, rgba(139, 111, 71, 0.08) 1px, transparent 1px)
 							`,
 							backgroundSize: '20px 20px',
 							boxShadow:
@@ -641,10 +652,10 @@ export function Generate() {
 						<div
 							className="mb-6 rounded-lg shadow-2xl p-8 sm:p-12 md:p-16 text-center"
 							style={{
-								backgroundColor: '#F5F1E8',
+								backgroundColor: '#FFFFFF',
 								backgroundImage: `
-									linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
-									linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
+									linear-gradient(rgba(139, 111, 71, 0.08) 1px, transparent 1px),
+									linear-gradient(90deg, rgba(139, 111, 71, 0.08) 1px, transparent 1px)
 								`,
 								backgroundSize: '20px 20px',
 								boxShadow:
@@ -677,10 +688,10 @@ export function Generate() {
 						<div
 							className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16"
 							style={{
-								backgroundColor: '#F5F1E8',
+								backgroundColor: '#FFFFFF',
 								backgroundImage: `
-									linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
-									linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
+									linear-gradient(rgba(139, 111, 71, 0.08) 1px, transparent 1px),
+									linear-gradient(90deg, rgba(139, 111, 71, 0.08) 1px, transparent 1px)
 								`,
 								backgroundSize: '20px 20px',
 								boxShadow:
@@ -690,7 +701,10 @@ export function Generate() {
 							<div className="relative z-10">
 								{/* Story Text with Book Formatting */}
 								<div className="max-w-3xl mx-auto font-serif">
-									{formatStoryText(generatedStory.story)}
+									{formatStoryText(
+										generatedStory.story,
+										generatedStory.metadata.title,
+									)}
 								</div>
 
 								{/* End of Story Decoration */}
