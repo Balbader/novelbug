@@ -6,6 +6,7 @@ export const usersTable = sqliteTable('users', {
 		.$defaultFn(() => {
 			return crypto.randomUUID();
 		}),
+	kinde_id: text('kinde_id', { length: 255 }).notNull().unique(),
 	username: text('username', { length: 255 }).notNull().unique(),
 	first_name: text('first_name', { length: 255 }).notNull(),
 	last_name: text('last_name', { length: 255 }).notNull(),
