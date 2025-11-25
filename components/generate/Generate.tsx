@@ -307,12 +307,12 @@ export function Generate() {
 				setElapsedTime((prev) => prev + 1);
 			}, 1000);
 
-			// Progress simulation: update every 300ms
+			// Progress simulation: update every 500ms (slower)
 			let currentStepIndex = 0;
 			intervalRef.current = setInterval(() => {
 				setProgress((prev) => {
-					// Gradually increase progress
-					const nextProgress = Math.min(prev + 1.5, 100);
+					// Gradually increase progress (slower increment)
+					const nextProgress = Math.min(prev + 0.8, 100);
 
 					// Update step message based on progress
 					const step = progressSteps.find(
@@ -330,7 +330,7 @@ export function Generate() {
 
 					return nextProgress;
 				});
-			}, 300);
+			}, 500);
 		} else {
 			// Clean up intervals
 			if (intervalRef.current) {
@@ -653,11 +653,10 @@ export function Generate() {
 							style={{
 								backgroundColor: '#F5F1E8',
 								backgroundImage: `
-									linear-gradient(90deg, transparent 79px, rgba(139, 111, 71, 0.1) 81px, rgba(139, 111, 71, 0.1) 82px, transparent 84px),
-									linear-gradient(#F5F1E8 0.1em, transparent 0.1em)
+									linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+									linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
 								`,
-								backgroundSize: '100% 1.5em',
-								backgroundPosition: '0 0, 0 2em',
+								backgroundSize: '20px 20px',
 								boxShadow:
 									'0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(139, 111, 71, 0.2)',
 							}}
@@ -686,29 +685,19 @@ export function Generate() {
 
 						{/* Story Content - Book Pages */}
 						<div
-							className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16 no-vertical-line-mobile"
+							className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16"
 							style={{
 								backgroundColor: '#F5F1E8',
 								backgroundImage: `
-									linear-gradient(90deg, transparent 79px, rgba(139, 111, 71, 0.1) 81px, rgba(139, 111, 71, 0.1) 82px, transparent 84px),
-									linear-gradient(#F5F1E8 0.1em, transparent 0.1em)
+									linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+									linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
 								`,
-								backgroundSize: '100% 1.5em',
-								backgroundPosition: '0 0, 0 2em',
+								backgroundSize: '20px 20px',
 								boxShadow:
 									'0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(139, 111, 71, 0.2)',
 							}}
 						>
-							<div className="relative z-10 pl-4 sm:pl-12 md:pl-16 lg:pl-20">
-								{/* Left margin line (like a notebook) */}
-								<div
-									className="absolute left-0 top-0 bottom-0 w-4 sm:w-12 md:w-16 lg:w-20"
-									style={{
-										borderRight:
-											'2px solid rgba(139, 111, 71, 0.15)',
-									}}
-								/>
-
+							<div className="relative z-10">
 								{/* Story Text with Book Formatting */}
 								<div className="max-w-3xl mx-auto font-serif">
 									{formatStoryText(generatedStory.story)}
