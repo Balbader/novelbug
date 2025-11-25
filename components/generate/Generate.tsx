@@ -455,12 +455,18 @@ export function Generate() {
 				{/* Header */}
 				<div className="text-center mb-8">
 					<h1 className="text-4xl sm:text-5xl font-serif font-light text-slate-800 mb-4">
-						{generatedStory ? 'Your Story' : 'Create Your Story'}
+						{isGenerating
+							? 'Crafting Your Story'
+							: generatedStory
+								? 'Your Story'
+								: 'Create Your Story'}
 					</h1>
 					<p className="text-lg text-slate-600">
-						{generatedStory
-							? 'Here is your magical story!'
-							: "Tell us what you'd like to learn, and we'll turn it into a magical bedtime story"}
+						{isGenerating
+							? 'Our magical storytellers are working their magic...'
+							: generatedStory
+								? 'Here is your magical story!'
+								: "Tell us what you'd like to learn, and we'll turn it into a magical bedtime story"}
 					</p>
 				</div>
 
@@ -673,7 +679,7 @@ export function Generate() {
 				)}
 
 				{/* Form Card - Book Page */}
-				{!generatedStory && (
+				{!generatedStory && !isGenerating && (
 					<div
 						className="relative rounded-lg shadow-2xl p-6 sm:p-8 md:p-10"
 						style={{
