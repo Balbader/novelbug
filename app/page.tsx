@@ -9,9 +9,9 @@ export default function Home() {
 		<div className="min-h-screen bg-white dark:bg-slate-950">
 			<HeroSection />
 			<HowItWorksSection />
+			<Pricing />
 			<FeaturesSection />
 			<AboutSection />
-			<Pricing />
 		</div>
 	);
 }
