@@ -1,4 +1,6 @@
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { AppSidebar } from '@/components/app-sidebar';
+import { redirect } from 'next/navigation';
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -13,8 +15,20 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from '@/components/ui/sidebar';
+import { message, log, error } from '@/lib/print-helpers';
 
-export default function Page() {
+export default async function Page() {
+	const { getUser, isAuthenticated } = await getKindeServerSession();
+
+	const user = await getUser();
+	log('User', user);
+	const isUserAuthenticated = await isAuthenticated();
+	log('Is user authenticated', isUserAuthenticated);
+	if (!isUserAuthenticated) {
+		error('User is not authenticated', isUserAuthenticated ?? false);
+		redirect('/');
+	}
+	message('User is authenticated');
 	return (
 		<SidebarProvider>
 			<AppSidebar />
@@ -38,7 +52,7 @@ export default function Page() {
 									<BreadcrumbPage>Dashboard</BreadcrumbPage>
 								</BreadcrumbItem>
 							</BreadcrumbList>
-						</Breadcrumb>
+						</Breadcrumb>JSON.stringify(
 					</div>
 				</header>
 				<div className="flex flex-1 flex-col gap-4 p-4 pt-0">
