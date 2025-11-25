@@ -118,11 +118,7 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							<LogoutLink>
-								{' '}
-								<LogOut />
-								Log out
-							</LogoutLink>
+							<LogoutLink> Log out</LogoutLink>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
