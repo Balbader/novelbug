@@ -17,13 +17,22 @@ import {
 } from '@/components/ui/sidebar';
 import { message, log, error } from '@/lib/print-helpers';
 
-export default async function Page() {
+export default async function Page({
+	params,
+}: {
+	params: { username: string };
+}) {
 	const { getUser, isAuthenticated } = await getKindeServerSession();
+
+	const { username } = await params;
+	log('Username', username);
 
 	const user = await getUser();
 	log('User', user);
+
 	const isUserAuthenticated = await isAuthenticated();
 	log('Is user authenticated', isUserAuthenticated);
+
 	if (!isUserAuthenticated) {
 		error('User is not authenticated', isUserAuthenticated ?? false);
 		redirect('/');
@@ -52,7 +61,8 @@ export default async function Page() {
 									<BreadcrumbPage>Dashboard</BreadcrumbPage>
 								</BreadcrumbItem>
 							</BreadcrumbList>
-						</Breadcrumb>JSON.stringify(
+						</Breadcrumb>
+						JSON.stringify(
 					</div>
 				</header>
 				<div className="flex flex-1 flex-col gap-4 p-4 pt-0">
