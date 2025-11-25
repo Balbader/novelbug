@@ -55,7 +55,6 @@ const ageGroups = [
 	{ value: '3-5', label: '3-5 years (Preschool)' },
 	{ value: '6-8', label: '6-8 years (Early Elementary)' },
 	{ value: '9-12', label: '9-12 years (Elementary)' },
-	{ value: '13+', label: '13+ years (Teen)' },
 ];
 
 const languages = [
@@ -65,6 +64,15 @@ const languages = [
 	{ value: 'de', label: 'German' },
 	{ value: 'it', label: 'Italian' },
 	{ value: 'pt', label: 'Portuguese' },
+	{ value: 'ar', label: 'Arabic' },
+	{ value: 'ru', label: 'Russian' },
+	{ value: 'zh', label: 'Chinese' },
+	{ value: 'ja', label: 'Japanese' },
+	{ value: 'ko', label: 'Korean' },
+	{ value: 'hi', label: 'Hindi' },
+	{ value: 'bn', label: 'Bengali' },
+	{ value: 'pa', label: 'Punjabi' },
+	{ value: 'ta', label: 'Tamil' },
 ];
 
 const topics = [
@@ -78,6 +86,7 @@ const topics = [
 	{ value: 'music', label: 'Music' },
 	{ value: 'sports', label: 'Sports' },
 	{ value: 'culture', label: 'Culture & Traditions' },
+	{ value: 'health', label: 'Health & Wellness' },
 ];
 
 const subtopics: Record<string, { value: string; label: string }[]> = {
@@ -89,6 +98,15 @@ const subtopics: Record<string, { value: string; label: string }[]> = {
 		{ value: 'human-body', label: 'Human Body' },
 		{ value: 'chemistry', label: 'Chemistry' },
 		{ value: 'physics', label: 'Physics' },
+		{ value: 'biology', label: 'Biology' },
+		{ value: 'earth-science', label: 'Earth Science' },
+		{ value: 'energy', label: 'Energy & Sustainability' },
+		{ value: 'technology', label: 'Technology & Innovation' },
+		{ value: 'engineering', label: 'Engineering & Design' },
+		{ value: 'mathematics', label: 'Mathematics' },
+		{ value: 'computer-science', label: 'Computer Science' },
+		{ value: 'programming', label: 'Programming & Coding' },
+		{ value: 'robotics', label: 'Robotics & Automation' },
 	],
 	history: [
 		{ value: 'ancient-civilizations', label: 'Ancient Civilizations' },
@@ -96,6 +114,12 @@ const subtopics: Record<string, { value: string; label: string }[]> = {
 		{ value: 'explorers', label: 'Explorers' },
 		{ value: 'inventions', label: 'Great Inventions' },
 		{ value: 'leaders', label: 'Historical Leaders' },
+		{ value: 'wars', label: 'Wars & Conflicts' },
+		{ value: 'peace', label: 'Peace & Diplomacy' },
+		{ value: 'culture', label: 'Culture & Traditions' },
+		{ value: 'art', label: 'Art & Creativity' },
+		{ value: 'music', label: 'Music' },
+		{ value: 'sports', label: 'Sports' },
 	],
 	math: [
 		{ value: 'counting', label: 'Counting & Numbers' },
@@ -103,6 +127,14 @@ const subtopics: Record<string, { value: string; label: string }[]> = {
 		{ value: 'patterns', label: 'Patterns' },
 		{ value: 'measurement', label: 'Measurement' },
 		{ value: 'time', label: 'Time & Clocks' },
+		{ value: 'algebra', label: 'Algebra' },
+		{ value: 'geometry', label: 'Geometry' },
+		{ value: 'calculus', label: 'Calculus' },
+		{ value: 'statistics', label: 'Statistics' },
+		{ value: 'probability', label: 'Probability' },
+		{ value: 'logic', label: 'Logic & Reasoning' },
+		{ value: 'number-theory', label: 'Number Theory' },
+		{ value: 'discrete-math', label: 'Discrete Mathematics' },
 	],
 	geography: [
 		{ value: 'continents', label: 'Continents' },
@@ -110,6 +142,13 @@ const subtopics: Record<string, { value: string; label: string }[]> = {
 		{ value: 'landmarks', label: 'Famous Landmarks' },
 		{ value: 'oceans', label: 'Oceans & Seas' },
 		{ value: 'mountains', label: 'Mountains & Rivers' },
+		{ value: 'rivers', label: 'Rivers & Lakes' },
+		{ value: 'oceans', label: 'Oceans & Seas' },
+		{ value: 'climate', label: 'Climate & Weather' },
+		{ value: 'environment', label: 'Environment & Conservation' },
+		{ value: 'geology', label: 'Geology & Earth Science' },
+		{ value: 'meteorology', label: 'Meteorology & Weather' },
+		{ value: 'oceanography', label: 'Oceanography & Marine Science' },
 	],
 	nature: [
 		{ value: 'forest', label: 'Forest Animals' },
@@ -118,6 +157,13 @@ const subtopics: Record<string, { value: string; label: string }[]> = {
 		{ value: 'birds', label: 'Birds' },
 		{ value: 'insects', label: 'Insects' },
 		{ value: 'trees', label: 'Trees & Forests' },
+		{ value: 'plants', label: 'Plants' },
+		{ value: 'weather', label: 'Weather' },
+		{ value: 'climate', label: 'Climate' },
+		{ value: 'environment', label: 'Environment' },
+		{ value: 'geology', label: 'Geology' },
+		{ value: 'meteorology', label: 'Meteorology' },
+		{ value: 'oceanography', label: 'Oceanography' },
 	],
 	space: [
 		{ value: 'planets', label: 'Planets' },
@@ -247,12 +293,12 @@ export function Generate() {
 				setElapsedTime((prev) => prev + 1);
 			}, 1000);
 
-			// Progress simulation: update every 300ms
+			// Progress simulation: update every 500ms (slower)
 			let currentStepIndex = 0;
 			intervalRef.current = setInterval(() => {
 				setProgress((prev) => {
-					// Gradually increase progress
-					const nextProgress = Math.min(prev + 1.5, 100);
+					// Gradually increase progress (slower increment)
+					const nextProgress = Math.min(prev + 0.8, 100);
 
 					// Update step message based on progress
 					const step = progressSteps.find(
@@ -270,7 +316,7 @@ export function Generate() {
 
 					return nextProgress;
 				});
-			}, 300);
+			}, 500);
 		} else {
 			// Clean up intervals
 			if (intervalRef.current) {
