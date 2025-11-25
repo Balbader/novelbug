@@ -35,20 +35,13 @@ import {
 	Wand2,
 	Book,
 	PenTool,
-	User,
-	Heart,
 } from 'lucide-react';
 
 const storyFormSchema = z.object({
 	title: z
 		.string()
-		.max(255, 'Title must be less than 255 characters')
-		.optional(),
-	first_name: z
-		.string()
-		.max(100, 'First name must be less than 100 characters')
-		.optional(),
-	gender: z.string().optional(),
+		.min(1, 'Title is required')
+		.max(255, 'Title must be less than 255 characters'),
 	age_group: z.string().min(1, 'Age group is required'),
 	language: z.string().min(1, 'Language is required'),
 	topic: z.string().min(1, 'Topic is required'),
@@ -57,13 +50,6 @@ const storyFormSchema = z.object({
 });
 
 type StoryFormValues = z.infer<typeof storyFormSchema>;
-
-const genders = [
-	{ value: 'boy', label: 'Boy' },
-	{ value: 'girl', label: 'Girl' },
-	{ value: 'non-binary', label: 'Non-binary' },
-	{ value: 'prefer-not-to-say', label: 'Prefer not to say' },
-];
 
 const ageGroups = [
 	{ value: '3-5', label: '3-5 years (Preschool)' },
@@ -252,8 +238,6 @@ interface GeneratedStory {
 	scenes: string;
 	metadata: {
 		title: string;
-		first_name?: string;
-		gender?: string;
 		age_group: string;
 		language: string;
 		topic: string;
@@ -278,8 +262,6 @@ export function Generate() {
 		resolver: zodResolver(storyFormSchema),
 		defaultValues: {
 			title: '',
-			first_name: '',
-			gender: '',
 			age_group: '',
 			language: '',
 			topic: '',
@@ -311,12 +293,12 @@ export function Generate() {
 				setElapsedTime((prev) => prev + 1);
 			}, 1000);
 
-			// Progress simulation: update every 500ms (slower)
+			// Progress simulation: update every 300ms
 			let currentStepIndex = 0;
 			intervalRef.current = setInterval(() => {
 				setProgress((prev) => {
-					// Gradually increase progress (slower increment)
-					const nextProgress = Math.min(prev + 0.8, 100);
+					// Gradually increase progress
+					const nextProgress = Math.min(prev + 1.5, 100);
 
 					// Update step message based on progress
 					const step = progressSteps.find(
@@ -334,7 +316,7 @@ export function Generate() {
 
 					return nextProgress;
 				});
-			}, 500);
+			}, 300);
 		} else {
 			// Clean up intervals
 			if (intervalRef.current) {
@@ -371,20 +353,12 @@ export function Generate() {
 		setElapsedTime(0);
 
 		try {
-			// Filter out empty optional fields
-			const payload = {
-				...data,
-				title: data.title?.trim() || undefined,
-				first_name: data.first_name?.trim() || undefined,
-				gender: data.gender?.trim() || undefined,
-			};
-
 			const response = await fetch('/api/generate/story', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(payload),
+				body: JSON.stringify(data),
 			});
 
 			if (!response.ok) {
@@ -552,23 +526,23 @@ export function Generate() {
 				{/* Progress Bar and Timer */}
 				{isGenerating && (
 					<div
-						className="mb-8 rounded-lg shadow-2xl p-8 sm:p-10 md:p-12"
+						className="mb-8 rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 no-vertical-line-mobile"
 						style={{
 							backgroundColor: '#F5F1E8',
 							backgroundImage: `
-								linear-gradient(90deg, transparent 79px, rgba(139, 111, 71, 0.1) 81px, rgba(139, 111, 71, 0.1) 82px, transparent 84px),
-								linear-gradient(#F5F1E8 0.1em, transparent 0.1em)
-							`,
+									linear-gradient(90deg, transparent 79px, rgba(139, 111, 71, 0.1) 81px, rgba(139, 111, 71, 0.1) 82px, transparent 84px),
+									linear-gradient(#F5F1E8 0.1em, transparent 0.1em)
+								`,
 							backgroundSize: '100% 1.5em',
 							backgroundPosition: '0 0, 0 2em',
 							boxShadow:
 								'0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(139, 111, 71, 0.2)',
 						}}
 					>
-						<div className="relative z-10 pl-12 sm:pl-16">
+						<div className="relative z-10 pl-4 sm:pl-12 md:pl-16">
 							{/* Left margin line */}
 							<div
-								className="absolute left-0 top-0 bottom-0 w-12 sm:w-16"
+								className="absolute left-0 top-0 bottom-0 w-4 sm:w-12 md:w-16"
 								style={{
 									borderRight:
 										'2px solid rgba(139, 111, 71, 0.15)',
@@ -695,7 +669,7 @@ export function Generate() {
 
 						{/* Story Content - Book Pages */}
 						<div
-							className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16"
+							className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16 no-vertical-line-mobile"
 							style={{
 								backgroundColor: '#F5F1E8',
 								backgroundImage: `
@@ -708,10 +682,10 @@ export function Generate() {
 									'0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(139, 111, 71, 0.2)',
 							}}
 						>
-							<div className="relative z-10 pl-12 sm:pl-16 md:pl-20">
+							<div className="relative z-10 pl-4 sm:pl-12 md:pl-16 lg:pl-20">
 								{/* Left margin line (like a notebook) */}
 								<div
-									className="absolute left-0 top-0 bottom-0 w-12 sm:w-16 md:w-20"
+									className="absolute left-0 top-0 bottom-0 w-4 sm:w-12 md:w-16 lg:w-20"
 									style={{
 										borderRight:
 											'2px solid rgba(139, 111, 71, 0.15)',
@@ -753,7 +727,7 @@ export function Generate() {
 				{/* Form Card - Book Page */}
 				{!generatedStory && !isGenerating && (
 					<div
-						className="relative rounded-lg shadow-2xl p-6 sm:p-8 md:p-10"
+						className="relative rounded-lg shadow-2xl p-6 sm:p-8 md:p-10 no-vertical-line-mobile"
 						style={{
 							backgroundColor: '#F5F1E8',
 							backgroundImage: `
@@ -768,7 +742,7 @@ export function Generate() {
 					>
 						{/* Left margin line (like a notebook) */}
 						<div
-							className="absolute left-0 top-0 bottom-0 w-12 sm:w-16"
+							className="absolute left-0 top-0 bottom-0 w-4 sm:w-12 md:w-16"
 							style={{
 								borderRight:
 									'2px solid rgba(139, 111, 71, 0.15)',
@@ -783,7 +757,7 @@ export function Generate() {
 							}}
 						/>
 
-						<div className="relative z-10 pl-12 sm:pl-16 text-slate-800">
+						<div className="relative z-10 pl-4 sm:pl-12 md:pl-16 text-slate-800">
 							<Form {...form}>
 								<form
 									onSubmit={form.handleSubmit(onSubmit)}
@@ -815,86 +789,6 @@ export function Generate() {
 											</FormItem>
 										)}
 									/>
-
-									{/* Two Column Layout for First Name and Gender */}
-									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-										{/* First Name Field */}
-										<FormField
-											control={form.control}
-											name="first_name"
-											render={({ field }) => (
-												<FormItem className="space-y-3">
-													<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
-														<User className="h-4 w-4 text-[#8B6F47]" />
-														First Name
-													</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="e.g., Emma"
-															className="bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11 text-base"
-															{...field}
-														/>
-													</FormControl>
-													<FormDescription className="text-sm text-slate-500">
-														The child's first name
-														(optional - for
-														personalization)
-													</FormDescription>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-
-										{/* Gender Field */}
-										<FormField
-											control={form.control}
-											name="gender"
-											render={({ field }) => (
-												<FormItem className="space-y-3">
-													<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
-														<Heart className="h-4 w-4 text-[#8B6F47]" />
-														Gender
-													</FormLabel>
-													<Select
-														onValueChange={
-															field.onChange
-														}
-														value={field.value}
-													>
-														<FormControl>
-															<SelectTrigger className="w-full bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11">
-																<SelectValue placeholder="Select gender" />
-															</SelectTrigger>
-														</FormControl>
-														<SelectContent>
-															{genders.map(
-																(gender) => (
-																	<SelectItem
-																		key={
-																			gender.value
-																		}
-																		value={
-																			gender.value
-																		}
-																	>
-																		{
-																			gender.label
-																		}
-																	</SelectItem>
-																),
-															)}
-														</SelectContent>
-													</Select>
-													<FormDescription className="text-sm text-slate-500">
-														Select the child's
-														gender (optional - for
-														personalization)
-													</FormDescription>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
-									</div>
 
 									{/* Two Column Layout for Age and Language */}
 									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
