@@ -543,29 +543,19 @@ export function Generate() {
 				{/* Progress Bar and Timer */}
 				{isGenerating && (
 					<div
-						className="mb-8 rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 no-vertical-line-mobile"
+						className="mb-8 rounded-lg shadow-2xl p-8 sm:p-10 md:p-12"
 						style={{
 							backgroundColor: '#F5F1E8',
 							backgroundImage: `
-									linear-gradient(90deg, transparent 79px, rgba(139, 111, 71, 0.1) 81px, rgba(139, 111, 71, 0.1) 82px, transparent 84px),
-									linear-gradient(#F5F1E8 0.1em, transparent 0.1em)
-								`,
-							backgroundSize: '100% 1.5em',
-							backgroundPosition: '0 0, 0 2em',
+								linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+								linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
+							`,
+							backgroundSize: '20px 20px',
 							boxShadow:
 								'0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(139, 111, 71, 0.2)',
 						}}
 					>
-						<div className="relative z-10 pl-4 sm:pl-12 md:pl-16">
-							{/* Left margin line */}
-							<div
-								className="absolute left-0 top-0 bottom-0 w-4 sm:w-12 md:w-16"
-								style={{
-									borderRight:
-										'2px solid rgba(139, 111, 71, 0.15)',
-								}}
-							/>
-
+						<div className="relative z-10">
 							<div className="space-y-6">
 								{/* Header */}
 								<div className="text-center">
