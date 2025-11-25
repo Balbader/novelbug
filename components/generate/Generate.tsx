@@ -490,11 +490,6 @@ export function Generate() {
 			className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 relative"
 			style={{
 				backgroundColor: '#F5F1E8',
-				backgroundImage: `
-					linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
-					linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
-				`,
-				backgroundSize: '20px 20px',
 			}}
 		>
 			<div className="max-w-4xl mx-auto relative z-10">
@@ -727,15 +722,14 @@ export function Generate() {
 				{/* Form Card - Book Page */}
 				{!generatedStory && !isGenerating && (
 					<div
-						className="relative rounded-lg shadow-2xl p-6 sm:p-8 md:p-10 no-vertical-line-mobile"
+						className="relative rounded-lg shadow-2xl p-6 sm:p-8 md:p-10"
 						style={{
 							backgroundColor: '#F5F1E8',
 							backgroundImage: `
-								linear-gradient(90deg, transparent 79px, rgba(139, 111, 71, 0.1) 81px, rgba(139, 111, 71, 0.1) 82px, transparent 84px),
-								linear-gradient(#F5F1E8 0.1em, transparent 0.1em)
+								linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+								linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
 							`,
-							backgroundSize: '100% 1.5em',
-							backgroundPosition: '0 0, 0 2em',
+							backgroundSize: '20px 20px',
 							boxShadow:
 								'0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(139, 111, 71, 0.2)',
 						}}
