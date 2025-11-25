@@ -154,7 +154,7 @@ export function HeroSection() {
 						learn into stories they'll want to hear.
 					</p>
 
-					<Link href="/auth" className="sm:hidden">
+					<Link href="/generate" className="sm:hidden">
 						<Button
 							size="lg"
 							className="group relative text-sm sm:text-base px-8 sm:px-12 py-5 sm:py-6 text-white font-sans font-light tracking-wide rounded-2xl shadow-sm w-full sm:w-auto overflow-hidden z-10 border-0 cursor-pointer"
@@ -175,7 +175,7 @@ export function HeroSection() {
 								className="size-4 mr-2.5 sm:mr-3 relative z-10"
 							/>
 							<span className="whitespace-nowrap relative z-10">
-								Get Started
+								Generate My First Story
 							</span>
 						</Button>
 					</Link>
