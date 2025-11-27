@@ -82,4 +82,7 @@ export const storiesService = {
 	getStoriesByUserIdWithDetails(userId: string) {
 		return model.storyModel.getByUserIdWithDetails(userId);
 	},
+	getStoryWithDetails(id: string) {
+		return model.storyModel.getByIdWithDetails(id);
+	},
 };

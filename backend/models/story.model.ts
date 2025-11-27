@@ -69,4 +69,30 @@ export const storyModel = {
 
 		return storiesWithDetails;
 	},
+	getByIdWithDetails: async (id: string) => {
+		const [story] = await db
+			.select()
+			.from(storiesTable)
+			.where(eq(storiesTable.id, id));
+
+		if (!story) {
+			return null;
+		}
+
+		const [storyData] = await db
+			.select()
+			.from(storiesDataTable)
+			.where(eq(storiesDataTable.id, story.story_data_id));
+
+		const [storyOutput] = await db
+			.select()
+			.from(storiesOutputTable)
+			.where(eq(storiesOutputTable.id, story.story_output_id));
+
+		return {
+			...story,
+			storyData,
+			storyOutput,
+		};
+	},
 };

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -65,7 +65,7 @@ export default function MyStories() {
 	const [filterTopic, setFilterTopic] = useState<string>('all');
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
-
+	const router = useRouter();
 	const storiesRef = useRef<HTMLDivElement>(null);
 	const headerRef = useRef<HTMLDivElement>(null);
 	const searchRef = useRef<HTMLDivElement>(null);
@@ -496,6 +496,9 @@ export default function MyStories() {
 										variant="ghost"
 										size="sm"
 										className="w-full justify-start text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-[#D97D55] font-sans font-light h-8 sm:h-9"
+										onClick={() => {
+											router.push(`/${username}/dashboard/my-stories/${story.id}`);
+										}}
 									>
 										Read story
 										<ArrowRight className="size-3 sm:size-4 ml-1 sm:ml-2" />
