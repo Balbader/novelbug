@@ -23,11 +23,8 @@ export default async function Page({
 }: {
 	params: Promise<{ username: string }>;
 }) {
-	// Await params as it's now a Promise in Next.js 15+
 	const { username } = await params;
-
 	const { getUser, isAuthenticated } = await getKindeServerSession();
-
 	const user = await getUser();
 	log('User', user);
 
