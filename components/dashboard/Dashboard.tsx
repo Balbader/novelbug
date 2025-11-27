@@ -1,0 +1,615 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
+import {
+	Sparkles,
+	BookOpen,
+	TrendingUp,
+	Heart,
+	Clock,
+	Star,
+	Plus,
+	ArrowRight,
+	BookMarked,
+	Palette,
+	Users,
+	Globe,
+} from 'lucide-react';
+import { usePathname } from 'next/navigation';
+
+interface Story {
+	id: string;
+	title: string;
+	topic: string;
+	subtopic: string;
+	style: string;
+	age_group: string;
+	language: string;
+	created_at: Date;
+}
+
+interface DashboardStats {
+	totalStories: number;
+	favoriteTopic: string;
+	totalReadingTime: number;
+	recentStories: Story[];
+}
+
+export default function Dashboard() {
+	const [stats, setStats] = useState<DashboardStats>({
+		totalStories: 0,
+		favoriteTopic: '',
+		totalReadingTime: 0,
+		recentStories: [],
+	});
+	const [isLoading, setIsLoading] = useState(true);
+	const pathname = usePathname();
+	const username = pathname?.split('/')[1] || '';
+
+	const welcomeRef = useRef<HTMLDivElement>(null);
+	const statsRef = useRef<HTMLDivElement>(null);
+	const storiesRef = useRef<HTMLDivElement>(null);
+	const quickActionsRef = useRef<HTMLDivElement>(null);
+
+	// Fetch user stories
+	useEffect(() => {
+		const fetchStories = async () => {
+			try {
+				// TODO: Replace with actual API call when available
+				// For now, using mock data
+				setStats({
+					totalStories: 0,
+					favoriteTopic: '',
+					totalReadingTime: 0,
+					recentStories: [],
+				});
+				setIsLoading(false);
+			} catch (error) {
+				console.error('Failed to fetch stories:', error);
+				setIsLoading(false);
+			}
+		};
+
+		fetchStories();
+	}, []);
+
+	// GSAP Animations
+	useEffect(() => {
+		const ctx = gsap.context(() => {
+			// Welcome section animation
+			if (welcomeRef.current) {
+				gsap.from(welcomeRef.current.children, {
+					opacity: 0,
+					y: 20,
+					duration: 0.8,
+					stagger: 0.15,
+					ease: 'power2.out',
+					delay: 0.2,
+				});
+			}
+
+			// Stats cards animation
+			if (statsRef.current) {
+				const cards = Array.from(statsRef.current.children);
+				gsap.from(cards, {
+					opacity: 0,
+					scale: 0.9,
+					duration: 0.6,
+					stagger: 0.1,
+					ease: 'back.out(1.2)',
+					delay: 0.4,
+				});
+			}
+
+			// Stories grid animation
+			if (storiesRef.current) {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								const items = Array.from(
+									entry.target.children,
+								) as HTMLElement[];
+								gsap.from(items, {
+									opacity: 0,
+									y: 30,
+									duration: 0.6,
+									stagger: 0.08,
+									ease: 'power2.out',
+								});
+								observer.unobserve(entry.target);
+							}
+						});
+					},
+					{ threshold: 0.1 },
+				);
+				observer.observe(storiesRef.current);
+			}
+
+			// Quick actions animation
+			if (quickActionsRef.current) {
+				gsap.from(quickActionsRef.current.children, {
+					opacity: 0,
+					x: -20,
+					duration: 0.6,
+					stagger: 0.1,
+					ease: 'power2.out',
+					delay: 0.6,
+				});
+			}
+		});
+
+		return () => ctx.revert();
+	}, [stats]);
+
+	const formatDate = (date: Date | string) => {
+		const d = typeof date === 'string' ? new Date(date) : date;
+		return new Intl.DateTimeFormat('en-US', {
+			month: 'short',
+			day: 'numeric',
+			year: 'numeric',
+		}).format(d);
+	};
+
+	return (
+		<div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50/50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
+			<div className="max-w-7xl mx-auto space-y-4 sm:space-y-6 md:space-y-8">
+				{/* Welcome Section */}
+				<div ref={welcomeRef} className="space-y-3 sm:space-y-4">
+					<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+						<div className="flex-1 min-w-0">
+							<h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-slate-900 dark:text-slate-50 mb-1 sm:mb-2 tracking-tight leading-tight">
+								Welcome Back! ✨
+							</h1>
+							<p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 font-sans font-light tracking-wide">
+								Ready to create more magical bedtime stories?
+							</p>
+						</div>
+						<Link
+							href={`/${username}/dashboard/generate`}
+							className="sm:shrink-0 w-full sm:w-auto"
+						>
+							<Button
+								size="lg"
+								className="w-full sm:w-auto font-sans font-light tracking-wide rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 text-white text-sm sm:text-base px-6 sm:px-8"
+								style={{
+									backgroundColor: '#D97D55',
+								}}
+								onMouseEnter={(e) => {
+									gsap.to(e.currentTarget, {
+										scale: 1.02,
+										duration: 0.3,
+										ease: 'power2.out',
+									});
+								}}
+								onMouseLeave={(e) => {
+									gsap.to(e.currentTarget, {
+										scale: 1,
+										duration: 0.3,
+										ease: 'power2.out',
+									});
+								}}
+							>
+								<Sparkles className="size-3 sm:size-4 mr-2" />
+								<span className="whitespace-nowrap">
+									Create New Story
+								</span>
+							</Button>
+						</Link>
+					</div>
+				</div>
+
+				{/* Quick Actions */}
+				<div
+					ref={quickActionsRef}
+					className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
+				>
+					<Link href={`/${username}/dashboard/generate`}>
+						<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+							<CardContent className="p-4 sm:p-5 md:p-6">
+								<div className="flex items-center gap-3 sm:gap-4">
+									<div
+										className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shrink-0"
+										style={{
+											backgroundColor: '#F4E9D7',
+										}}
+									>
+										<Plus
+											className="size-5 sm:size-6"
+											style={{ color: '#D97D55' }}
+										/>
+									</div>
+									<div className="flex-1 min-w-0">
+										<h3 className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg mb-0.5 sm:mb-1 truncate">
+											New Story
+										</h3>
+										<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light truncate">
+											Start creating
+										</p>
+									</div>
+									<ArrowRight className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0" />
+								</div>
+							</CardContent>
+						</Card>
+					</Link>
+
+					<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+						<CardContent className="p-4 sm:p-5 md:p-6">
+							<div className="flex items-center gap-3 sm:gap-4">
+								<div
+									className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shrink-0"
+									style={{
+										backgroundColor: '#F4E9D7',
+									}}
+								>
+									<BookOpen
+										className="size-5 sm:size-6"
+										style={{ color: '#D97D55' }}
+									/>
+								</div>
+								<div className="flex-1 min-w-0">
+									<h3 className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg mb-0.5 sm:mb-1 truncate">
+										My Stories
+									</h3>
+									<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light truncate">
+										View all stories
+									</p>
+								</div>
+								<ArrowRight className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0" />
+							</div>
+						</CardContent>
+					</Card>
+
+					<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+						<CardContent className="p-4 sm:p-5 md:p-6">
+							<div className="flex items-center gap-3 sm:gap-4">
+								<div
+									className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shrink-0"
+									style={{
+										backgroundColor: '#F4E9D7',
+									}}
+								>
+									<Star
+										className="size-5 sm:size-6"
+										style={{ color: '#D97D55' }}
+									/>
+								</div>
+								<div className="flex-1 min-w-0">
+									<h3 className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg mb-0.5 sm:mb-1 truncate">
+										Favorites
+									</h3>
+									<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light truncate">
+										Saved stories
+									</p>
+								</div>
+								<ArrowRight className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0" />
+							</div>
+						</CardContent>
+					</Card>
+
+					<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+						<CardContent className="p-4 sm:p-5 md:p-6">
+							<div className="flex items-center gap-3 sm:gap-4">
+								<div
+									className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shrink-0"
+									style={{
+										backgroundColor: '#F4E9D7',
+									}}
+								>
+									<Users
+										className="size-5 sm:size-6"
+										style={{ color: '#D97D55' }}
+									/>
+								</div>
+								<div className="flex-1 min-w-0">
+									<h3 className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg mb-0.5 sm:mb-1 truncate">
+										Community
+									</h3>
+									<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light truncate">
+										Explore stories
+									</p>
+								</div>
+								<ArrowRight className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0" />
+							</div>
+						</CardContent>
+					</Card>
+				</div>
+
+				{/* Statistics Cards */}
+				<div
+					ref={statsRef}
+					className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
+				>
+					<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+						<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
+							<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
+								Total Stories
+							</CardDescription>
+						</CardHeader>
+						<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+							<div className="flex items-center gap-2 sm:gap-3">
+								<div
+									className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
+									style={{
+										backgroundColor: '#F4E9D7',
+									}}
+								>
+									<BookOpen
+										className="size-4 sm:size-5"
+										style={{ color: '#D97D55' }}
+									/>
+								</div>
+								<div className="min-w-0 flex-1">
+									<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
+										{stats.totalStories}
+									</CardTitle>
+									<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
+										Stories created
+									</p>
+								</div>
+							</div>
+						</CardContent>
+					</Card>
+
+					<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+						<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
+							<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
+								Favorite Topic
+							</CardDescription>
+						</CardHeader>
+						<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+							<div className="flex items-center gap-2 sm:gap-3">
+								<div
+									className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
+									style={{
+										backgroundColor: '#F4E9D7',
+									}}
+								>
+									<Heart
+										className="size-4 sm:size-5"
+										style={{ color: '#D97D55' }}
+									/>
+								</div>
+								<div className="min-w-0 flex-1">
+									<CardTitle className="text-lg sm:text-xl font-serif font-normal text-slate-900 dark:text-slate-50 capitalize truncate">
+										{stats.favoriteTopic || 'None yet'}
+									</CardTitle>
+									<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
+										Most created
+									</p>
+								</div>
+							</div>
+						</CardContent>
+					</Card>
+
+					<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+						<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
+							<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
+								Reading Time
+							</CardDescription>
+						</CardHeader>
+						<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+							<div className="flex items-center gap-2 sm:gap-3">
+								<div
+									className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
+									style={{
+										backgroundColor: '#F4E9D7',
+									}}
+								>
+									<Clock
+										className="size-4 sm:size-5"
+										style={{ color: '#D97D55' }}
+									/>
+								</div>
+								<div className="min-w-0 flex-1">
+									<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
+										{stats.totalReadingTime}
+									</CardTitle>
+									<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
+										Minutes read
+									</p>
+								</div>
+							</div>
+						</CardContent>
+					</Card>
+
+					<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+						<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
+							<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
+								This Week
+							</CardDescription>
+						</CardHeader>
+						<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+							<div className="flex items-center gap-2 sm:gap-3">
+								<div
+									className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
+									style={{
+										backgroundColor: '#F4E9D7',
+									}}
+								>
+									<TrendingUp
+										className="size-4 sm:size-5"
+										style={{ color: '#D97D55' }}
+									/>
+								</div>
+								<div className="min-w-0 flex-1">
+									<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
+										0
+									</CardTitle>
+									<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
+										New stories
+									</p>
+								</div>
+							</div>
+						</CardContent>
+					</Card>
+				</div>
+
+				{/* Recent Stories */}
+				<div className="space-y-3 sm:space-y-4">
+					<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+						<h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50">
+							Recent Stories
+						</h2>
+						{stats.recentStories.length > 0 && (
+							<Link
+								href="#"
+								className="text-xs sm:text-sm text-[#D97D55] hover:text-[#C86A45] transition-colors font-sans font-light flex items-center gap-1 self-start sm:self-auto"
+							>
+								View all
+								<ArrowRight className="size-3 sm:size-4" />
+							</Link>
+						)}
+					</div>
+
+					{isLoading ? (
+						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+							{[1, 2, 3].map((i) => (
+								<Card
+									key={i}
+									className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 animate-pulse h-full"
+								>
+									<CardHeader className="px-4 sm:px-6 pt-4 sm:pt-6">
+										<div className="h-5 sm:h-6 bg-slate-200 dark:bg-slate-800 rounded w-3/4" />
+										<div className="h-3 sm:h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2 mt-2" />
+									</CardHeader>
+									<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+										<div className="h-16 sm:h-20 bg-slate-200 dark:bg-slate-800 rounded" />
+									</CardContent>
+								</Card>
+							))}
+						</div>
+					) : stats.recentStories.length > 0 ? (
+						<div
+							ref={storiesRef}
+							className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6"
+						>
+							{stats.recentStories.map((story) => (
+								<Card
+									key={story.id}
+									className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full flex flex-col"
+									onMouseEnter={(e) => {
+										gsap.to(e.currentTarget, {
+											y: -4,
+											duration: 0.3,
+											ease: 'power2.out',
+										});
+									}}
+									onMouseLeave={(e) => {
+										gsap.to(e.currentTarget, {
+											y: 0,
+											duration: 0.3,
+											ease: 'power2.out',
+										});
+									}}
+								>
+									<CardHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3">
+										<div className="flex items-start justify-between gap-2">
+											<CardTitle className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg line-clamp-2 group-hover:text-[#D97D55] transition-colors flex-1 min-w-0">
+												{story.title}
+											</CardTitle>
+											<BookOpen className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0 mt-0.5 sm:mt-1" />
+										</div>
+										<CardDescription className="font-sans font-light text-xs sm:text-sm mt-1">
+											{formatDate(story.created_at)}
+										</CardDescription>
+									</CardHeader>
+									<CardContent className="px-4 sm:px-6 pb-3 flex-1">
+										<div className="flex flex-wrap gap-1.5 sm:gap-2">
+											<span
+												className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-sans font-light"
+												style={{
+													backgroundColor: '#F4E9D7',
+													color: '#D97D55',
+												}}
+											>
+												{story.topic}
+											</span>
+											<span
+												className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-sans font-light"
+												style={{
+													backgroundColor: '#F4E9D7',
+													color: '#D97D55',
+												}}
+											>
+												{story.style}
+											</span>
+											<span
+												className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-sans font-light"
+												style={{
+													backgroundColor: '#F4E9D7',
+													color: '#D97D55',
+												}}
+											>
+												{story.age_group}
+											</span>
+										</div>
+									</CardContent>
+									<CardFooter className="px-4 sm:px-6 pb-4 sm:pb-6 pt-0">
+										<Button
+											variant="ghost"
+											size="sm"
+											className="w-full justify-start text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-[#D97D55] font-sans font-light h-8 sm:h-9"
+										>
+											Read story
+											<ArrowRight className="size-3 sm:size-4 ml-1 sm:ml-2" />
+										</Button>
+									</CardFooter>
+								</Card>
+							))}
+						</div>
+					) : (
+						<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950">
+							<CardContent className="p-6 sm:p-8 md:p-12 text-center">
+								<div
+									className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4"
+									style={{
+										backgroundColor: '#F4E9D7',
+									}}
+								>
+									<BookOpen
+										className="size-6 sm:size-7 md:size-8"
+										style={{ color: '#D97D55' }}
+									/>
+								</div>
+								<h3 className="text-lg sm:text-xl md:text-2xl font-serif font-normal text-slate-900 dark:text-slate-50 mb-1 sm:mb-2 px-2">
+									No stories yet
+								</h3>
+								<p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-sans font-light mb-4 sm:mb-6 max-w-md mx-auto px-2">
+									Start your storytelling journey by creating
+									your first magical bedtime story!
+								</p>
+								<Link
+									href={`/${username}/dashboard/generate`}
+									className="inline-block"
+								>
+									<Button
+										size="lg"
+										className="font-sans font-light tracking-wide rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 text-white text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto"
+										style={{
+											backgroundColor: '#D97D55',
+										}}
+									>
+										<Sparkles className="size-3 sm:size-4 mr-2" />
+										Create Your First Story
+									</Button>
+								</Link>
+							</CardContent>
+						</Card>
+					)}
+				</div>
+			</div>
+		</div>
+	);
+}
