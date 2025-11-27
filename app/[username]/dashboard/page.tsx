@@ -50,15 +50,48 @@ export default async function Page({
 		// Increment login count and update last login timestamp
 		serviceUser = await usersService.incrementLoginCount(user.id);
 		log('Login count incremented', serviceUser.login_count);
-	} catch (err) {
+	} catch (err: any) {
 		// User doesn't exist in database, create it from Kinde session
-		log('User not found in database, creating from Kinde session', user.id);
+		log('User not found in database, creating from Kinde session', {
+			kindeId: user.id,
+			error: err?.message,
+		});
+
+		// Generate username with validation
+		let generatedUsername: string;
+		if (user.username && user.username.trim()) {
+			generatedUsername = user.username.trim().toLowerCase();
+		} else if (user.email) {
+			const emailPrefix = user.email.split('@')[0];
+			generatedUsername = emailPrefix?.trim().toLowerCase() || '';
+		} else if (user.id) {
+			generatedUsername = `user_${user.id.substring(0, 8)}`;
+		} else {
+			error('Unable to generate username: missing email and username', {
+				user,
+			});
+			redirect('/');
+			return;
+		}
+
+		if (!generatedUsername) {
+			error('Generated username is empty', { user });
+			redirect('/');
+			return;
+		}
+
+		if (!user.email) {
+			error('User email is required but missing', { user });
+			redirect('/');
+			return;
+		}
+
 		const newUserData = {
-			kinde_id: user.id || '',
-			username: user.username || user.email?.split('@')[0] || '',
-			email: user.email || '',
-			first_name: user.given_name || '',
-			last_name: user.family_name || '',
+			kinde_id: user.id,
+			username: generatedUsername,
+			email: user.email,
+			first_name: user.given_name || 'Unknown',
+			last_name: user.family_name || 'Unknown',
 			date_of_birth: new Date(),
 			country: 'Unknown',
 			is_password_reset_requested: false,
@@ -69,14 +102,31 @@ export default async function Page({
 		};
 		try {
 			serviceUser = await usersService.createUser(newUserData);
-			log('User created from Kinde session', serviceUser.id);
-		} catch (createErr) {
-			error('Failed to create user from Kinde session', createErr);
+			log('User created from Kinde session', {
+				userId: serviceUser.id,
+				username: serviceUser.username,
+			});
+		} catch (createErr: any) {
+			error('Failed to create user from Kinde session', {
+				error: createErr?.message,
+				errorCode: createErr?.code,
+				userData: newUserData,
+			});
 			// If creation fails, redirect to home
 			redirect('/');
+			return;
 		}
 	}
 	log('Service User', serviceUser);
+
+	// Ensure serviceUser is defined
+	if (!serviceUser || !serviceUser.username) {
+		error('Service user is missing or invalid after processing', {
+			serviceUser,
+		});
+		redirect('/');
+		return;
+	}
 
 	// Verify the username in the URL matches the logged-in user
 	// If not, redirect to the correct username path
@@ -86,6 +136,7 @@ export default async function Page({
 			dbUsername: serviceUser.username,
 		});
 		redirect(`/${serviceUser.username}/dashboard`);
+		return;
 	}
 
 	// Use the database username for display (more reliable than Kinde username)
