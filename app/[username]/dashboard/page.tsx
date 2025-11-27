@@ -141,9 +141,20 @@ export default async function Page({
 	// Use the database username for display (more reliable than Kinde username)
 	const displayUsername = serviceUser.username;
 
+	// Prepare user data for sidebar
+	const sidebarUser = {
+		name:
+			`${serviceUser.first_name} ${serviceUser.last_name}`.trim() ||
+			user.given_name ||
+			user.email?.split('@')[0] ||
+			'User',
+		email: serviceUser.email || user.email || '',
+		avatar: user.picture || '',
+	};
+
 	return (
 		<SidebarProvider>
-			<AppSidebar />
+			<AppSidebar user={sidebarUser} />
 			<SidebarInset>
 				<header className="flex h-16 shrink-0 items-center gap-2">
 					<div className="flex items-center gap-2 px-4">
