@@ -4,13 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import {
 	BookOpen,
 	Calendar,
@@ -146,19 +140,27 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 		return (
 			<div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50/50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
 				<div className="max-w-4xl mx-auto">
-					<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 animate-pulse">
-						<CardHeader className="px-4 sm:px-6 pt-4 sm:pt-6">
-							<div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-3/4 mb-4" />
-							<div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2" />
-						</CardHeader>
-						<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
-							<div className="space-y-3">
-								<div className="h-4 bg-slate-200 dark:bg-slate-800 rounded" />
-								<div className="h-4 bg-slate-200 dark:bg-slate-800 rounded" />
-								<div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-5/6" />
-							</div>
-						</CardContent>
-					</Card>
+					<div
+						className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16 animate-pulse"
+						style={{
+							backgroundColor: '#F5F1E8',
+							backgroundImage: `
+								linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+								linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
+							`,
+							backgroundSize: '20px 20px',
+							boxShadow:
+								'0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(139, 111, 71, 0.2)',
+						}}
+					>
+						<div className="h-8 bg-slate-200/50 dark:bg-slate-800/50 rounded w-3/4 mb-4" />
+						<div className="h-4 bg-slate-200/50 dark:bg-slate-800/50 rounded w-1/2 mb-6" />
+						<div className="space-y-3">
+							<div className="h-4 bg-slate-200/50 dark:bg-slate-800/50 rounded" />
+							<div className="h-4 bg-slate-200/50 dark:bg-slate-800/50 rounded" />
+							<div className="h-4 bg-slate-200/50 dark:bg-slate-800/50 rounded w-5/6" />
+						</div>
+					</div>
 				</div>
 			</div>
 		);
@@ -233,17 +235,28 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 				</div>
 
 				{/* Story Content */}
-				<Card
+				<div
 					ref={contentRef}
-					className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950"
+					className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16"
+					style={{
+						backgroundColor: '#F5F1E8',
+						backgroundImage: `
+							linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+							linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
+						`,
+						backgroundSize: '20px 20px',
+						boxShadow:
+							'0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(139, 111, 71, 0.2)',
+					}}
 				>
-					<CardHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3">
-						<div className="flex flex-wrap gap-2 sm:gap-3">
+					<div className="relative z-10">
+						{/* Tags */}
+						<div className="mb-6 flex flex-wrap gap-2 sm:gap-3">
 							<span
 								className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-sans font-light flex items-center gap-1.5"
 								style={{
-									backgroundColor: '#F4E9D7',
-									color: '#D97D55',
+									backgroundColor: 'rgba(255, 255, 255, 0.6)',
+									color: '#8B6F47',
 								}}
 							>
 								<BookOpen className="size-3 sm:size-4" />
@@ -253,8 +266,9 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 								<span
 									className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-sans font-light"
 									style={{
-										backgroundColor: '#F4E9D7',
-										color: '#D97D55',
+										backgroundColor:
+											'rgba(255, 255, 255, 0.6)',
+										color: '#8B6F47',
 									}}
 								>
 									{story.subtopic}
@@ -263,8 +277,8 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 							<span
 								className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-sans font-light flex items-center gap-1.5"
 								style={{
-									backgroundColor: '#F4E9D7',
-									color: '#D97D55',
+									backgroundColor: 'rgba(255, 255, 255, 0.6)',
+									color: '#8B6F47',
 								}}
 							>
 								<Palette className="size-3 sm:size-4" />
@@ -273,8 +287,8 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 							<span
 								className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-sans font-light flex items-center gap-1.5"
 								style={{
-									backgroundColor: '#F4E9D7',
-									color: '#D97D55',
+									backgroundColor: 'rgba(255, 255, 255, 0.6)',
+									color: '#8B6F47',
 								}}
 							>
 								<Users className="size-3 sm:size-4" />
@@ -284,8 +298,9 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 								<span
 									className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-sans font-light flex items-center gap-1.5"
 									style={{
-										backgroundColor: '#F4E9D7',
-										color: '#D97D55',
+										backgroundColor:
+											'rgba(255, 255, 255, 0.6)',
+										color: '#8B6F47',
 									}}
 								>
 									<Globe className="size-3 sm:size-4" />
@@ -293,9 +308,9 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 								</span>
 							)}
 						</div>
-					</CardHeader>
-					<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
-						<div className="prose prose-slate dark:prose-invert max-w-none font-serif font-light text-slate-900 dark:text-slate-50 text-base sm:text-lg leading-relaxed">
+
+						{/* Story Content */}
+						<div className="prose prose-slate max-w-none font-serif font-light text-slate-800 text-base sm:text-lg leading-relaxed">
 							{story.story_content
 								.split('\n')
 								.map((paragraph, index) => {
@@ -312,8 +327,8 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 									);
 								})}
 						</div>
-					</CardContent>
-				</Card>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
