@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { db as database } from '@/drizzle';
 import { usersTable } from '@/drizzle/schemas/users';
 
@@ -28,11 +28,24 @@ export const usersModel = {
 		const users = await database.select().from(usersTable);
 		return users;
 	},
-	updateLoginCount(kindeId: string, login_count: number) {
-		return database
+	async updateLoginCount(kindeId: string) {
+		// Get current user to get current login_count
+		const users = await this.getByKindeId(kindeId);
+		if (users.length === 0) {
+			throw new Error('User not found');
+		}
+		const currentUser = users[0];
+
+		// Increment login count and update last login
+		const result = await database
 			.update(usersTable)
-			.set({ login_count: login_count + 1 })
-			.where(eq(usersTable.kinde_id, kindeId));
+			.set({
+				login_count: (currentUser.login_count || 0) + 1,
+				last_login: new Date(),
+			})
+			.where(eq(usersTable.kinde_id, kindeId))
+			.returning();
+		return result;
 	},
 	async getByKindeId(kindeId: string) {
 		const users = await database

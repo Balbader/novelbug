@@ -44,6 +44,9 @@ export default async function Page({
 			throw new Error('Kinde user ID not available');
 		}
 		serviceUser = await usersService.getByKindeId(user.id);
+		// Increment login count and update last login timestamp
+		serviceUser = await usersService.incrementLoginCount(user.id);
+		log('Login count incremented', serviceUser.login_count);
 	} catch (err) {
 		// User doesn't exist in database, create it from Kinde session
 		log('User not found in database, creating from Kinde session', user.id);
@@ -59,7 +62,7 @@ export default async function Page({
 			is_suspended: false,
 			user_since: new Date(),
 			last_login: new Date(),
-			login_count: 0,
+			login_count: 1, // First login
 		};
 		try {
 			serviceUser = await usersService.createUser(newUserData);

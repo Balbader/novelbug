@@ -92,10 +92,49 @@ export async function POST(req: Request) {
 					);
 					log('User updated successfully', updatedUser);
 				} catch (err) {
-					// User doesn't exist, create it
-					const createdUser =
-						await service.usersService.createUser(userUpdateData);
-					log('User created successfully', createdUser.id);
+					// User doesn't exist, try to create it
+					try {
+						const createdUser =
+							await service.usersService.createUser(
+								userUpdateData,
+							);
+						log('User created successfully', createdUser.id);
+					} catch (createErr: any) {
+						// If creation fails due to duplicate, user might have been created between check and insert
+						if (
+							createErr?.message?.includes('UNIQUE constraint') ||
+							createErr?.message?.includes('duplicate') ||
+							createErr?.code === 'SQLITE_CONSTRAINT_UNIQUE'
+						) {
+							try {
+								// Try to get and update the existing user
+								const existingUser =
+									await service.usersService.getByKindeId(
+										userUpdateData.kinde_id,
+									);
+								const updatedUser =
+									await service.usersService.update(
+										existingUser.id,
+										userUpdateData,
+									);
+								log(
+									'User was created by another process, updated existing user',
+									updatedUser.id,
+								);
+							} catch (getErr) {
+								// Re-throw original error if we still can't find the user
+								error(
+									'Failed to create/update user and user not found',
+									createErr,
+								);
+								throw createErr;
+							}
+						} else {
+							// Re-throw if it's a different error
+							error('Failed to create user', createErr);
+							throw createErr;
+						}
+					}
 				}
 				break;
 			}
@@ -114,10 +153,42 @@ export async function POST(req: Request) {
 						existingUser.id,
 					);
 				} catch (err) {
-					// User doesn't exist, create it
-					const createdUser =
-						await service.usersService.createUser(newUserData);
-					log('User created successfully', createdUser.id);
+					// User doesn't exist, try to create it
+					try {
+						const createdUser =
+							await service.usersService.createUser(newUserData);
+						log('User created successfully', createdUser.id);
+					} catch (createErr: any) {
+						// If creation fails due to duplicate, user might have been created between check and insert
+						// Try to get the user again
+						if (
+							createErr?.message?.includes('UNIQUE constraint') ||
+							createErr?.message?.includes('duplicate') ||
+							createErr?.code === 'SQLITE_CONSTRAINT_UNIQUE'
+						) {
+							try {
+								const existingUser =
+									await service.usersService.getByKindeId(
+										newUserData.kinde_id,
+									);
+								log(
+									'User was created by another process, found existing user',
+									existingUser.id,
+								);
+							} catch (getErr) {
+								// Re-throw original error if we still can't find the user
+								error(
+									'Failed to create user and user not found',
+									createErr,
+								);
+								throw createErr;
+							}
+						} else {
+							// Re-throw if it's a different error
+							error('Failed to create user', createErr);
+							throw createErr;
+						}
+					}
 				}
 				break;
 			}
