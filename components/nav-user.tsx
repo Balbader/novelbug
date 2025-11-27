@@ -118,7 +118,7 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							<LogoutLink> Log out</LogoutLink>
+							<LogoutLink postLogoutRedirectURL="/home"> Log out</LogoutLink>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
