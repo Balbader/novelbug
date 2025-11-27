@@ -32,6 +32,7 @@ export default async function Page({
 	log('User', user);
 
 	const isUserAuthenticated = await isAuthenticated();
+
 	log('Is user authenticated', isUserAuthenticated);
 
 	if (!isUserAuthenticated || !user) {
