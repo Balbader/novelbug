@@ -51,30 +51,47 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 	useEffect(() => {
 		const fetchStory = async () => {
 			try {
+				console.log('Fetching story with ID:', storyId);
 				const response = await fetch(`/api/stories/${storyId}`);
+				const data = await response.json();
+				console.log('API Response:', { status: response.status, data });
+
 				if (!response.ok) {
 					if (response.status === 404) {
-						setError('Story not found');
+						setError(data.error || 'Story not found');
+					} else if (response.status === 403) {
+						setError(
+							'You do not have permission to view this story',
+						);
 					} else {
-						throw new Error('Failed to fetch story');
+						setError(data.error || 'Failed to fetch story');
 					}
 					return;
 				}
-				const data = await response.json();
+
 				if (data.success && data.story) {
 					setStory(data.story);
 				} else {
-					setError('Failed to load story');
+					setError(data.error || 'Failed to load story');
 				}
 			} catch (error) {
 				console.error('Failed to fetch story:', error);
-				setError('Failed to load story. Please try again later.');
+				setError(
+					error instanceof Error
+						? error.message
+						: 'Failed to load story. Please try again later.',
+				);
 			} finally {
 				setIsLoading(false);
 			}
 		};
 
-		fetchStory();
+		if (storyId) {
+			fetchStory();
+		} else {
+			setError('Story ID is missing');
+			setIsLoading(false);
+		}
 	}, [storyId]);
 
 	// GSAP Animations

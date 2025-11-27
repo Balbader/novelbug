@@ -70,29 +70,31 @@ export const storyModel = {
 		return storiesWithDetails;
 	},
 	getByIdWithDetails: async (id: string) => {
-		const [story] = await db
+		const stories = await db
 			.select()
 			.from(storiesTable)
 			.where(eq(storiesTable.id, id));
 
-		if (!story) {
+		if (!stories || stories.length === 0) {
 			return null;
 		}
 
-		const [storyData] = await db
+		const story = stories[0];
+
+		const storyDataResults = await db
 			.select()
 			.from(storiesDataTable)
 			.where(eq(storiesDataTable.id, story.story_data_id));
 
-		const [storyOutput] = await db
+		const storyOutputResults = await db
 			.select()
 			.from(storiesOutputTable)
 			.where(eq(storiesOutputTable.id, story.story_output_id));
 
 		return {
 			...story,
-			storyData,
-			storyOutput,
+			storyData: storyDataResults[0] || null,
+			storyOutput: storyOutputResults[0] || null,
 		};
 	},
 };

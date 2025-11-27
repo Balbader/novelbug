@@ -30,12 +30,16 @@ export async function GET(
 
 		const { id } = await params;
 
+		console.log('Fetching story with ID:', id);
+
 		// Fetch story with details
 		const story = await storiesService.getStoryWithDetails(id);
 
+		console.log('Story fetched:', story ? 'Found' : 'Not found');
+
 		if (!story) {
 			return NextResponse.json(
-				{ error: 'Story not found' },
+				{ error: 'Story not found', storyId: id },
 				{ status: 404 },
 			);
 		}
