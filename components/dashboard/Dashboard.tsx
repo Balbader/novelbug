@@ -36,13 +36,18 @@ interface Story {
 	style: string;
 	age_group: string;
 	language: string;
-	created_at: Date;
+	story_content: string;
+	created_at: Date | string;
+	updated_at: Date | string;
+	shared: boolean;
+	published: boolean;
 }
 
 interface DashboardStats {
 	totalStories: number;
 	favoriteTopic: string;
 	totalReadingTime: number;
+	storiesThisWeek: number;
 	recentStories: Story[];
 }
 
@@ -51,6 +56,7 @@ export default function Dashboard() {
 		totalStories: 0,
 		favoriteTopic: '',
 		totalReadingTime: 0,
+		storiesThisWeek: 0,
 		recentStories: [],
 	});
 	const [isLoading, setIsLoading] = useState(true);
@@ -62,21 +68,94 @@ export default function Dashboard() {
 	const storiesRef = useRef<HTMLDivElement>(null);
 	const quickActionsRef = useRef<HTMLDivElement>(null);
 
+	// Calculate reading time for a story
+	const getReadingTime = (content: string) => {
+		const wordsPerMinute = 200;
+		const wordCount = content.split(/\s+/).length;
+		return Math.ceil(wordCount / wordsPerMinute);
+	};
+
+	// Get favorite topic (most common)
+	const getFavoriteTopic = (stories: Story[]) => {
+		if (stories.length === 0) return '';
+		const topicCounts: Record<string, number> = {};
+		stories.forEach((story) => {
+			const topic = story.topic.toLowerCase();
+			topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+		});
+		const favorite = Object.entries(topicCounts).reduce((a, b) =>
+			a[1] > b[1] ? a : b,
+		);
+		return favorite[0].charAt(0).toUpperCase() + favorite[0].slice(1);
+	};
+
+	// Get stories created this week
+	const getStoriesThisWeek = (stories: Story[]) => {
+		const now = new Date();
+		const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+		return stories.filter((story) => {
+			const createdDate = new Date(story.created_at);
+			return createdDate >= weekAgo;
+		}).length;
+	};
+
 	// Fetch user stories
 	useEffect(() => {
 		const fetchStories = async () => {
 			try {
-				// TODO: Replace with actual API call when available
-				// For now, using mock data
+				const response = await fetch('/api/stories');
+				if (!response.ok) {
+					throw new Error('Failed to fetch stories');
+				}
+				const data = await response.json();
+				if (data.success && data.stories) {
+					const stories: Story[] = data.stories;
+
+					// Calculate statistics
+					const totalStories = stories.length;
+					const favoriteTopic = getFavoriteTopic(stories);
+					const totalReadingTime = stories.reduce(
+						(sum, story) =>
+							sum + getReadingTime(story.story_content || ''),
+						0,
+					);
+					const storiesThisWeek = getStoriesThisWeek(stories);
+
+					// Get recent stories (last 6, sorted by created_at)
+					const recentStories = [...stories]
+						.sort((a, b) => {
+							const dateA = new Date(a.created_at).getTime();
+							const dateB = new Date(b.created_at).getTime();
+							return dateB - dateA;
+						})
+						.slice(0, 6);
+
+					setStats({
+						totalStories,
+						favoriteTopic,
+						totalReadingTime,
+						storiesThisWeek,
+						recentStories,
+					});
+				} else {
+					setStats({
+						totalStories: 0,
+						favoriteTopic: '',
+						totalReadingTime: 0,
+						storiesThisWeek: 0,
+						recentStories: [],
+					});
+				}
+				setIsLoading(false);
+			} catch (error) {
+				console.error('Failed to fetch stories:', error);
 				setStats({
 					totalStories: 0,
 					favoriteTopic: '',
 					totalReadingTime: 0,
+					storiesThisWeek: 0,
 					recentStories: [],
 				});
-				setIsLoading(false);
-			} catch (error) {
-				console.error('Failed to fetch stories:', error);
 				setIsLoading(false);
 			}
 		};
@@ -244,32 +323,34 @@ export default function Dashboard() {
 						</Card>
 					</Link>
 
-					<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
-						<CardContent className="p-4 sm:p-5 md:p-6">
-							<div className="flex items-center gap-3 sm:gap-4">
-								<div
-									className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shrink-0"
-									style={{
-										backgroundColor: '#F4E9D7',
-									}}
-								>
-									<BookOpen
-										className="size-5 sm:size-6"
-										style={{ color: '#D97D55' }}
-									/>
+					<Link href={`/${username}/dashboard/my-stories`}>
+						<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+							<CardContent className="p-4 sm:p-5 md:p-6">
+								<div className="flex items-center gap-3 sm:gap-4">
+									<div
+										className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shrink-0"
+										style={{
+											backgroundColor: '#F4E9D7',
+										}}
+									>
+										<BookOpen
+											className="size-5 sm:size-6"
+											style={{ color: '#D97D55' }}
+										/>
+									</div>
+									<div className="flex-1 min-w-0">
+										<h3 className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg mb-0.5 sm:mb-1 truncate">
+											My Stories
+										</h3>
+										<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light truncate">
+											View all stories
+										</p>
+									</div>
+									<ArrowRight className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0" />
 								</div>
-								<div className="flex-1 min-w-0">
-									<h3 className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg mb-0.5 sm:mb-1 truncate">
-										My Stories
-									</h3>
-									<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light truncate">
-										View all stories
-									</p>
-								</div>
-								<ArrowRight className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0" />
-							</div>
-						</CardContent>
-					</Card>
+							</CardContent>
+						</Card>
+					</Link>
 
 					<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
 						<CardContent className="p-4 sm:p-5 md:p-6">
@@ -298,32 +379,34 @@ export default function Dashboard() {
 						</CardContent>
 					</Card>
 
-					<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
-						<CardContent className="p-4 sm:p-5 md:p-6">
-							<div className="flex items-center gap-3 sm:gap-4">
-								<div
-									className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shrink-0"
-									style={{
-										backgroundColor: '#F4E9D7',
-									}}
-								>
-									<Users
-										className="size-5 sm:size-6"
-										style={{ color: '#D97D55' }}
-									/>
+					<Link href={`/${username}/dashboard/community`}>
+						<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+							<CardContent className="p-4 sm:p-5 md:p-6">
+								<div className="flex items-center gap-3 sm:gap-4">
+									<div
+										className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shrink-0"
+										style={{
+											backgroundColor: '#F4E9D7',
+										}}
+									>
+										<Users
+											className="size-5 sm:size-6"
+											style={{ color: '#D97D55' }}
+										/>
+									</div>
+									<div className="flex-1 min-w-0">
+										<h3 className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg mb-0.5 sm:mb-1 truncate">
+											Community
+										</h3>
+										<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light truncate">
+											Explore stories
+										</p>
+									</div>
+									<ArrowRight className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0" />
 								</div>
-								<div className="flex-1 min-w-0">
-									<h3 className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg mb-0.5 sm:mb-1 truncate">
-										Community
-									</h3>
-									<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light truncate">
-										Explore stories
-									</p>
-								</div>
-								<ArrowRight className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0" />
-							</div>
-						</CardContent>
-					</Card>
+							</CardContent>
+						</Card>
+					</Link>
 				</div>
 
 				{/* Statistics Cards */}
@@ -445,7 +528,7 @@ export default function Dashboard() {
 								</div>
 								<div className="min-w-0 flex-1">
 									<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
-										0
+										{stats.storiesThisWeek}
 									</CardTitle>
 									<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
 										New stories
@@ -464,7 +547,7 @@ export default function Dashboard() {
 						</h2>
 						{stats.recentStories.length > 0 && (
 							<Link
-								href="#"
+								href={`/${username}/dashboard/my-stories`}
 								className="text-xs sm:text-sm text-[#D97D55] hover:text-[#C86A45] transition-colors font-sans font-light flex items-center gap-1 self-start sm:self-auto"
 							>
 								View all
@@ -557,14 +640,19 @@ export default function Dashboard() {
 										</div>
 									</CardContent>
 									<CardFooter className="px-4 sm:px-6 pb-4 sm:pb-6 pt-0">
-										<Button
-											variant="ghost"
-											size="sm"
-											className="w-full justify-start text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-[#D97D55] font-sans font-light h-8 sm:h-9"
+										<Link
+											href={`/${username}/dashboard/my-stories/${story.id}`}
+											className="w-full"
 										>
-											Read story
-											<ArrowRight className="size-3 sm:size-4 ml-1 sm:ml-2" />
-										</Button>
+											<Button
+												variant="ghost"
+												size="sm"
+												className="w-full justify-start text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-[#D97D55] font-sans font-light h-8 sm:h-9"
+											>
+												Read story
+												<ArrowRight className="size-3 sm:size-4 ml-1 sm:ml-2" />
+											</Button>
+										</Link>
 									</CardFooter>
 								</Card>
 							))}
