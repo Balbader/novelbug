@@ -9,7 +9,7 @@ const envSchema = z.object({
 	KINDE_ISSUER_URL: z.string(),
 	KINDE_CLIENT_ID: z.string(),
 	KINDE_CLIENT_SECRET: z.string(),
-	KINDE_REDIRECT_URI: z.string(),
+	KINDE_SITE_URI: z.string(),
 	KINDE_POST_LOGOUT_REDIRECT_URI: z.string(),
 	KINDE_POST_LOGIN_REDIRECT_URI: z.string(),
 });
@@ -22,7 +22,7 @@ const publicEnv: Record<string, string> = {
 	KINDE_ISSUER_URL: process.env.KINDE_ISSUER_URL!,
 	KINDE_CLIENT_ID: process.env.KINDE_CLIENT_ID!,
 	KINDE_CLIENT_SECRET: process.env.KINDE_CLIENT_SECRET!,
-	KINDE_REDIRECT_URI: process.env.KINDE_REDIRECT_URI!,
+	KINDE_SITE_URI: process.env.KINDE_SITE_URI!,
 	KINDE_POST_LOGOUT_REDIRECT_URI: process.env.KINDE_POST_LOGOUT_REDIRECT_URI!,
 	KINDE_POST_LOGIN_REDIRECT_URI: process.env.KINDE_POST_LOGIN_REDIRECT_URI!,
 };
@@ -33,10 +33,17 @@ export const Env = {
 	initialize() {
 		const checkEnv = envSchema.safeParse(process.env);
 		if (!checkEnv.success) {
+			const missingVars = checkEnv.error.issues
+				.map((issue) => {
+					const path = issue.path.join('.');
+					return `  - ${path}: ${issue.message}`;
+				})
+				.join('\n');
+
+			const errorMessage = `Missing or invalid environment variables:\n${missingVars}\n\nPlease ensure all required environment variables are set in your .env file.`;
+
 			error('Invalid environment variables:', checkEnv.error.issues);
-			throw new Error(
-				'Invalid environment variables. Check the logs above for details.',
-			);
+			throw new Error(errorMessage);
 		}
 	},
 
