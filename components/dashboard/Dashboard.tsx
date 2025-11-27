@@ -295,29 +295,54 @@ export default function Dashboard() {
 					className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
 				>
 					<Link href={`/${username}/dashboard/generate`}>
-						<Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
-							<CardContent className="p-4 sm:p-5 md:p-6">
+						<Card
+							className="group hover:shadow-2xl transition-all duration-300 cursor-pointer border-2 h-full relative overflow-hidden"
+							style={{
+								borderColor: '#D97D55',
+								backgroundColor: '#D97D55',
+								boxShadow:
+									'0 4px 20px rgba(217, 125, 85, 0.15)',
+							}}
+							onMouseEnter={(e) => {
+								gsap.to(e.currentTarget, {
+									scale: 1.02,
+									duration: 0.3,
+									ease: 'power2.out',
+								});
+								gsap.to(e.currentTarget, {
+									boxShadow:
+										'0 8px 30px rgba(217, 125, 85, 0.25)',
+									duration: 0.3,
+								});
+							}}
+							onMouseLeave={(e) => {
+								gsap.to(e.currentTarget, {
+									scale: 1,
+									duration: 0.3,
+									ease: 'power2.out',
+								});
+								gsap.to(e.currentTarget, {
+									boxShadow:
+										'0 4px 20px rgba(217, 125, 85, 0.15)',
+									duration: 0.3,
+								});
+							}}
+						>
+							<div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
+							<CardContent className="p-4 sm:p-5 md:p-6 relative z-10">
 								<div className="flex items-center gap-3 sm:gap-4">
-									<div
-										className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shrink-0"
-										style={{
-											backgroundColor: '#F4E9D7',
-										}}
-									>
-										<Plus
-											className="size-5 sm:size-6"
-											style={{ color: '#D97D55' }}
-										/>
+									<div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 shrink-0 shadow-md bg-white/20 backdrop-blur-sm">
+										<Plus className="size-6 sm:size-7 text-white" />
 									</div>
 									<div className="flex-1 min-w-0">
-										<h3 className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg mb-0.5 sm:mb-1 truncate">
+										<h3 className="font-serif font-normal text-white text-lg sm:text-xl mb-0.5 sm:mb-1 truncate">
 											New Story
 										</h3>
-										<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light truncate">
+										<p className="text-xs sm:text-sm text-white/90 font-sans font-medium truncate">
 											Start creating
 										</p>
 									</div>
-									<ArrowRight className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0" />
+									<ArrowRight className="size-5 sm:size-6 transition-all duration-300 group-hover:translate-x-1 shrink-0 text-white" />
 								</div>
 							</CardContent>
 						</Card>
