@@ -20,8 +20,11 @@ import { usersService } from '@/backend/services/user.service';
 export default async function Page({
 	params,
 }: {
-	params: { username: string };
+	params: Promise<{ username: string }>;
 }) {
+	// Await params as it's now a Promise in Next.js 15+
+	const { username } = await params;
+
 	const { getUser, isAuthenticated } = await getKindeServerSession();
 
 	const user = await getUser();
@@ -75,6 +78,19 @@ export default async function Page({
 	}
 	log('Service User', serviceUser);
 
+	// Verify the username in the URL matches the logged-in user
+	// If not, redirect to the correct username path
+	if (username !== serviceUser.username) {
+		log('Username mismatch, redirecting to correct path', {
+			urlUsername: username,
+			dbUsername: serviceUser.username,
+		});
+		redirect(`/${serviceUser.username}/dashboard`);
+	}
+
+	// Use the database username for display (more reliable than Kinde username)
+	const displayUsername = serviceUser.username;
+
 	return (
 		<SidebarProvider>
 			<AppSidebar />
@@ -90,15 +106,15 @@ export default async function Page({
 							<BreadcrumbList>
 								<BreadcrumbItem className="hidden md:block">
 									<BreadcrumbLink
-										href={`/${user?.username}/dashboard`}
+										href={`/${displayUsername}/dashboard`}
 									>
-										{user?.username}
+										{displayUsername}
 									</BreadcrumbLink>
 								</BreadcrumbItem>
 								<BreadcrumbSeparator className="hidden md:block" />
 								<BreadcrumbItem>
 									<BreadcrumbPage>
-										{user?.username}'s Dashboard
+										{displayUsername}'s Dashboard
 									</BreadcrumbPage>
 								</BreadcrumbItem>
 							</BreadcrumbList>
