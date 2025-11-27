@@ -395,6 +395,35 @@ export default function Generate() {
 			await new Promise((resolve) => setTimeout(resolve, 500));
 
 			setGeneratedStory(result);
+
+			// Save story to database
+			try {
+				const saveResponse = await fetch('/api/stories/save', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						title: result.metadata.title,
+						age_group: result.metadata.age_group,
+						language: result.metadata.language,
+						topic: result.metadata.topic,
+						subtopic: result.metadata.subtopic,
+						style: result.metadata.style,
+						story: result.story,
+					}),
+				});
+
+				if (!saveResponse.ok) {
+					console.error('Failed to save story to database');
+					// Don't throw error - story generation was successful
+					// Just log the error
+				}
+			} catch (saveErr) {
+				console.error('Error saving story to database:', saveErr);
+				// Don't throw error - story generation was successful
+				// Just log the error
+			}
 		} catch (err) {
 			setError(
 				err instanceof Error ? err.message : 'Failed to generate story',
@@ -551,10 +580,10 @@ export default function Generate() {
 					<div
 						className="mb-8 rounded-lg shadow-2xl p-8 sm:p-10 md:p-12"
 						style={{
-							backgroundColor: '#FFFFFF',
+							backgroundColor: '#F5F1E8',
 							backgroundImage: `
-								linear-gradient(rgba(139, 111, 71, 0.08) 1px, transparent 1px),
-								linear-gradient(90deg, rgba(139, 111, 71, 0.08) 1px, transparent 1px)
+								linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+								linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
 							`,
 							backgroundSize: '20px 20px',
 							boxShadow:
@@ -647,10 +676,10 @@ export default function Generate() {
 						<div
 							className="mb-6 rounded-lg shadow-2xl p-8 sm:p-12 md:p-16 text-center"
 							style={{
-								backgroundColor: '#FFFFFF',
+								backgroundColor: '#F5F1E8',
 								backgroundImage: `
-									linear-gradient(rgba(139, 111, 71, 0.08) 1px, transparent 1px),
-									linear-gradient(90deg, rgba(139, 111, 71, 0.08) 1px, transparent 1px)
+									linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+									linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
 								`,
 								backgroundSize: '20px 20px',
 								boxShadow:
@@ -683,10 +712,10 @@ export default function Generate() {
 						<div
 							className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16"
 							style={{
-								backgroundColor: '#FFFFFF',
+								backgroundColor: '#F5F1E8',
 								backgroundImage: `
-									linear-gradient(rgba(139, 111, 71, 0.08) 1px, transparent 1px),
-									linear-gradient(90deg, rgba(139, 111, 71, 0.08) 1px, transparent 1px)
+									linear-gradient(rgba(139, 111, 71, 0.06) 1px, transparent 1px),
+									linear-gradient(90deg, rgba(139, 111, 71, 0.06) 1px, transparent 1px)
 								`,
 								backgroundSize: '20px 20px',
 								boxShadow:
