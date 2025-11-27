@@ -2,7 +2,15 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import { BookOpen, Sparkles, LifeBuoy, Send, User } from 'lucide-react';
+import {
+	BookOpen,
+	Sparkles,
+	LifeBuoy,
+	Send,
+	User,
+	Home,
+	LayoutDashboard,
+} from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavSecondary } from '@/components/nav-secondary';
 import { NavUser } from '@/components/nav-user';
@@ -45,6 +53,11 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 
 	// Generate navigation items with username
 	const navMain = [
+		{
+			title: 'Dashboard',
+			url: user?.username ? `/${user.username}/dashboard` : '#',
+			icon: LayoutDashboard,
+		},
 		{
 			title: 'Generate Story',
 			url: user?.username ? `/${user.username}/dashboard/generate` : '#',

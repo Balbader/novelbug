@@ -64,7 +64,9 @@ export function NavMain({
 													? '#F4E9D7'
 													: index === 1
 														? '#E8F4F8'
-														: '#F0E8F4',
+														: index === 3
+															? '#E8F0E5'
+															: '#F0E8F4',
 										}}
 									>
 										<item.icon
@@ -75,7 +77,9 @@ export function NavMain({
 														? '#D97D55'
 														: index === 1
 															? '#4A90E2'
-															: '#9B7EDE',
+															: index === 3
+																? '#6B7280'
+																: '#9B7EDE',
 											}}
 										/>
 									</div>
