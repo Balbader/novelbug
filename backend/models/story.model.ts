@@ -2,6 +2,7 @@ import { db } from '@/drizzle';
 import { storiesTable } from '@/drizzle/schemas/stories';
 import { storiesDataTable } from '@/drizzle/schemas/stories-data';
 import { storiesOutputTable } from '@/drizzle/schemas/stories-output';
+import { usersTable } from '@/drizzle/schemas/users';
 import { eq } from 'drizzle-orm';
 
 export const storyModel = {
@@ -96,5 +97,41 @@ export const storyModel = {
 			storyData: storyDataResults[0] || null,
 			storyOutput: storyOutputResults[0] || null,
 		};
+	},
+	getSharedStoriesWithDetails: async () => {
+		// Get all shared stories (shared = 1)
+		const stories = await db
+			.select()
+			.from(storiesTable)
+			.where(eq(storiesTable.shared, 1));
+
+		// Fetch related data for each story including user info
+		const storiesWithDetails = await Promise.all(
+			stories.map(async (story) => {
+				const [storyData] = await db
+					.select()
+					.from(storiesDataTable)
+					.where(eq(storiesDataTable.id, story.story_data_id));
+
+				const [storyOutput] = await db
+					.select()
+					.from(storiesOutputTable)
+					.where(eq(storiesOutputTable.id, story.story_output_id));
+
+				const [user] = await db
+					.select()
+					.from(usersTable)
+					.where(eq(usersTable.id, story.user_id));
+
+				return {
+					...story,
+					storyData,
+					storyOutput,
+					user,
+				};
+			}),
+		);
+
+		return storiesWithDetails;
 	},
 };

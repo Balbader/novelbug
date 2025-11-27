@@ -74,7 +74,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 			title: 'Community Stories',
 			icon: Globe,
 			url: user?.username
-				? `/${user.username}/dashboard/community-stories`
+				? `/${user.username}/dashboard/community`
 				: '#',
 		},
 		{
