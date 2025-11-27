@@ -218,20 +218,27 @@ export function Header() {
 								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
 							</Link>
 							<div className="flex flex-col gap-2 sm:gap-3 mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-200/40 dark:border-slate-800/40">
-								<Link
-									href="/signin"
-									onClick={() => setMobileMenuOpen(false)}
-									className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-medium text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 text-center"
-								>
-									Sign in
-								</Link>
-								<Link
-									href="/signup"
-									onClick={() => setMobileMenuOpen(false)}
-									className="text-[#D97D55] hover:text-white dark:text-[#D97D55] dark:hover:text-white transition-all duration-300 font-sans font-medium text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md border border-[#D97D55] hover:bg-[#D97D55] dark:hover:bg-[#D97D55] shadow-sm hover:shadow-md text-center"
-								>
-									Sign up
-								</Link>
+								<LoginLink>
+									<Button
+										variant="ghost"
+										className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100/50 dark:hover:bg-slate-800/30 font-sans font-light text-sm tracking-wide transition-all duration-300 px-4 cursor-pointer group rounded-md"
+									>
+										<span className="relative z-10">
+											Sign in
+										</span>
+										<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
+									</Button>
+								</LoginLink>
+								<RegisterLink>
+									<Button
+										className="border border-[#D97D55] text-[#D97D55] hover:text-white hover:bg-[#D97D55] dark:text-[#D97D55] dark:hover:text-white dark:hover:bg-[#D97D55] font-sans font-medium text-sm tracking-wide transition-all duration-300 px-4 shadow-sm hover:shadow-md bg-transparent dark:bg-transparent cursor-pointer"
+										style={{
+											backgroundColor: 'transparent',
+										}}
+									>
+										Sign up
+									</Button>
+								</RegisterLink>
 							</div>
 							<Button
 								size="default"
