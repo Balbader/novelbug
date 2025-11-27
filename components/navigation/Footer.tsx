@@ -101,6 +101,14 @@ export function Footer() {
 									FAQ
 								</Link>
 							</li>
+							<li>
+								<Link
+									href="/privacy"
+									className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[14px] tracking-wide"
+								>
+									Privacy
+								</Link>
+							</li>
 						</ul>
 					</div>
 				</div>
