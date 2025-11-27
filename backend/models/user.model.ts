@@ -3,20 +3,30 @@ import { db as database } from '@/drizzle';
 import { usersTable } from '@/drizzle/schemas/users';
 
 export const usersModel = {
-	create(user: typeof usersTable.$inferInsert) {
-		return database.insert(usersTable).values(user);
+	async create(user: typeof usersTable.$inferInsert) {
+		const result = await database
+			.insert(usersTable)
+			.values(user)
+			.returning();
+		return result;
 	},
-	update(userId: string, userData: Partial<typeof usersTable.$inferInsert>) {
-		return database
+	async update(
+		userId: string,
+		userData: Partial<typeof usersTable.$inferInsert>,
+	) {
+		const result = await database
 			.update(usersTable)
 			.set({
 				...userData,
 				created_at: new Date(),
 			})
-			.where(eq(usersTable.id, userId));
+			.where(eq(usersTable.id, userId))
+			.returning();
+		return result;
 	},
-	getAll() {
-		return database.select().from(usersTable);
+	async getAll() {
+		const users = await database.select().from(usersTable);
+		return users;
 	},
 	updateLoginCount(kindeId: string, login_count: number) {
 		return database
@@ -24,25 +34,32 @@ export const usersModel = {
 			.set({ login_count: login_count + 1 })
 			.where(eq(usersTable.kinde_id, kindeId));
 	},
-	getByKindeId(kindeId: string) {
-		return database
+	async getByKindeId(kindeId: string) {
+		const users = await database
 			.select()
 			.from(usersTable)
 			.where(eq(usersTable.kinde_id, kindeId));
+		return users;
 	},
-	getByUsername(username: string) {
-		return database
+	async getByUsername(username: string) {
+		const users = await database
 			.select()
 			.from(usersTable)
 			.where(eq(usersTable.username, username));
+		return users;
 	},
-	getByEmail(email: string) {
-		return database
+	async getByEmail(email: string) {
+		const users = await database
 			.select()
 			.from(usersTable)
 			.where(eq(usersTable.email, email));
+		return users;
 	},
-	getById(id: string) {
-		return database.select().from(usersTable).where(eq(usersTable.id, id));
+	async getById(id: string) {
+		const users = await database
+			.select()
+			.from(usersTable)
+			.where(eq(usersTable.id, id));
+		return users;
 	},
 };

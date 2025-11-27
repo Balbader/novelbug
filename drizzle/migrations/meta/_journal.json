@@ -29,6 +29,13 @@
       "when": 1764070234677,
       "tag": "0003_stiff_scarecrow",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1764229190020,
+      "tag": "0004_keen_penance",
+      "breakpoints": true
     }
   ]
 }
