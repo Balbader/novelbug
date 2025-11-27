@@ -116,11 +116,8 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 									</div>
 								</div>
 								<div className="grid flex-1 text-left leading-tight min-w-0">
-									<span className="text-xl sm:text-2xl md:text-3xl font-serif font-light text-slate-900 dark:text-slate-50 tracking-tight truncate bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-slate-50 dark:via-slate-100 dark:to-slate-50 bg-clip-text text-transparent group-hover:from-[#D97D55] group-hover:via-[#C86A45] group-hover:to-[#D97D55] transition-all duration-300">
+									<span className="text-lg sm:text-xl md:text-2xl font-serif font-light text-slate-900 dark:text-slate-50 tracking-tight truncate bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-slate-50 dark:via-slate-100 dark:to-slate-50 bg-clip-text text-transparent group-hover:from-[#D97D55] group-hover:via-[#C86A45] group-hover:to-[#D97D55] transition-all duration-300">
 										NovelBug
-									</span>
-									<span className="text-xs sm:text-sm text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5">
-										Story Creator
 									</span>
 								</div>
 							</Link>
