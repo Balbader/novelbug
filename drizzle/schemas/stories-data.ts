@@ -16,6 +16,8 @@ export const storiesDataTable = sqliteTable('stories_data', {
 	topic: text('topic', { length: 255 }).notNull(),
 	subtopic: text('subtopic', { length: 255 }).notNull(),
 	style: text('style', { length: 255 }).notNull(),
+	first_name: text('first_name', { length: 255 }),
+	gender: text('gender', { length: 255 }),
 	created_at: integer('created_at', { mode: 'timestamp' })
 		.notNull()
 		.$defaultFn(() => {

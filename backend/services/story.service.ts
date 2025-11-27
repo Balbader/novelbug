@@ -13,6 +13,8 @@ interface CreateStoryParams {
 	subtopic: string;
 	style: string;
 	storyContent: string;
+	first_name?: string;
+	gender?: string;
 }
 
 export const storiesService = {
@@ -34,6 +36,8 @@ export const storiesService = {
 			topic: params.topic,
 			subtopic: params.subtopic,
 			style: params.style,
+			first_name: params.first_name,
+			gender: params.gender,
 		};
 
 		const [newData] = await model.storyModel.createData(storyData);
@@ -95,6 +99,26 @@ export const storiesService = {
 		const result = await model.storyModel.update(id, storyData);
 		if (!result || result.length === 0) {
 			throw new Error('Story not found or update failed');
+		}
+		return result[0];
+	},
+	async updateStoryData(
+		dataId: string,
+		data: Partial<typeof storiesDataTable.$inferInsert>,
+	) {
+		const result = await model.storyModel.updateData(dataId, data);
+		if (!result || result.length === 0) {
+			throw new Error('Story data not found or update failed');
+		}
+		return result[0];
+	},
+	async updateStoryOutput(
+		outputId: string,
+		output: Partial<typeof storiesOutputTable.$inferInsert>,
+	) {
+		const result = await model.storyModel.updateOutput(outputId, output);
+		if (!result || result.length === 0) {
+			throw new Error('Story output not found or update failed');
 		}
 		return result[0];
 	},

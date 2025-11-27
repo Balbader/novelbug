@@ -66,6 +66,8 @@ export async function GET(
 			topic: story.storyData?.topic || '',
 			subtopic: story.storyData?.subtopic || '',
 			style: story.storyData?.style || '',
+			first_name: story.storyData?.first_name || '',
+			gender: story.storyData?.gender || '',
 			story_content: story.storyOutput?.story_content || '',
 			created_at: story.created_at,
 			updated_at: story.updated_at,
@@ -127,7 +129,6 @@ export async function PATCH(
 
 		const { id } = await params;
 		const body = await request.json();
-		const { shared } = body;
 
 		// Verify the story belongs to the user
 		const story = await storiesService.getStoryWithDetails(id);
@@ -142,18 +143,104 @@ export async function PATCH(
 			return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 		}
 
-		// Update the story's shared status
-		const updatedStory = await storiesService.updateStory(id, {
-			shared: shared ? 1 : 0,
-		});
+		// Handle shared status update (backward compatibility)
+		if (body.shared !== undefined) {
+			const updatedStory = await storiesService.updateStory(id, {
+				shared: body.shared ? 1 : 0,
+			});
+
+			return NextResponse.json(
+				{
+					success: true,
+					story: {
+						id: updatedStory.id,
+						shared: updatedStory.shared === 1,
+					},
+				},
+				{ status: 200 },
+			);
+		}
+
+		// Handle full story update
+		const {
+			title,
+			age_group,
+			language,
+			topic,
+			subtopic,
+			style,
+			first_name,
+			gender,
+			story_content,
+			shared,
+		} = body;
+
+		// Update story data if provided
+		if (
+			title ||
+			age_group ||
+			language ||
+			topic ||
+			subtopic ||
+			style !== undefined ||
+			first_name !== undefined ||
+			gender !== undefined
+		) {
+			const updateData: any = {};
+			if (title !== undefined) updateData.title = title;
+			if (age_group !== undefined) updateData.age_group = age_group;
+			if (language !== undefined) updateData.language = language;
+			if (topic !== undefined) updateData.topic = topic;
+			if (subtopic !== undefined) updateData.subtopic = subtopic;
+			if (style !== undefined) updateData.style = style;
+			if (first_name !== undefined) updateData.first_name = first_name;
+			if (gender !== undefined) updateData.gender = gender;
+
+			await storiesService.updateStoryData(
+				story.story_data_id,
+				updateData,
+			);
+		}
+
+		// Update story output if provided
+		if (story_content !== undefined) {
+			await storiesService.updateStoryOutput(story.story_output_id, {
+				story_content,
+			});
+		}
+
+		// Update story shared status if provided
+		if (shared !== undefined) {
+			await storiesService.updateStory(id, {
+				shared: shared ? 1 : 0,
+			});
+		}
+
+		// Fetch updated story
+		const updatedStory = await storiesService.getStoryWithDetails(id);
+
+		// Transform the data to a more client-friendly format
+		const formattedStory = {
+			id: updatedStory!.id,
+			title: updatedStory!.storyData?.title || 'Untitled',
+			age_group: updatedStory!.storyData?.age_group || '',
+			language: updatedStory!.storyData?.language || '',
+			topic: updatedStory!.storyData?.topic || '',
+			subtopic: updatedStory!.storyData?.subtopic || '',
+			style: updatedStory!.storyData?.style || '',
+			first_name: updatedStory!.storyData?.first_name || '',
+			gender: updatedStory!.storyData?.gender || '',
+			story_content: updatedStory!.storyOutput?.story_content || '',
+			created_at: updatedStory!.created_at,
+			updated_at: updatedStory!.updated_at,
+			shared: updatedStory!.shared === 1,
+			published: updatedStory!.published === 1,
+		};
 
 		return NextResponse.json(
 			{
 				success: true,
-				story: {
-					id: updatedStory.id,
-					shared: updatedStory.shared === 1,
-				},
+				story: formattedStory,
 			},
 			{ status: 200 },
 		);

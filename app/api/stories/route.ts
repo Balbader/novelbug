@@ -39,6 +39,8 @@ export async function GET(request: NextRequest) {
 			topic: story.storyData?.topic || '',
 			subtopic: story.storyData?.subtopic || '',
 			style: story.storyData?.style || '',
+			first_name: story.storyData?.first_name || '',
+			gender: story.storyData?.gender || '',
 			story_content: story.storyOutput?.story_content || '',
 			created_at: story.created_at,
 			updated_at: story.updated_at,
