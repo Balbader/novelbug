@@ -92,10 +92,16 @@ export const storyModel = {
 			.from(storiesOutputTable)
 			.where(eq(storiesOutputTable.id, story.story_output_id));
 
+		const userResults = await db
+			.select()
+			.from(usersTable)
+			.where(eq(usersTable.id, story.user_id));
+
 		return {
 			...story,
 			storyData: storyDataResults[0] || null,
 			storyOutput: storyOutputResults[0] || null,
+			user: userResults[0] || null,
 		};
 	},
 	getSharedStoriesWithDetails: async () => {

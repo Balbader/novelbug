@@ -44,9 +44,17 @@ export async function GET(
 			);
 		}
 
-		// Verify the story belongs to the user
-		if (story.user_id !== dbUser.id) {
-			return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+		// Allow viewing if:
+		// 1. Story belongs to the user, OR
+		// 2. Story is shared (shared = 1)
+		const isOwner = story.user_id === dbUser.id;
+		const isShared = story.shared === 1;
+
+		if (!isOwner && !isShared) {
+			return NextResponse.json(
+				{ error: 'Forbidden - Story is not shared' },
+				{ status: 403 },
+			);
 		}
 
 		// Transform the data to a more client-friendly format
@@ -63,6 +71,13 @@ export async function GET(
 			updated_at: story.updated_at,
 			shared: story.shared === 1,
 			published: story.published === 1,
+			author: story.user
+				? {
+						username: story.user.username || 'Unknown',
+						first_name: story.user.first_name || '',
+						last_name: story.user.last_name || '',
+					}
+				: undefined,
 		};
 
 		return NextResponse.json(

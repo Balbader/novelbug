@@ -351,7 +351,7 @@ export default function CommunityStories() {
 								className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full flex flex-col"
 								onClick={() => {
 									router.push(
-										`/${story.author.username}/dashboard/my-stories/${story.id}`,
+										`/${username}/dashboard/community/${story.id}`,
 									);
 								}}
 								onMouseEnter={(e) => {
