@@ -138,10 +138,10 @@ export function HeroSection() {
 						ref={titleRef}
 						className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-light tracking-tight text-white/95 leading-[1.1] px-2 sm:px-0"
 					>
-						Turn Knowledge into
+						Smart Bedtime Stories for
 						<br className="hidden sm:block" />
 						<span className="sm:hidden"> </span>
-						<span className="font-normal">Bedtime Stories</span>
+						<span className="font-normal">Smart Kids</span>
 					</h1>
 
 					{/* Subtitle with refined spacing */}
