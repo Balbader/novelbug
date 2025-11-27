@@ -8,7 +8,7 @@ import {
 	LifeBuoy,
 	Send,
 	User,
-	Home,
+	Globe,
 	LayoutDashboard,
 } from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
@@ -68,6 +68,13 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 			icon: BookOpen,
 			url: user?.username
 				? `/${user.username}/dashboard/my-stories`
+				: '#',
+		},
+		{
+			title: 'Community Stories',
+			icon: Globe,
+			url: user?.username
+				? `/${user.username}/dashboard/community-stories`
 				: '#',
 		},
 		{

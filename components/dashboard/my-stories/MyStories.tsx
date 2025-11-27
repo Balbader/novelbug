@@ -379,6 +379,11 @@ export default function MyStories() {
 							<Card
 								key={story.id}
 								className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full flex flex-col"
+								onClick={() => {
+									router.push(
+										`/${username}/dashboard/my-stories/${story.id}`,
+									);
+								}}
 								onMouseEnter={(e) => {
 									gsap.to(e.currentTarget, {
 										y: -4,
@@ -492,17 +497,10 @@ export default function MyStories() {
 									</div>
 								</CardContent>
 								<CardFooter className="px-4 sm:px-6 pb-4 sm:pb-6 pt-0">
-									<Button
-										variant="ghost"
-										size="sm"
-										className="w-full justify-start text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-[#D97D55] font-sans font-light h-8 sm:h-9"
-										onClick={() => {
-											router.push(`/${username}/dashboard/my-stories/${story.id}`);
-										}}
-									>
+									<div className="w-full flex items-center text-xs sm:text-sm text-slate-600 dark:text-slate-400 group-hover:text-[#D97D55] font-sans font-light transition-colors">
 										Read story
 										<ArrowRight className="size-3 sm:size-4 ml-1 sm:ml-2" />
-									</Button>
+									</div>
 								</CardFooter>
 							</Card>
 						))}
