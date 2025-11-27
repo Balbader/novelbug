@@ -66,7 +66,9 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 		{
 			title: 'My Stories',
 			icon: BookOpen,
-			url: '#',
+			url: user?.username
+				? `/${user.username}/dashboard/my-stories`
+				: '#',
 		},
 		{
 			title: 'My Profile',

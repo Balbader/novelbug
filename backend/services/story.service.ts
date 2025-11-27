@@ -79,4 +79,7 @@ export const storiesService = {
 	getStoriesByUserId(userId: string) {
 		return model.storyModel.getByUserId(userId);
 	},
+	getStoriesByUserIdWithDetails(userId: string) {
+		return model.storyModel.getByUserIdWithDetails(userId);
+	},
 };

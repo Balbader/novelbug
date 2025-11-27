@@ -40,4 +40,33 @@ export const storyModel = {
 			.where(eq(storiesTable.user_id, userId));
 		return foundStories;
 	},
+	getByUserIdWithDetails: async (userId: string) => {
+		const stories = await db
+			.select()
+			.from(storiesTable)
+			.where(eq(storiesTable.user_id, userId));
+
+		// Fetch related data for each story
+		const storiesWithDetails = await Promise.all(
+			stories.map(async (story) => {
+				const [storyData] = await db
+					.select()
+					.from(storiesDataTable)
+					.where(eq(storiesDataTable.id, story.story_data_id));
+
+				const [storyOutput] = await db
+					.select()
+					.from(storiesOutputTable)
+					.where(eq(storiesOutputTable.id, story.story_output_id));
+
+				return {
+					...story,
+					storyData,
+					storyOutput,
+				};
+			}),
+		);
+
+		return storiesWithDetails;
+	},
 };
