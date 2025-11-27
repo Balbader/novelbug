@@ -41,8 +41,6 @@ export function NavUser({
 	const [logoutRedirectUrl, setLogoutRedirectUrl] = useState<string>('/home');
 
 	useEffect(() => {
-		// Construct the full URL for logout redirect
-		// This ensures Kinde redirects to the correct domain
 		if (typeof window !== 'undefined') {
 			setLogoutRedirectUrl(`${window.location.origin}/home`);
 		}
@@ -128,7 +126,12 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							<LogoutLink postLogoutRedirectURL={logoutRedirectUrl}> Log out</LogoutLink>
+							<LogoutLink
+								postLogoutRedirectURL={logoutRedirectUrl}
+							>
+								{' '}
+								Log out
+							</LogoutLink>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
