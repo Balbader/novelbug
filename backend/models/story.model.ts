@@ -134,4 +134,18 @@ export const storyModel = {
 
 		return storiesWithDetails;
 	},
+	update: async (
+		id: string,
+		storyData: Partial<typeof storiesTable.$inferInsert>,
+	) => {
+		const result = await db
+			.update(storiesTable)
+			.set({
+				...storyData,
+				updated_at: new Date(),
+			})
+			.where(eq(storiesTable.id, id))
+			.returning();
+		return result;
+	},
 };

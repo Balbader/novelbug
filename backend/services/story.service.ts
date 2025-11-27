@@ -88,4 +88,14 @@ export const storiesService = {
 	getSharedStoriesWithDetails() {
 		return model.storyModel.getSharedStoriesWithDetails();
 	},
+	async updateStory(
+		id: string,
+		storyData: Partial<typeof storiesTable.$inferInsert>,
+	) {
+		const result = await model.storyModel.update(id, storyData);
+		if (!result || result.length === 0) {
+			throw new Error('Story not found or update failed');
+		}
+		return result[0];
+	},
 };

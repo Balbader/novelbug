@@ -38,6 +38,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
 interface Story {
 	id: string;
@@ -247,6 +248,43 @@ export default function MyStories() {
 		return content.substring(0, maxLength).trim() + '...';
 	};
 
+	const handleShare = async (storyId: string, e: React.MouseEvent) => {
+		e.stopPropagation();
+		try {
+			const response = await fetch(`/api/stories/${storyId}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ shared: true }),
+			});
+
+			if (!response.ok) {
+				throw new Error('Failed to share story');
+			}
+
+			const data = await response.json();
+			if (data.success) {
+				// Update the local state to reflect the shared status
+				setStories((prevStories) =>
+					prevStories.map((story) =>
+						story.id === storyId
+							? { ...story, shared: true }
+							: story,
+					),
+				);
+				toast.success('Story shared to community!', {
+					description: 'Your story is now visible to everyone.',
+				});
+			}
+		} catch (error) {
+			console.error('Error sharing story:', error);
+			toast.error('Failed to share story', {
+				description: 'Please try again later.',
+			});
+		}
+	};
+
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50/50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
 			<div className="max-w-7xl mx-auto space-y-4 sm:space-y-6 md:space-y-8">
@@ -418,13 +456,27 @@ export default function MyStories() {
 												</Button>
 											</DropdownMenuTrigger>
 											<DropdownMenuContent align="end">
-												<DropdownMenuItem>
+												<DropdownMenuItem
+													onClick={(e) => {
+														e.stopPropagation();
+														router.push(
+															`/${username}/dashboard/my-stories/${story.id}`,
+														);
+													}}
+												>
 													<Eye className="size-4 mr-2" />
 													View
 												</DropdownMenuItem>
-												<DropdownMenuItem>
+												<DropdownMenuItem
+													onClick={(e) =>
+														handleShare(story.id, e)
+													}
+													disabled={story.shared}
+												>
 													<Share2 className="size-4 mr-2" />
-													Share
+													{story.shared
+														? 'Already Shared'
+														: 'Share'}
 												</DropdownMenuItem>
 												<DropdownMenuItem className="text-red-600">
 													<Trash2 className="size-4 mr-2" />

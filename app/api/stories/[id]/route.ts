@@ -84,3 +84,73 @@ export async function GET(
 		);
 	}
 }
+
+export async function PATCH(
+	request: NextRequest,
+	{ params }: { params: Promise<{ id: string }> },
+) {
+	try {
+		const { getUser, isAuthenticated } = await getKindeServerSession();
+		const user = await getUser();
+		const isUserAuthenticated = await isAuthenticated();
+
+		if (!isUserAuthenticated || !user) {
+			return NextResponse.json(
+				{ error: 'Unauthorized' },
+				{ status: 401 },
+			);
+		}
+
+		// Get user from database
+		const dbUser = await usersService.getByKindeId(user.id);
+		if (!dbUser) {
+			return NextResponse.json(
+				{ error: 'User not found in database' },
+				{ status: 404 },
+			);
+		}
+
+		const { id } = await params;
+		const body = await request.json();
+		const { shared } = body;
+
+		// Verify the story belongs to the user
+		const story = await storiesService.getStoryWithDetails(id);
+		if (!story) {
+			return NextResponse.json(
+				{ error: 'Story not found' },
+				{ status: 404 },
+			);
+		}
+
+		if (story.user_id !== dbUser.id) {
+			return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+		}
+
+		// Update the story's shared status
+		const updatedStory = await storiesService.updateStory(id, {
+			shared: shared ? 1 : 0,
+		});
+
+		return NextResponse.json(
+			{
+				success: true,
+				story: {
+					id: updatedStory.id,
+					shared: updatedStory.shared === 1,
+				},
+			},
+			{ status: 200 },
+		);
+	} catch (error) {
+		console.error('Error updating story:', error);
+		return NextResponse.json(
+			{
+				error: 'Failed to update story. Please try again later.',
+				details:
+					error instanceof Error ? error.message : 'Unknown error',
+			},
+			{ status: 500 },
+		);
+	}
+}
