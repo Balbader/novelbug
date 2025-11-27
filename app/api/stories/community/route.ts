@@ -1,19 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { storiesService } from '@/backend/services/story.service';
 
 export async function GET(request: NextRequest) {
 	try {
-		const { getUser, isAuthenticated } = await getKindeServerSession();
-		const user = await getUser();
-		const isUserAuthenticated = await isAuthenticated();
-
-		if (!isUserAuthenticated || !user) {
-			return NextResponse.json(
-				{ error: 'Unauthorized' },
-				{ status: 401 },
-			);
-		}
+		// Allow unauthenticated access for public community stories
+		// Shared stories are meant to be publicly accessible
 
 		// Fetch all shared stories with details
 		const stories = await storiesService.getSharedStoriesWithDetails();

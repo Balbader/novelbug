@@ -1,3 +1,5 @@
+import OpenCommunityStories from "@/components/community/OpenCommunityStories";
+
 export default function CommunityStoriesPage() {
-	return <div>Community Stories</div>;
+	return <OpenCommunityStories />;
 }
