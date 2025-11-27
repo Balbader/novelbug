@@ -9,6 +9,7 @@ import {
 	LogOut,
 	Sparkles,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -37,6 +38,15 @@ export function NavUser({
 	};
 }) {
 	const { isMobile } = useSidebar();
+	const [logoutRedirectUrl, setLogoutRedirectUrl] = useState<string>('/home');
+
+	useEffect(() => {
+		// Construct the full URL for logout redirect
+		// This ensures Kinde redirects to the correct domain
+		if (typeof window !== 'undefined') {
+			setLogoutRedirectUrl(`${window.location.origin}/home`);
+		}
+	}, []);
 
 	return (
 		<SidebarMenu>
@@ -118,7 +128,7 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							<LogoutLink postLogoutRedirectURL="/home"> Log out</LogoutLink>
+							<LogoutLink postLogoutRedirectURL={logoutRedirectUrl}> Log out</LogoutLink>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
