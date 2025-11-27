@@ -150,6 +150,7 @@ export default async function Page({
 			'User',
 		email: serviceUser.email || user.email || '',
 		avatar: user.picture || '',
+		username: displayUsername,
 	};
 
 	return (
