@@ -56,6 +56,7 @@ export default function CommunityStories() {
 	const [sortBy, setSortBy] = useState<SortOption>('newest');
 	const [filterTopic, setFilterTopic] = useState<string>('all');
 	const [filterLanguage, setFilterLanguage] = useState<string>('all');
+	const [filterAgeGroup, setFilterAgeGroup] = useState<string>('all');
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
 	const router = useRouter();
@@ -129,6 +130,15 @@ export default function CommunityStories() {
 			);
 		}
 
+		// Apply age group filter
+		if (filterAgeGroup !== 'all') {
+			filtered = filtered.filter(
+				(story) =>
+					story.age_group.toLowerCase() ===
+					filterAgeGroup.toLowerCase(),
+			);
+		}
+
 		// Apply sorting
 		filtered.sort((a, b) => {
 			switch (sortBy) {
@@ -150,7 +160,14 @@ export default function CommunityStories() {
 		});
 
 		setFilteredStories(filtered);
-	}, [stories, searchQuery, sortBy, filterTopic, filterLanguage]);
+	}, [
+		stories,
+		searchQuery,
+		sortBy,
+		filterTopic,
+		filterLanguage,
+		filterAgeGroup,
+	]);
 
 	// GSAP Animations - Header and Search (run once)
 	useEffect(() => {
@@ -201,6 +218,22 @@ export default function CommunityStories() {
 			.map((story) => story.language.toLowerCase())
 			.filter((lang) => lang && lang.trim() !== '');
 		return Array.from(new Set(languages));
+	};
+
+	const getUniqueAgeGroups = () => {
+		const ageGroups = stories
+			.map((story) => story.age_group.toLowerCase())
+			.filter((age) => age && age.trim() !== '');
+		const uniqueAgeGroups = Array.from(new Set(ageGroups));
+
+		// Sort age groups: 3-5, 6-8, 9-12
+		return uniqueAgeGroups.sort((a, b) => {
+			const getStartAge = (age: string) => {
+				const match = age.match(/^(\d+)/);
+				return match ? parseInt(match[1], 10) : 0;
+			};
+			return getStartAge(a) - getStartAge(b);
+		});
 	};
 
 	const getLanguageLabel = (code: string) => {
@@ -319,11 +352,27 @@ export default function CommunityStories() {
 										</option>
 									))}
 								</select>
+								<select
+									value={filterAgeGroup}
+									onChange={(e) =>
+										setFilterAgeGroup(e.target.value)
+									}
+									className="h-10 sm:h-11 px-3 sm:px-4 rounded-xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 text-sm sm:text-base font-sans font-light text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-[#D97D55] focus:ring-offset-2"
+								>
+									<option value="all">All Ages</option>
+									{getUniqueAgeGroups().map((age) => (
+										<option key={age} value={age}>
+											{age.charAt(0).toUpperCase() +
+												age.slice(1)}
+										</option>
+									))}
+								</select>
 							</div>
 						</div>
 						{searchQuery ||
 						filterTopic !== 'all' ||
-						filterLanguage !== 'all' ? (
+						filterLanguage !== 'all' ||
+						filterAgeGroup !== 'all' ? (
 							<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light">
 								Showing {filteredStories.length} of{' '}
 								{stories.length}{' '}
@@ -496,14 +545,16 @@ export default function CommunityStories() {
 							<h3 className="text-lg sm:text-xl md:text-2xl font-serif font-normal text-slate-900 dark:text-slate-50 mb-1 sm:mb-2 px-2">
 								{searchQuery ||
 								filterTopic !== 'all' ||
-								filterLanguage !== 'all'
+								filterLanguage !== 'all' ||
+								filterAgeGroup !== 'all'
 									? 'No stories found'
 									: 'No shared stories yet'}
 							</h3>
 							<p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-sans font-light mb-4 sm:mb-6 max-w-md mx-auto px-2">
 								{searchQuery ||
 								filterTopic !== 'all' ||
-								filterLanguage !== 'all'
+								filterLanguage !== 'all' ||
+								filterAgeGroup !== 'all'
 									? "Try adjusting your search or filters to find what you're looking for."
 									: 'Be the first to share a story with the community!'}
 							</p>
