@@ -566,82 +566,81 @@ export default function Dashboard() {
 							className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6"
 						>
 							{stats.recentStories.map((story) => (
-								<Card
+								<Link
 									key={story.id}
-									className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full flex flex-col"
-									onMouseEnter={(e) => {
-										gsap.to(e.currentTarget, {
-											y: -4,
-											duration: 0.3,
-											ease: 'power2.out',
-										});
-									}}
-									onMouseLeave={(e) => {
-										gsap.to(e.currentTarget, {
-											y: 0,
-											duration: 0.3,
-											ease: 'power2.out',
-										});
-									}}
+									href={`/${username}/dashboard/my-stories/${story.id}`}
+									className="block h-full"
 								>
-									<CardHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3">
-										<div className="flex items-start justify-between gap-2">
-											<CardTitle className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg line-clamp-2 group-hover:text-[#D97D55] transition-colors flex-1 min-w-0">
-												{story.title}
-											</CardTitle>
-											<BookOpen className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0 mt-0.5 sm:mt-1" />
-										</div>
-										<CardDescription className="font-sans font-light text-xs sm:text-sm mt-1">
-											{formatDate(story.created_at)}
-										</CardDescription>
-									</CardHeader>
-									<CardContent className="px-4 sm:px-6 pb-3 flex-1">
-										<div className="flex flex-wrap gap-1.5 sm:gap-2">
-											<span
-												className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-sans font-light"
-												style={{
-													backgroundColor: '#F4E9D7',
-													color: '#D97D55',
-												}}
-											>
-												{story.topic}
-											</span>
-											<span
-												className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-sans font-light"
-												style={{
-													backgroundColor: '#F4E9D7',
-													color: '#D97D55',
-												}}
-											>
-												{story.style}
-											</span>
-											<span
-												className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-sans font-light"
-												style={{
-													backgroundColor: '#F4E9D7',
-													color: '#D97D55',
-												}}
-											>
-												{story.age_group}
-											</span>
-										</div>
-									</CardContent>
-									<CardFooter className="px-4 sm:px-6 pb-4 sm:pb-6 pt-0">
-										<Link
-											href={`/${username}/dashboard/my-stories/${story.id}`}
-											className="w-full"
-										>
-											<Button
-												variant="ghost"
-												size="sm"
-												className="w-full justify-start text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-[#D97D55] font-sans font-light h-8 sm:h-9"
-											>
+									<Card
+										className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full flex flex-col"
+										onMouseEnter={(e) => {
+											gsap.to(e.currentTarget, {
+												y: -4,
+												duration: 0.3,
+												ease: 'power2.out',
+											});
+										}}
+										onMouseLeave={(e) => {
+											gsap.to(e.currentTarget, {
+												y: 0,
+												duration: 0.3,
+												ease: 'power2.out',
+											});
+										}}
+									>
+										<CardHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3">
+											<div className="flex items-start justify-between gap-2">
+												<CardTitle className="font-serif font-normal text-slate-900 dark:text-slate-50 text-base sm:text-lg line-clamp-2 group-hover:text-[#D97D55] transition-colors flex-1 min-w-0">
+													{story.title}
+												</CardTitle>
+												<BookOpen className="size-4 sm:size-5 text-slate-400 group-hover:text-[#D97D55] transition-colors shrink-0 mt-0.5 sm:mt-1" />
+											</div>
+											<CardDescription className="font-sans font-light text-xs sm:text-sm mt-1">
+												{formatDate(story.created_at)}
+											</CardDescription>
+										</CardHeader>
+										<CardContent className="px-4 sm:px-6 pb-3 flex-1">
+											<div className="flex flex-wrap gap-1.5 sm:gap-2">
+												<span
+													className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-sans font-light"
+													style={{
+														backgroundColor:
+															'#F4E9D7',
+														color: '#D97D55',
+													}}
+												>
+													{story.topic}
+												</span>
+												<span
+													className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-sans font-light"
+													style={{
+														backgroundColor:
+															'#F4E9D7',
+														color: '#D97D55',
+													}}
+												>
+													{story.style}
+												</span>
+												<span
+													className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-sans font-light"
+													style={{
+														backgroundColor:
+															'#F4E9D7',
+														color: '#D97D55',
+													}}
+												>
+													{story.age_group}
+												</span>
+											</div>
+										</CardContent>
+										<CardFooter className="px-4 sm:px-6 pb-4 sm:pb-6 pt-0">
+											<div className="w-full flex items-center text-xs sm:text-sm text-slate-600 dark:text-slate-400 group-hover:text-[#D97D55] font-sans font-light transition-colors">
 												Read story
-												<ArrowRight className="size-3 sm:size-4 ml-1 sm:ml-2" />
-											</Button>
-										</Link>
-									</CardFooter>
-								</Card>
+												<ArrowRight className="size-3 sm:size-4 ml-1 sm:ml-2 group-hover:translate-x-1 transition-transform" />
+											</div>
+										</CardFooter>
+									</Card>
+								</Link>
 							))}
 						</div>
 					) : (

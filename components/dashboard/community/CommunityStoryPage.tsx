@@ -370,7 +370,15 @@ export default function CommunityStoryPage({ storyId }: { storyId: string }) {
 				{/* Story Content */}
 				<Card
 					ref={contentRef}
-					className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950"
+					className="border-slate-200/60 dark:border-slate-800/60 relative overflow-hidden"
+					style={{
+						backgroundColor: '#F5F1E8',
+						backgroundImage: `
+							linear-gradient(rgba(139, 111, 71, 0.03) 1px, transparent 1px),
+							linear-gradient(90deg, rgba(139, 111, 71, 0.03) 1px, transparent 1px)
+						`,
+						backgroundSize: '20px 20px',
+					}}
 				>
 					<CardContent className="p-6 sm:p-8 md:p-12">
 						<div className="prose prose-slate dark:prose-invert max-w-none">
