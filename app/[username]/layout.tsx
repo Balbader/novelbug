@@ -162,13 +162,11 @@ export default async function Layout({
 		return;
 	}
 
-	// For public profile routes (viewing someone else's profile), render without sidebar
-	if (isPublicProfileRoute && username !== serviceUser.username) {
-		return <div className="min-h-screen">{children}</div>;
-	}
-
 	// Use the database username for display (more reliable than Kinde username)
-	const displayUsername = serviceUser.username;
+	// For public profile routes, use the profile username for display in breadcrumbs
+	const displayUsername = isPublicProfileRoute && username !== serviceUser.username
+		? username
+		: serviceUser.username;
 
 	// Prepare user data for sidebar
 	const sidebarUser = {

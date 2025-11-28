@@ -141,6 +141,9 @@ export async function GET(
 					login_count: profileUser.login_count,
 					avatar_style: profileUser.avatar_style || null,
 				},
+				currentUser: {
+					username: dbUser.username,
+				},
 				stats: {
 					totalStories,
 					sharedStories,

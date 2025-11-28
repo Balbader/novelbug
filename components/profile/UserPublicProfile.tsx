@@ -66,6 +66,9 @@ interface UserProfileData {
 		login_count: number;
 		avatar_style: string | null;
 	};
+	currentUser: {
+		username: string;
+	};
 	stats: {
 		totalStories: number;
 		sharedStories: number;
@@ -285,7 +288,8 @@ export default function UserPublicProfile() {
 		);
 	}
 
-	const { user, stats, recentStories, sharedStories } = profileData;
+	const { user, currentUser, stats, recentStories, sharedStories } =
+		profileData;
 
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50/50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
@@ -737,7 +741,7 @@ export default function UserPublicProfile() {
 											{sharedStories.map((story) => (
 												<Link
 													key={story.id}
-													href={`/(pages)/community-stories/${story.id}`}
+													href={`/${currentUser.username}/dashboard/community/${story.id}`}
 												>
 													<Card className="group border-slate-200/60 dark:border-slate-800/60 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 cursor-pointer bg-gradient-to-r from-white to-blue-50/30 dark:from-slate-900 dark:to-blue-950/20 relative overflow-hidden">
 														<div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-full blur-xl" />
