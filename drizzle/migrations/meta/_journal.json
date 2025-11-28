@@ -1,55 +1,62 @@
 {
-	"version": "7",
-	"dialect": "sqlite",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "6",
-			"when": 1763649914489,
-			"tag": "0000_awesome_cerise",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "6",
-			"when": 1763650366765,
-			"tag": "0001_equal_gateway",
-			"breakpoints": true
-		},
-		{
-			"idx": 2,
-			"version": "6",
-			"when": 1763706695373,
-			"tag": "0002_elite_piledriver",
-			"breakpoints": true
-		},
-		{
-			"idx": 3,
-			"version": "6",
-			"when": 1764070234677,
-			"tag": "0003_stiff_scarecrow",
-			"breakpoints": true
-		},
-		{
-			"idx": 4,
-			"version": "6",
-			"when": 1764229190020,
-			"tag": "0004_keen_penance",
-			"breakpoints": true
-		},
-		{
-			"idx": 5,
-			"version": "6",
-			"when": 1764230000000,
-			"tag": "0005_add_first_name_gender",
-			"breakpoints": true
-		},
-		{
-			"idx": 6,
-			"version": "6",
-			"when": 1764258881611,
-			"tag": "0006_robust_emma_frost",
-			"breakpoints": true
-		}
-	]
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1763649914489,
+      "tag": "0000_awesome_cerise",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1763650366765,
+      "tag": "0001_equal_gateway",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1763706695373,
+      "tag": "0002_elite_piledriver",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1764070234677,
+      "tag": "0003_stiff_scarecrow",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1764229190020,
+      "tag": "0004_keen_penance",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1764230000000,
+      "tag": "0005_add_first_name_gender",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1764258881611,
+      "tag": "0006_robust_emma_frost",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1764320170365,
+      "tag": "0007_swift_triathlon",
+      "breakpoints": true
+    }
+  ]
 }

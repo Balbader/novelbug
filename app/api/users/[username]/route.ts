@@ -139,6 +139,7 @@ export async function GET(
 					user_since: profileUser.user_since,
 					last_login: profileUser.last_login,
 					login_count: profileUser.login_count,
+					avatar_style: profileUser.avatar_style || null,
 				},
 				stats: {
 					totalStories,

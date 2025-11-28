@@ -32,6 +32,7 @@ export const usersTable = sqliteTable('users', {
 			return new Date();
 		}),
 	login_count: integer('login_count').notNull().default(0),
+	avatar_style: text('avatar_style', { length: 50 }),
 	created_at: integer('created_at', { mode: 'timestamp' })
 		.notNull()
 		.$defaultFn(() => {

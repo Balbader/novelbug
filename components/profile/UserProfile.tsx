@@ -34,6 +34,21 @@ import {
 } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import {
+	getCuteAvatar,
+	getEmojiAvatar,
+	AVATAR_STYLES,
+	type AvatarStyle,
+} from '@/lib/avatar-utils';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
+import { toast } from 'sonner';
 
 interface Story {
 	id: string;
@@ -59,6 +74,7 @@ interface UserProfileData {
 		user_since: Date | string;
 		last_login: Date | string;
 		login_count: number;
+		avatar_style: string | null;
 	};
 	stats: {
 		totalStories: number;
@@ -79,6 +95,10 @@ export default function UserProfile() {
 	);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
+	const [selectedAvatarStyle, setSelectedAvatarStyle] =
+		useState<AvatarStyle | null>(null);
+	const [isUpdatingAvatar, setIsUpdatingAvatar] = useState(false);
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
 
@@ -94,6 +114,9 @@ export default function UserProfile() {
 
 				if (data.success) {
 					setProfileData(data);
+					setSelectedAvatarStyle(
+						data.user.avatar_style as AvatarStyle | null,
+					);
 				} else {
 					setError(data.error || 'Failed to load profile');
 				}
@@ -157,6 +180,52 @@ export default function UserProfile() {
 	const getPreview = (content: string, maxLength: number = 120) => {
 		if (content.length <= maxLength) return content;
 		return content.substring(0, maxLength).trim() + '...';
+	};
+
+	const handleAvatarStyleChange = async (style: AvatarStyle) => {
+		if (!profileData || !isOwnProfile) return;
+
+		setIsUpdatingAvatar(true);
+		try {
+			const response = await fetch(`/api/users/${username}/avatar`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ avatar_style: style }),
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to update avatar style');
+			}
+
+			if (data.success) {
+				setSelectedAvatarStyle(style);
+				setProfileData({
+					...profileData,
+					user: {
+						...profileData.user,
+						avatar_style: style,
+					},
+				});
+				setIsAvatarDialogOpen(false);
+				toast.success('Avatar style updated!', {
+					description: 'Your avatar has been changed.',
+				});
+			}
+		} catch (err) {
+			console.error('Error updating avatar style:', err);
+			toast.error('Failed to update avatar style', {
+				description:
+					err instanceof Error
+						? err.message
+						: 'Please try again later.',
+			});
+		} finally {
+			setIsUpdatingAvatar(false);
+		}
 	};
 
 	if (isLoading) {
@@ -227,21 +296,159 @@ export default function UserProfile() {
 					<CardContent className="p-6 sm:p-8 md:p-12 relative z-10">
 						<div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
 							<div className="relative">
-								<Avatar className="size-24 sm:size-28 md:size-36 border-4 border-white dark:border-slate-800 shadow-2xl ring-4 ring-[#D97D55]/20">
-									<AvatarImage
-										src=""
-										alt={`${user.first_name} ${user.last_name}`}
-									/>
-									<AvatarFallback className="bg-gradient-to-br from-[#D97D55] via-[#C96A45] to-[#8B6F47] text-white text-3xl sm:text-4xl md:text-5xl font-serif">
-										{getInitials(
-											user.first_name,
-											user.last_name,
+								{isOwnProfile ? (
+									<Dialog
+										open={isAvatarDialogOpen}
+										onOpenChange={setIsAvatarDialogOpen}
+									>
+										<DialogTrigger asChild>
+											<button className="relative group cursor-pointer">
+												<Avatar className="size-24 sm:size-28 md:size-36 border-4 border-white dark:border-slate-800 shadow-2xl ring-4 ring-[#D97D55]/20 group-hover:ring-[#D97D55]/40 transition-all">
+													<AvatarImage
+														src={getCuteAvatar(
+															user.id ||
+																user.username,
+															selectedAvatarStyle ||
+																undefined,
+														)}
+														alt={`${user.first_name} ${user.last_name}`}
+														className="object-cover"
+													/>
+													<AvatarFallback className="bg-gradient-to-br from-[#D97D55] via-[#C96A45] to-[#8B6F47] text-white text-3xl sm:text-4xl md:text-5xl font-serif">
+														{getEmojiAvatar(
+															user.id ||
+																user.username,
+														)}
+													</AvatarFallback>
+												</Avatar>
+												<div className="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+													<div className="opacity-0 group-hover:opacity-100 transition-opacity">
+														<Palette className="size-6 text-white drop-shadow-lg" />
+													</div>
+												</div>
+												{stats.totalStories > 0 && (
+													<div className="absolute -bottom-2 -right-2 bg-gradient-to-br from-[#D97D55] to-[#8B6F47] rounded-full p-2 shadow-lg border-4 border-white dark:border-slate-800 z-10">
+														<Award className="size-4 sm:size-5 text-white" />
+													</div>
+												)}
+											</button>
+										</DialogTrigger>
+										<DialogContent className="max-w-2xl">
+											<DialogHeader>
+												<DialogTitle className="text-xl sm:text-2xl font-serif font-light">
+													Choose Your Avatar Style
+												</DialogTitle>
+												<DialogDescription className="text-sm font-sans font-light">
+													Select a cute avatar style
+													that represents you!
+												</DialogDescription>
+											</DialogHeader>
+											<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4 max-h-[500px] overflow-y-auto pr-2">
+												{AVATAR_STYLES.map((style) => {
+													const avatarUrl =
+														getCuteAvatar(
+															user.id ||
+																user.username,
+															style.value,
+														);
+													const isSelected =
+														selectedAvatarStyle ===
+														style.value;
+
+													return (
+														<button
+															key={style.value}
+															onClick={() =>
+																handleAvatarStyleChange(
+																	style.value,
+																)
+															}
+															disabled={
+																isUpdatingAvatar
+															}
+															className={`relative group p-4 rounded-xl border-2 transition-all duration-300 hover:shadow-lg ${
+																isSelected
+																	? 'border-[#D97D55] bg-[#D97D55]/5 shadow-md'
+																	: 'border-slate-200 dark:border-slate-700 hover:border-[#D97D55]/50'
+															} ${
+																isUpdatingAvatar
+																	? 'opacity-50 cursor-not-allowed'
+																	: 'cursor-pointer'
+															}`}
+														>
+															<div className="flex flex-col items-center gap-3">
+																<div
+																	className={`relative w-20 h-20 rounded-full overflow-hidden border-2 transition-all ${
+																		isSelected
+																			? 'border-[#D97D55] ring-2 ring-[#D97D55]/30'
+																			: 'border-slate-200 dark:border-slate-700'
+																	}`}
+																>
+																	<img
+																		src={
+																			avatarUrl
+																		}
+																		alt={
+																			style.label
+																		}
+																		className="w-full h-full object-cover"
+																	/>
+																	{isSelected && (
+																		<div className="absolute inset-0 bg-[#D97D55]/20 flex items-center justify-center">
+																			<Star className="size-6 text-[#D97D55] fill-[#D97D55]" />
+																		</div>
+																	)}
+																</div>
+																<div className="text-center">
+																	<p className="text-sm font-sans font-medium text-slate-900 dark:text-slate-50">
+																		{
+																			style.label
+																		}
+																	</p>
+																	<p className="text-xs text-slate-500 dark:text-slate-400 font-sans font-light mt-0.5">
+																		{
+																			style.description
+																		}
+																	</p>
+																</div>
+															</div>
+														</button>
+													);
+												})}
+											</div>
+											{isUpdatingAvatar && (
+												<div className="flex items-center justify-center gap-2 mt-4">
+													<Spinner className="size-4 text-[#D97D55]" />
+													<p className="text-sm text-slate-600 dark:text-slate-400 font-sans font-light">
+														Updating avatar...
+													</p>
+												</div>
+											)}
+										</DialogContent>
+									</Dialog>
+								) : (
+									<div className="relative">
+										<Avatar className="size-24 sm:size-28 md:size-36 border-4 border-white dark:border-slate-800 shadow-2xl ring-4 ring-[#D97D55]/20">
+											<AvatarImage
+												src={getCuteAvatar(
+													user.id || user.username,
+													(user.avatar_style as AvatarStyle) ||
+														undefined,
+												)}
+												alt={`${user.first_name} ${user.last_name}`}
+												className="object-cover"
+											/>
+											<AvatarFallback className="bg-gradient-to-br from-[#D97D55] via-[#C96A45] to-[#8B6F47] text-white text-3xl sm:text-4xl md:text-5xl font-serif">
+												{getEmojiAvatar(
+													user.id || user.username,
+												)}
+											</AvatarFallback>
+										</Avatar>
+										{stats.totalStories > 0 && (
+											<div className="absolute -bottom-2 -right-2 bg-gradient-to-br from-[#D97D55] to-[#8B6F47] rounded-full p-2 shadow-lg border-4 border-white dark:border-slate-800">
+												<Award className="size-4 sm:size-5 text-white" />
+											</div>
 										)}
-									</AvatarFallback>
-								</Avatar>
-								{stats.totalStories > 0 && (
-									<div className="absolute -bottom-2 -right-2 bg-gradient-to-br from-[#D97D55] to-[#8B6F47] rounded-full p-2 shadow-lg border-4 border-white dark:border-slate-800">
-										<Award className="size-4 sm:size-5 text-white" />
 									</div>
 								)}
 							</div>
