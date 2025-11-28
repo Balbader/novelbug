@@ -227,10 +227,6 @@ export default function About() {
 					{/* A Small Team with Big Dreams */}
 					<section className="space-y-4 sm:space-y-5">
 						<div className="flex items-center gap-3 mb-4 sm:mb-5">
-							<Users
-								className="size-6 sm:size-7"
-								style={{ color: '#D97D55' }}
-							/>
 							<h2 className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50">
 								A Small Team with Big Dreams
 							</h2>
