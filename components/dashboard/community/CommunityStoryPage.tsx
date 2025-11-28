@@ -16,6 +16,7 @@ import {
 	User,
 	Bookmark,
 	Check,
+	Heart,
 } from 'lucide-react';
 import { gsap } from 'gsap';
 import { toast } from 'sonner';
@@ -38,6 +39,8 @@ interface Story {
 		first_name: string;
 		last_name: string;
 	};
+	isLiked?: boolean;
+	likesCount?: number;
 }
 
 export default function CommunityStoryPage({ storyId }: { storyId: string }) {
@@ -46,6 +49,9 @@ export default function CommunityStoryPage({ storyId }: { storyId: string }) {
 	const [error, setError] = useState<string | null>(null);
 	const [isSaving, setIsSaving] = useState(false);
 	const [isSaved, setIsSaved] = useState(false);
+	const [isLiked, setIsLiked] = useState(false);
+	const [likesCount, setLikesCount] = useState(0);
+	const [isLiking, setIsLiking] = useState(false);
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
 	const router = useRouter();
@@ -96,6 +102,8 @@ export default function CommunityStoryPage({ storyId }: { storyId: string }) {
 
 				if (data.success && data.story) {
 					setStory(data.story);
+					setIsLiked(data.story.isLiked || false);
+					setLikesCount(data.story.likesCount || 0);
 				} else {
 					throw new Error('Story data not found');
 				}
@@ -211,6 +219,44 @@ export default function CommunityStoryPage({ storyId }: { storyId: string }) {
 		}
 	};
 
+	const handleLike = async () => {
+		if (!story || isLiking) return;
+
+		setIsLiking(true);
+		try {
+			const method = isLiked ? 'DELETE' : 'POST';
+			const response = await fetch(`/api/stories/${storyId}/like`, {
+				method,
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to update like status');
+			}
+
+			if (data.success) {
+				setIsLiked(data.liked);
+				setLikesCount(data.likesCount);
+				toast.success(data.liked ? 'Story liked!' : 'Story unliked', {
+					description: data.liked
+						? 'You liked this story'
+						: 'You unliked this story',
+				});
+			}
+		} catch (err) {
+			console.error('Error updating like status:', err);
+			toast.error('Failed to update like status', {
+				description:
+					err instanceof Error
+						? err.message
+						: 'Please try again later.',
+			});
+		} finally {
+			setIsLiking(false);
+		}
+	};
+
 	if (isLoading) {
 		return (
 			<div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50/50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
@@ -255,8 +301,8 @@ export default function CommunityStoryPage({ storyId }: { storyId: string }) {
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50/50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
 			<div className="max-w-4xl mx-auto space-y-6">
-				{/* Back Button and Save Button */}
-				<div className="flex items-center justify-between mb-4">
+				{/* Back Button and Action Buttons */}
+				<div className="flex items-center justify-between mb-4 gap-3">
 					<Button
 						variant="ghost"
 						onClick={() =>
@@ -266,26 +312,54 @@ export default function CommunityStoryPage({ storyId }: { storyId: string }) {
 						<ArrowLeft className="size-4 mr-2" />
 						Back to Community Stories
 					</Button>
-					<Button
-						onClick={handleSaveStory}
-						disabled={isSaving || isSaved}
-						className="font-sans font-light tracking-wide rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 text-white text-sm sm:text-base px-4 sm:px-6"
-						style={{
-							backgroundColor: isSaved ? '#10b981' : '#D97D55',
-						}}
-					>
-						{isSaved ? (
-							<>
-								<Check className="size-4 mr-2" />
-								Saved
-							</>
-						) : (
-							<>
-								<Bookmark className="size-4 mr-2" />
-								{isSaving ? 'Saving...' : 'Save Story'}
-							</>
-						)}
-					</Button>
+					<div className="flex items-center gap-3">
+						<Button
+							onClick={handleLike}
+							disabled={isLiking}
+							variant="outline"
+							className="font-sans font-light tracking-wide rounded-xl border-2 shadow-md hover:shadow-lg transition-all duration-300 text-sm sm:text-base px-4 sm:px-6"
+							style={{
+								borderColor: isLiked ? '#ef4444' : '#D97D55',
+								color: isLiked ? '#ef4444' : '#D97D55',
+								backgroundColor: isLiked
+									? '#fef2f2'
+									: 'transparent',
+							}}
+						>
+							<Heart
+								className={`size-4 mr-2 ${
+									isLiked ? 'fill-current' : ''
+								}`}
+							/>
+							{isLiking
+								? '...'
+								: `${likesCount > 0 ? likesCount : ''} ${
+										isLiked ? 'Liked' : 'Like'
+									}`}
+						</Button>
+						<Button
+							onClick={handleSaveStory}
+							disabled={isSaving || isSaved}
+							className="font-sans font-light tracking-wide rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 text-white text-sm sm:text-base px-4 sm:px-6"
+							style={{
+								backgroundColor: isSaved
+									? '#10b981'
+									: '#D97D55',
+							}}
+						>
+							{isSaved ? (
+								<>
+									<Check className="size-4 mr-2" />
+									Saved
+								</>
+							) : (
+								<>
+									<Bookmark className="size-4 mr-2" />
+									{isSaving ? 'Saving...' : 'Save Story'}
+								</>
+							)}
+						</Button>
+					</div>
 				</div>
 
 				{/* Header */}

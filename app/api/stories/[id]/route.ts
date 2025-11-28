@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { storiesService } from '@/backend/services/story.service';
 import { usersService } from '@/backend/services/user.service';
+import { likesService } from '@/backend/services/like.service';
 import { editStoryAgent } from '@/mastra/agents/edit-story-agent';
 
 export async function GET(
@@ -48,6 +49,10 @@ export async function GET(
 		// Allow viewing any story - users can view stories from public profiles
 		// All stories are accessible for viewing from any user's public profile
 
+		// Get like information
+		const isLiked = await likesService.isLiked(dbUser.id, story.id);
+		const likesCount = await likesService.getLikesCount(story.id);
+
 		// Transform the data to a more client-friendly format
 		const formattedStory = {
 			id: story.id,
@@ -71,6 +76,8 @@ export async function GET(
 						last_name: story.user.last_name || '',
 					}
 				: undefined,
+			isLiked,
+			likesCount,
 		};
 
 		return NextResponse.json(
