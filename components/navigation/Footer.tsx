@@ -62,10 +62,10 @@ export function Footer() {
 							</li>
 							<li>
 								<Link
-									href="/stories"
+									href="/community-stories"
 									className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[14px] tracking-wide"
 								>
-									Stories
+									Featured Stories
 								</Link>
 							</li>
 							<li>
@@ -74,6 +74,14 @@ export function Footer() {
 									className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[14px] tracking-wide"
 								>
 									About
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/#pricing"
+									className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 transition-colors font-sans font-light text-[14px] tracking-wide"
+								>
+									Pricing
 								</Link>
 							</li>
 						</ul>

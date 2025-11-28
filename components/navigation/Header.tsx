@@ -74,19 +74,19 @@ export function Header() {
 							<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
 						</Link>
 						<Link
-							href="/#pricing"
-							className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-[15px] tracking-wide px-4 py-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
-						>
-							<span className="relative z-10">Pricing</span>
-							<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
-						</Link>
-						<Link
 							href="/community-stories"
 							className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-[15px] tracking-wide px-4 py-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
 						>
 							<span className="relative z-10">
 								Featured Stories
 							</span>
+							<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
+						</Link>
+						<Link
+							href="/#pricing"
+							className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-[15px] tracking-wide px-4 py-2 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
+						>
+							<span className="relative z-10">Pricing</span>
 							<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D97D55] transition-all duration-300 group-hover:w-3/4"></span>
 						</Link>
 					</div>
@@ -172,14 +172,6 @@ export function Header() {
 								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
 							</Link>
 							<Link
-								href="/#pricing"
-								onClick={() => setMobileMenuOpen(false)}
-								className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
-							>
-								<span className="relative z-10">Pricing</span>
-								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
-							</Link>
-							<Link
 								href="/community-stories"
 								onClick={() => setMobileMenuOpen(false)}
 								className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
@@ -187,6 +179,14 @@ export function Header() {
 								<span className="relative z-10">
 									Featured Stories
 								</span>
+								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
+							</Link>
+							<Link
+								href="/#pricing"
+								onClick={() => setMobileMenuOpen(false)}
+								className="relative text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-50 transition-all duration-300 font-sans font-light text-sm sm:text-base tracking-wide py-2.5 sm:py-3 px-3 sm:px-4 rounded-md hover:bg-slate-100/50 dark:hover:bg-slate-800/30 group"
+							>
+								<span className="relative z-10">Pricing</span>
 								<span className="absolute left-0 top-0 w-1 h-0 bg-[#D97D55] transition-all duration-300 group-hover:h-full rounded-l-md"></span>
 							</Link>
 							<div className="flex flex-col gap-2 sm:gap-3 mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-200/40 dark:border-slate-800/40">
