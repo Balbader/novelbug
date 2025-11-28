@@ -64,6 +64,7 @@ export default function MyStories() {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [sortBy, setSortBy] = useState<SortOption>('newest');
 	const [filterTopic, setFilterTopic] = useState<string>('all');
+	const [filterLanguage, setFilterLanguage] = useState<string>('all');
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
 	const router = useRouter();
@@ -126,6 +127,15 @@ export default function MyStories() {
 			);
 		}
 
+		// Apply language filter
+		if (filterLanguage !== 'all') {
+			filtered = filtered.filter(
+				(story) =>
+					story.language.toLowerCase() ===
+					filterLanguage.toLowerCase(),
+			);
+		}
+
 		// Apply sorting
 		filtered.sort((a, b) => {
 			switch (sortBy) {
@@ -147,7 +157,7 @@ export default function MyStories() {
 		});
 
 		setFilteredStories(filtered);
-	}, [stories, searchQuery, sortBy, filterTopic]);
+	}, [stories, searchQuery, sortBy, filterTopic, filterLanguage]);
 
 	// GSAP Animations - Header and Search (run once)
 	useEffect(() => {
@@ -234,6 +244,34 @@ export default function MyStories() {
 	const getUniqueTopics = () => {
 		const topics = stories.map((story) => story.topic.toLowerCase());
 		return Array.from(new Set(topics));
+	};
+
+	const getUniqueLanguages = () => {
+		const languages = stories
+			.map((story) => story.language.toLowerCase())
+			.filter((lang) => lang && lang.trim() !== '');
+		return Array.from(new Set(languages));
+	};
+
+	const getLanguageLabel = (code: string) => {
+		const languageMap: Record<string, string> = {
+			en: 'English',
+			es: 'Spanish',
+			fr: 'French',
+			de: 'German',
+			it: 'Italian',
+			pt: 'Portuguese',
+			ar: 'Arabic',
+			ru: 'Russian',
+			zh: 'Chinese',
+			ja: 'Japanese',
+			ko: 'Korean',
+			hi: 'Hindi',
+			bn: 'Bengali',
+			pa: 'Punjabi',
+			ta: 'Tamil',
+		};
+		return languageMap[code.toLowerCase()] || code.toUpperCase();
 	};
 
 	const getReadingTime = (content: string) => {
@@ -378,9 +416,25 @@ export default function MyStories() {
 										</option>
 									))}
 								</select>
+								<select
+									value={filterLanguage}
+									onChange={(e) =>
+										setFilterLanguage(e.target.value)
+									}
+									className="h-10 sm:h-11 px-3 sm:px-4 rounded-xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 text-sm sm:text-base font-sans font-light text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-[#D97D55] focus:ring-offset-2"
+								>
+									<option value="all">All Languages</option>
+									{getUniqueLanguages().map((lang) => (
+										<option key={lang} value={lang}>
+											{getLanguageLabel(lang)}
+										</option>
+									))}
+								</select>
 							</div>
 						</div>
-						{searchQuery || filterTopic !== 'all' ? (
+						{searchQuery ||
+						filterTopic !== 'all' ||
+						filterLanguage !== 'all' ? (
 							<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light">
 								Showing {filteredStories.length} of{' '}
 								{stories.length}{' '}
@@ -566,7 +620,9 @@ export default function MyStories() {
 									backgroundColor: '#F4E9D7',
 								}}
 							>
-								{searchQuery || filterTopic !== 'all' ? (
+								{searchQuery ||
+								filterTopic !== 'all' ||
+								filterLanguage !== 'all' ? (
 									<Search
 										className="size-6 sm:size-7 md:size-8"
 										style={{ color: '#D97D55' }}
@@ -579,32 +635,38 @@ export default function MyStories() {
 								)}
 							</div>
 							<h3 className="text-lg sm:text-xl md:text-2xl font-serif font-normal text-slate-900 dark:text-slate-50 mb-1 sm:mb-2 px-2">
-								{searchQuery || filterTopic !== 'all'
+								{searchQuery ||
+								filterTopic !== 'all' ||
+								filterLanguage !== 'all'
 									? 'No stories found'
 									: 'No stories yet'}
 							</h3>
 							<p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-sans font-light mb-4 sm:mb-6 max-w-md mx-auto px-2">
-								{searchQuery || filterTopic !== 'all'
+								{searchQuery ||
+								filterTopic !== 'all' ||
+								filterLanguage !== 'all'
 									? "Try adjusting your search or filters to find what you're looking for."
 									: 'Start your storytelling journey by creating your first magical bedtime story!'}
 							</p>
-							{!searchQuery && filterTopic === 'all' && (
-								<Link
-									href={`/${username}/dashboard/generate`}
-									className="inline-block"
-								>
-									<Button
-										size="lg"
-										className="font-sans font-light tracking-wide rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 text-white text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto"
-										style={{
-											backgroundColor: '#D97D55',
-										}}
+							{!searchQuery &&
+								filterTopic === 'all' &&
+								filterLanguage === 'all' && (
+									<Link
+										href={`/${username}/dashboard/generate`}
+										className="inline-block"
 									>
-										<Sparkles className="size-3 sm:size-4 mr-2" />
-										Create Your First Story
-									</Button>
-								</Link>
-							)}
+										<Button
+											size="lg"
+											className="font-sans font-light tracking-wide rounded-xl border-0 shadow-md hover:shadow-lg transition-all duration-300 text-white text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto"
+											style={{
+												backgroundColor: '#D97D55',
+											}}
+										>
+											<Sparkles className="size-3 sm:size-4 mr-2" />
+											Create Your First Story
+										</Button>
+									</Link>
+								)}
 						</CardContent>
 					</Card>
 				)}
