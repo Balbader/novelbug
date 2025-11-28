@@ -31,6 +31,7 @@ import {
 	LogIn,
 	Award,
 	Zap,
+	Edit,
 } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -48,6 +49,14 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
+import { COUNTRIES } from '@/lib/countries';
 import { toast } from 'sonner';
 
 interface Story {
@@ -99,6 +108,9 @@ export default function UserProfile() {
 	const [selectedAvatarStyle, setSelectedAvatarStyle] =
 		useState<AvatarStyle | null>(null);
 	const [isUpdatingAvatar, setIsUpdatingAvatar] = useState(false);
+	const [isCountryDialogOpen, setIsCountryDialogOpen] = useState(false);
+	const [countryInput, setCountryInput] = useState('');
+	const [isUpdatingCountry, setIsUpdatingCountry] = useState(false);
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
 
@@ -225,6 +237,54 @@ export default function UserProfile() {
 			});
 		} finally {
 			setIsUpdatingAvatar(false);
+		}
+	};
+
+	const handleCountrySave = async () => {
+		if (!profileData || !countryInput) {
+			toast.error('Please select a country');
+			return;
+		}
+
+		setIsUpdatingCountry(true);
+		try {
+			const response = await fetch(`/api/users/${username}/profile`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ country: countryInput.trim() }),
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to update country');
+			}
+
+			if (data.success) {
+				setProfileData({
+					...profileData,
+					user: {
+						...profileData.user,
+						country: data.user.country,
+					},
+				});
+				setIsCountryDialogOpen(false);
+				toast.success('Country updated!', {
+					description: 'Your country has been updated.',
+				});
+			}
+		} catch (err) {
+			console.error('Error updating country:', err);
+			toast.error('Failed to update country', {
+				description:
+					err instanceof Error
+						? err.message
+						: 'Please try again later.',
+			});
+		} finally {
+			setIsUpdatingCountry(false);
 		}
 	};
 
@@ -479,7 +539,132 @@ export default function UserProfile() {
 									</p>
 								</div>
 								<div className="flex flex-wrap items-center gap-4 sm:gap-5 text-sm sm:text-base">
-									{user.country &&
+									{isOwnProfile ? (
+										<Dialog
+											open={isCountryDialogOpen}
+											onOpenChange={(open) => {
+												setIsCountryDialogOpen(open);
+												if (open && profileData) {
+													setCountryInput(
+														profileData.user
+															.country || '',
+													);
+												}
+											}}
+										>
+											<DialogTrigger asChild>
+												<button className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer group">
+													<MapPin className="size-4 text-[#D97D55]" />
+													<span className="font-sans font-light">
+														{user.country &&
+														user.country !==
+															'Unknown'
+															? user.country
+															: 'Set country'}
+													</span>
+													<Edit className="size-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+												</button>
+											</DialogTrigger>
+											<DialogContent className="max-w-md">
+												<DialogHeader>
+													<DialogTitle className="text-xl sm:text-2xl font-serif font-light">
+														Update Your Country
+													</DialogTitle>
+													<DialogDescription className="text-sm font-sans font-light">
+														Select your country from
+														the list
+													</DialogDescription>
+												</DialogHeader>
+												<div className="space-y-4 mt-4">
+													<div>
+														<label
+															htmlFor="country-select"
+															className="text-sm font-sans font-medium text-slate-700 dark:text-slate-300 mb-2 block"
+														>
+															Country
+														</label>
+														<Select
+															value={countryInput}
+															onValueChange={
+																setCountryInput
+															}
+															disabled={
+																isUpdatingCountry
+															}
+														>
+															<SelectTrigger
+																id="country-select"
+																className="w-full font-sans font-light"
+															>
+																<SelectValue placeholder="Select a country" />
+															</SelectTrigger>
+															<SelectContent className="max-h-[300px]">
+																{COUNTRIES.map(
+																	(
+																		country,
+																	) => (
+																		<SelectItem
+																			key={
+																				country
+																			}
+																			value={
+																				country
+																			}
+																			className="font-sans font-light"
+																		>
+																			{
+																				country
+																			}
+																		</SelectItem>
+																	),
+																)}
+															</SelectContent>
+														</Select>
+													</div>
+													<div className="flex justify-end gap-2">
+														<Button
+															variant="outline"
+															onClick={() =>
+																setIsCountryDialogOpen(
+																	false,
+																)
+															}
+															disabled={
+																isUpdatingCountry
+															}
+															className="font-sans font-light"
+														>
+															Cancel
+														</Button>
+														<Button
+															onClick={
+																handleCountrySave
+															}
+															disabled={
+																isUpdatingCountry ||
+																!countryInput
+															}
+															className="font-sans font-light text-white"
+															style={{
+																backgroundColor:
+																	'#D97D55',
+															}}
+														>
+															{isUpdatingCountry ? (
+																<>
+																	<Spinner className="size-4 mr-2" />
+																	Saving...
+																</>
+															) : (
+																'Save'
+															)}
+														</Button>
+													</div>
+												</div>
+											</DialogContent>
+										</Dialog>
+									) : (
+										user.country &&
 										user.country !== 'Unknown' && (
 											<div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300">
 												<MapPin className="size-4 text-[#D97D55]" />
@@ -487,7 +672,8 @@ export default function UserProfile() {
 													{user.country}
 												</span>
 											</div>
-										)}
+										)
+									)}
 									<div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300">
 										<Calendar className="size-4 text-[#D97D55]" />
 										<span className="font-sans font-light">
