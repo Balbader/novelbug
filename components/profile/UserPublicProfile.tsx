@@ -27,6 +27,9 @@ import {
 	Award,
 	Zap,
 	Palette,
+	UserPlus,
+	UserMinus,
+	UserCheck,
 } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -35,6 +38,7 @@ import {
 	getEmojiAvatar,
 	type AvatarStyle,
 } from '@/lib/avatar-utils';
+import { toast } from 'sonner';
 
 interface Story {
 	id: string;
@@ -75,12 +79,21 @@ interface UserProfileData {
 	isOwnProfile: boolean;
 }
 
+interface FollowData {
+	isFollowing: boolean;
+	followersCount: number;
+	followingCount: number;
+}
+
 export default function UserPublicProfile() {
 	const [profileData, setProfileData] = useState<UserProfileData | null>(
 		null,
 	);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [followData, setFollowData] = useState<FollowData | null>(null);
+	const [isFollowing, setIsFollowing] = useState(false);
+	const [isUpdatingFollow, setIsUpdatingFollow] = useState(false);
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
 
@@ -96,6 +109,10 @@ export default function UserPublicProfile() {
 
 				if (data.success) {
 					setProfileData(data);
+					// Fetch follow status if not own profile
+					if (!data.isOwnProfile) {
+						fetchFollowStatus();
+					}
 				} else {
 					setError(data.error || 'Failed to load profile');
 				}
@@ -115,6 +132,69 @@ export default function UserPublicProfile() {
 			fetchProfile();
 		}
 	}, [username]);
+
+	const fetchFollowStatus = async () => {
+		try {
+			const response = await fetch(`/api/users/${username}/follow`);
+			const data = await response.json();
+
+			if (response.ok && data.success) {
+				setFollowData(data);
+				setIsFollowing(data.isFollowing);
+			}
+		} catch (err) {
+			console.error('Failed to fetch follow status:', err);
+		}
+	};
+
+	const handleFollow = async () => {
+		if (!profileData || profileData.isOwnProfile) return;
+
+		setIsUpdatingFollow(true);
+		try {
+			const method = isFollowing ? 'DELETE' : 'POST';
+			const response = await fetch(`/api/users/${username}/follow`, {
+				method,
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to update follow status');
+			}
+
+			if (data.success) {
+				setIsFollowing(!isFollowing);
+				if (followData) {
+					setFollowData({
+						...followData,
+						isFollowing: !isFollowing,
+						followersCount: isFollowing
+							? followData.followersCount - 1
+							: followData.followersCount + 1,
+					});
+				}
+				toast.success(
+					isFollowing ? 'Unfollowed successfully' : 'Following!',
+					{
+						description: isFollowing
+							? `You're no longer following ${profileData.user.first_name}`
+							: `You're now following ${profileData.user.first_name}`,
+					},
+				);
+			}
+		} catch (err) {
+			console.error('Error updating follow status:', err);
+			toast.error('Failed to update follow status', {
+				description:
+					err instanceof Error
+						? err.message
+						: 'Please try again later.',
+			});
+		} finally {
+			setIsUpdatingFollow(false);
+		}
+	};
 
 	const formatDate = (date: Date | string) => {
 		const d = typeof date === 'string' ? new Date(date) : date;
@@ -276,6 +356,75 @@ export default function UserPublicProfile() {
 										)}
 									</p>
 								</div>
+								{!profileData.isOwnProfile && (
+									<div className="flex items-center gap-3">
+										<Button
+											onClick={handleFollow}
+											disabled={isUpdatingFollow}
+											className="font-sans font-light shadow-md hover:shadow-lg transition-all"
+											style={{
+												backgroundColor: isFollowing
+													? 'transparent'
+													: '#D97D55',
+												borderColor: '#D97D55',
+												color: isFollowing
+													? '#D97D55'
+													: 'white',
+											}}
+											variant={
+												isFollowing
+													? 'outline'
+													: 'default'
+											}
+										>
+											{isUpdatingFollow ? (
+												<>
+													<Spinner className="size-4 mr-2" />
+													{isFollowing
+														? 'Unfollowing...'
+														: 'Following...'}
+												</>
+											) : isFollowing ? (
+												<>
+													<UserCheck className="size-4 mr-2" />
+													Following
+												</>
+											) : (
+												<>
+													<UserPlus className="size-4 mr-2" />
+													Follow
+												</>
+											)}
+										</Button>
+										{followData && (
+											<div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400 font-sans font-light">
+												<div className="flex items-center gap-1">
+													<Users className="size-4" />
+													<span className="font-medium">
+														{
+															followData.followersCount
+														}
+													</span>
+													<span>
+														{followData.followersCount ===
+														1
+															? 'follower'
+															: 'followers'}
+													</span>
+												</div>
+												<div className="flex items-center gap-1">
+													<UserPlus className="size-4" />
+													<span className="font-medium">
+														{
+															followData.followingCount
+														}
+													</span>
+													<span>following</span>
+												</div>
+											</div>
+										)}
+									</div>
+								)}
 								<div className="flex flex-wrap items-center gap-4 sm:gap-5 text-sm sm:text-base">
 									{user.country &&
 										user.country !== 'Unknown' && (

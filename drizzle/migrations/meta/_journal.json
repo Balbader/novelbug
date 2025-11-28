@@ -57,6 +57,13 @@
       "when": 1764320170365,
       "tag": "0007_swift_triathlon",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1764322489145,
+      "tag": "0008_freezing_turbo",
+      "breakpoints": true
     }
   ]
 }
