@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
 	Card,
 	CardContent,
@@ -478,12 +479,16 @@ export default function OpenCommunityStories() {
 										</CardTitle>
 									</div>
 									<div className="flex flex-col gap-2 mt-2">
-										<div className="flex items-center gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light">
+										<Link
+											href={`/${story.author.username}/public-profile`}
+											onClick={(e) => e.stopPropagation()}
+											className="flex items-center gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light hover:text-[#D97D55] transition-colors group/author"
+										>
 											<User className="size-3 sm:size-4" />
-											<span className="truncate">
+											<span className="truncate group-hover/author:underline">
 												{getAuthorName(story.author)}
 											</span>
-										</div>
+										</Link>
 										<div className="flex items-center gap-2">
 											<CardDescription className="font-sans font-light text-xs sm:text-sm flex items-center gap-1 m-0">
 												<Calendar className="size-3 sm:size-4" />

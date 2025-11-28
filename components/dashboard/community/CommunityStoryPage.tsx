@@ -294,10 +294,22 @@ export default function CommunityStoryPage({ storyId }: { storyId: string }) {
 						{story.title}
 					</h1>
 					<div className="flex flex-wrap items-center gap-4 text-sm sm:text-base text-slate-600 dark:text-slate-400 font-sans font-light">
-						<div className="flex items-center gap-2">
-							<User className="size-4" />
-							<span>{getAuthorName()}</span>
-						</div>
+						{story.author ? (
+							<Link
+								href={`/${story.author.username}/public-profile`}
+								className="flex items-center gap-2 hover:text-[#D97D55] transition-colors group/author"
+							>
+								<User className="size-4" />
+								<span className="group-hover/author:underline">
+									{getAuthorName()}
+								</span>
+							</Link>
+						) : (
+							<div className="flex items-center gap-2">
+								<User className="size-4" />
+								<span>{getAuthorName()}</span>
+							</div>
+						)}
 						<div className="flex items-center gap-2">
 							<Calendar className="size-4" />
 							<span>{formatDate(story.created_at)}</span>

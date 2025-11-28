@@ -10,6 +10,7 @@ import {
 import { message, log, error } from '@/lib/print-helpers';
 import { usersService } from '@/backend/services/user.service';
 import { DynamicBreadcrumb } from '@/components/dynamic-breadcrumb';
+import { headers } from 'next/headers';
 
 export default async function Layout({
 	params,
@@ -19,6 +20,15 @@ export default async function Layout({
 	params: Promise<{ username: string }>;
 }) {
 	const { username } = await params;
+
+	// Get the pathname from headers (set by middleware)
+	const headersList = await headers();
+	const pathname = headersList.get('x-pathname') || '';
+
+	// Check if this is a public-profile route
+	const isPublicProfileRouteFromHeaders =
+		pathname.includes('/public-profile');
+
 	const { getUser, isAuthenticated } = await getKindeServerSession();
 	const user = await getUser();
 	log('User', user);
@@ -122,15 +132,39 @@ export default async function Layout({
 		return;
 	}
 
-	// Verify the username in the URL matches the logged-in user
-	// If not, redirect to the correct username path
+	// Check if the username in the URL exists in the database (for public profile viewing)
+	let profileUserExists = false;
 	if (username !== serviceUser.username) {
+		try {
+			const profileUser = await usersService.getByUsername(username);
+			profileUserExists = !!profileUser;
+		} catch (err) {
+			// User doesn't exist, will redirect below
+			profileUserExists = false;
+		}
+	}
+
+	// Check if this is a public-profile route
+	// We use the pathname from middleware to reliably detect the route
+	// Only allow access to public-profile routes with different usernames
+	const isPublicProfileRoute = isPublicProfileRouteFromHeaders;
+
+	// Verify the username in the URL matches the logged-in user
+	// Only enforce this for non-public routes (dashboard, profile editing, etc.)
+	// Allow public routes (like public-profile) to be accessed with any username
+	if (!isPublicProfileRoute && username !== serviceUser.username) {
 		log('Username mismatch, redirecting to correct path', {
 			urlUsername: username,
 			dbUsername: serviceUser.username,
+			profileUserExists,
 		});
 		redirect(`/${serviceUser.username}/dashboard`);
 		return;
+	}
+
+	// For public profile routes (viewing someone else's profile), render without sidebar
+	if (isPublicProfileRoute && username !== serviceUser.username) {
+		return <div className="min-h-screen">{children}</div>;
 	}
 
 	// Use the database username for display (more reliable than Kinde username)
