@@ -4,9 +4,10 @@ import { PinoLogger } from '@mastra/loggers';
 import { characterAgent } from './agents/character-agent';
 import { sceneAgent } from './agents/scene-agent';
 import { storyGeneratorAgent } from './agents/story-generator-agent';
+import { editStoryAgent } from './agents/edit-story-agent';
 
 export const mastra = new Mastra({
-	agents: { characterAgent, sceneAgent, storyGeneratorAgent },
+	agents: { characterAgent, sceneAgent, storyGeneratorAgent, editStoryAgent },
 	logger: new PinoLogger({
 		name: 'Mastra',
 		level: 'info',

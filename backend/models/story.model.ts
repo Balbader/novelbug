@@ -176,4 +176,35 @@ export const storyModel = {
 			.returning();
 		return result;
 	},
+	delete: async (id: string) => {
+		// First get the story to find related data IDs
+		const stories = await db
+			.select()
+			.from(storiesTable)
+			.where(eq(storiesTable.id, id));
+
+		if (!stories || stories.length === 0) {
+			return null;
+		}
+
+		const story = stories[0];
+
+		// Delete story output
+		await db
+			.delete(storiesOutputTable)
+			.where(eq(storiesOutputTable.id, story.story_output_id));
+
+		// Delete story data
+		await db
+			.delete(storiesDataTable)
+			.where(eq(storiesDataTable.id, story.story_data_id));
+
+		// Delete main story record
+		const result = await db
+			.delete(storiesTable)
+			.where(eq(storiesTable.id, id))
+			.returning();
+
+		return result[0] || null;
+	},
 };

@@ -21,6 +21,8 @@ import {
 	Heart,
 	BookMarked,
 	Tag,
+	Share2,
+	Trash2,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -33,6 +35,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
+import { Spinner } from '@/components/ui/spinner';
 
 interface Story {
 	id: string;
@@ -57,6 +60,7 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 	const [error, setError] = useState<string | null>(null);
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
 	const [editForm, setEditForm] = useState<Partial<Story>>({});
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
@@ -326,6 +330,90 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 		setEditForm({});
 	};
 
+	const handleShare = async () => {
+		if (!story) return;
+
+		try {
+			const response = await fetch(`/api/stories/${storyId}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ shared: !story.shared }),
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to update share status');
+			}
+
+			if (data.success && data.story) {
+				setStory({ ...story, shared: data.story.shared });
+				toast.success(
+					story.shared
+						? 'Story removed from community'
+						: 'Story shared to community!',
+					{
+						description: story.shared
+							? 'Your story is no longer visible to others.'
+							: 'Your story is now visible to everyone.',
+					},
+				);
+			}
+		} catch (err) {
+			console.error('Error updating share status:', err);
+			toast.error('Failed to update share status', {
+				description:
+					err instanceof Error
+						? err.message
+						: 'Please try again later.',
+			});
+		}
+	};
+
+	const handleDelete = async () => {
+		if (!story) return;
+
+		// Confirm deletion
+		const confirmed = window.confirm(
+			'Are you sure you want to delete this story? This action cannot be undone.',
+		);
+
+		if (!confirmed) return;
+
+		setIsDeleting(true);
+		try {
+			const response = await fetch(`/api/stories/${storyId}`, {
+				method: 'DELETE',
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to delete story');
+			}
+
+			if (data.success) {
+				toast.success('Story deleted successfully', {
+					description: 'The story has been permanently removed.',
+				});
+				// Redirect to my stories page
+				window.location.href = `/${username}/dashboard/my-stories`;
+			}
+		} catch (err) {
+			console.error('Error deleting story:', err);
+			toast.error('Failed to delete story', {
+				description:
+					err instanceof Error
+						? err.message
+						: 'Please try again later.',
+			});
+		} finally {
+			setIsDeleting(false);
+		}
+	};
+
 	const handleSave = async () => {
 		if (!story) return;
 
@@ -480,18 +568,52 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 							)}
 						</div>
 						{!isEditing ? (
-							<Button
-								onClick={handleEdit}
-								variant="outline"
-								className="font-sans font-light"
-								style={{
-									borderColor: '#D97D55',
-									color: '#D97D55',
-								}}
-							>
-								<Edit className="size-4 mr-2" />
-								Edit Story
-							</Button>
+							<div className="flex gap-2">
+								<Button
+									onClick={handleEdit}
+									variant="outline"
+									className="font-sans font-light"
+									style={{
+										borderColor: '#D97D55',
+										color: '#D97D55',
+									}}
+								>
+									<Edit className="size-4 mr-2" />
+									Edit Story
+								</Button>
+								<Button
+									onClick={handleShare}
+									variant="outline"
+									className="font-sans font-light"
+									style={{
+										borderColor: story.shared
+											? '#10b981'
+											: '#D97D55',
+										color: story.shared
+											? '#10b981'
+											: '#D97D55',
+									}}
+								>
+									<Share2 className="size-4 mr-2" />
+									{story.shared ? 'Shared' : 'Share'}
+								</Button>
+								<Button
+									onClick={handleDelete}
+									variant="outline"
+									disabled={isDeleting}
+									className="font-sans font-light text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
+									style={{
+										borderColor: '#ef4444',
+									}}
+								>
+									{isDeleting ? (
+										<Spinner className="size-4 mr-2" />
+									) : (
+										<Trash2 className="size-4 mr-2" />
+									)}
+									{isDeleting ? 'Deleting...' : 'Delete'}
+								</Button>
+							</div>
 						) : (
 							<div className="flex gap-2">
 								<Button
@@ -502,7 +624,11 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 										backgroundColor: '#D97D55',
 									}}
 								>
-									<Save className="size-4 mr-2" />
+									{isSaving ? (
+										<Spinner className="size-4 mr-2" />
+									) : (
+										<Save className="size-4 mr-2" />
+									)}
 									{isSaving ? 'Saving...' : 'Save'}
 								</Button>
 								<Button
@@ -522,7 +648,7 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 				{/* Story Content */}
 				<div
 					ref={contentRef}
-					className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16"
+					className="rounded-lg shadow-2xl p-8 sm:p-10 md:p-12 lg:p-16 relative"
 					style={{
 						backgroundColor: '#F5F1E8',
 						backgroundImage: `
@@ -534,6 +660,20 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 							'0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(139, 111, 71, 0.2)',
 					}}
 				>
+					{/* Loading Overlay */}
+					{isSaving && (
+						<div className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-lg z-50 flex items-center justify-center">
+							<div className="flex flex-col items-center gap-4">
+								<Spinner className="size-8 text-[#D97D55]" />
+								<p className="text-slate-700 dark:text-slate-300 font-sans font-light text-lg">
+									Adapting your story...
+								</p>
+								<p className="text-slate-500 dark:text-slate-400 font-sans font-light text-sm">
+									This may take a moment
+								</p>
+							</div>
+						</div>
+					)}
 					<div className="relative z-10">
 						{isEditing ? (
 							<div className="space-y-6">

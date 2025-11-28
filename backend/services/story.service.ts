@@ -122,4 +122,11 @@ export const storiesService = {
 		}
 		return result[0];
 	},
+	async deleteStory(id: string) {
+		const deletedStory = await model.storyModel.delete(id);
+		if (!deletedStory) {
+			throw new Error('Story not found or delete failed');
+		}
+		return deletedStory;
+	},
 };
