@@ -79,6 +79,7 @@ interface UserProfileData {
 	};
 	recentStories: Story[];
 	sharedStories: Story[];
+	allStories: Story[];
 	isOwnProfile: boolean;
 }
 
@@ -649,87 +650,83 @@ export default function UserPublicProfile() {
 								</TabsList>
 
 								<TabsContent value="recent" className="mt-0">
-									{recentStories.filter(
-										(story) => story.shared,
-									).length > 0 ? (
+									{recentStories.length > 0 ? (
 										<div className="space-y-2.5">
-											{recentStories
-												.filter((story) => story.shared)
-												.map((story) => (
-													<Link
-														key={story.id}
-														href={`/(pages)/community-stories/${story.id}`}
-													>
-														<Card className="group border-slate-200/60 dark:border-slate-800/60 hover:shadow-lg hover:border-[#D97D55]/30 transition-all duration-300 cursor-pointer bg-gradient-to-r from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800/50">
-															<CardContent className="p-3 sm:p-4">
-																<div className="flex items-start justify-between gap-3">
-																	<div className="flex-1 min-w-0 space-y-1.5">
-																		<div>
-																			<h3 className="text-base sm:text-lg font-serif font-light text-slate-900 dark:text-slate-50 mb-1 group-hover:text-[#D97D55] transition-colors line-clamp-1">
-																				{
-																					story.title
-																				}
-																			</h3>
-																			<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light line-clamp-1">
-																				{getPreview(
-																					story.story_content,
-																					80,
-																				)}
-																			</p>
-																		</div>
-																		<div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-																			<Badge
-																				variant="outline"
-																				className="text-[10px] sm:text-xs font-sans font-light border-[#D97D55]/30 text-[#D97D55] bg-[#D97D55]/5 px-1.5 py-0.5"
-																			>
-																				{
-																					story.topic
-																				}
-																			</Badge>
-																			{story.subtopic && (
-																				<Badge
-																					variant="outline"
-																					className="text-[10px] sm:text-xs font-sans font-light px-1.5 py-0.5"
-																				>
-																					{
-																						story.subtopic
-																					}
-																				</Badge>
+											{recentStories.map((story) => (
+												<Link
+													key={story.id}
+													href={`/${currentUser.username}/dashboard/community/${story.id}`}
+												>
+													<Card className="group border-slate-200/60 dark:border-slate-800/60 hover:shadow-lg hover:border-[#D97D55]/30 transition-all duration-300 cursor-pointer bg-gradient-to-r from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800/50">
+														<CardContent className="p-3 sm:p-4">
+															<div className="flex items-start justify-between gap-3">
+																<div className="flex-1 min-w-0 space-y-1.5">
+																	<div>
+																		<h3 className="text-base sm:text-lg font-serif font-light text-slate-900 dark:text-slate-50 mb-1 group-hover:text-[#D97D55] transition-colors line-clamp-1">
+																			{
+																				story.title
+																			}
+																		</h3>
+																		<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-sans font-light line-clamp-1">
+																			{getPreview(
+																				story.story_content,
+																				80,
 																			)}
+																		</p>
+																	</div>
+																	<div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+																		<Badge
+																			variant="outline"
+																			className="text-[10px] sm:text-xs font-sans font-light border-[#D97D55]/30 text-[#D97D55] bg-[#D97D55]/5 px-1.5 py-0.5"
+																		>
+																			{
+																				story.topic
+																			}
+																		</Badge>
+																		{story.subtopic && (
 																			<Badge
 																				variant="outline"
 																				className="text-[10px] sm:text-xs font-sans font-light px-1.5 py-0.5"
 																			>
 																				{
-																					story.style
+																					story.subtopic
 																				}
 																			</Badge>
-																			<div className="flex items-center gap-1 text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-sans font-light">
-																				<Clock className="size-2.5 sm:size-3" />
-																				{getReadingTime(
-																					story.story_content,
-																				)}{' '}
-																				min
-																			</div>
-																			<span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-sans font-light">
-																				{formatDate(
-																					story.created_at,
-																				)}
-																			</span>
+																		)}
+																		<Badge
+																			variant="outline"
+																			className="text-[10px] sm:text-xs font-sans font-light px-1.5 py-0.5"
+																		>
+																			{
+																				story.style
+																			}
+																		</Badge>
+																		<div className="flex items-center gap-1 text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-sans font-light">
+																			<Clock className="size-2.5 sm:size-3" />
+																			{getReadingTime(
+																				story.story_content,
+																			)}{' '}
+																			min
 																		</div>
+																		<span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-sans font-light">
+																			{formatDate(
+																				story.created_at,
+																			)}
+																		</span>
 																	</div>
-																	<ArrowRight className="size-4 text-slate-400 group-hover:text-[#D97D55] group-hover:translate-x-1 transition-all shrink-0 mt-0.5" />
 																</div>
-															</CardContent>
-														</Card>
-													</Link>
-												))}
+																<ArrowRight className="size-4 text-slate-400 group-hover:text-[#D97D55] group-hover:translate-x-1 transition-all shrink-0 mt-0.5" />
+															</div>
+														</CardContent>
+													</Card>
+												</Link>
+											))}
 										</div>
 									) : (
 										<div className="text-center py-8">
 											<Clock className="size-10 mx-auto mb-3 text-slate-400" />
 											<p className="text-sm text-slate-600 dark:text-slate-400 font-sans font-light">
-												No shared stories yet
+												No stories yet
 											</p>
 										</div>
 									)}

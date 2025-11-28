@@ -45,18 +45,8 @@ export async function GET(
 			);
 		}
 
-		// Allow viewing if:
-		// 1. Story belongs to the user, OR
-		// 2. Story is shared (shared = 1)
-		const isOwner = story.user_id === dbUser.id;
-		const isShared = story.shared === 1;
-
-		if (!isOwner && !isShared) {
-			return NextResponse.json(
-				{ error: 'Forbidden - Story is not shared' },
-				{ status: 403 },
-			);
-		}
+		// Allow viewing any story - users can view stories from public profiles
+		// All stories are accessible for viewing from any user's public profile
 
 		// Transform the data to a more client-friendly format
 		const formattedStory = {

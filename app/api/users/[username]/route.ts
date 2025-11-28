@@ -107,14 +107,14 @@ export async function GET(
 			return createdDate >= weekAgo;
 		}).length;
 
-		// Get recent stories (last 5)
+		// Get recent stories (all stories, last 10)
 		const recentStories = formattedStories
 			.sort(
 				(a, b) =>
 					new Date(b.created_at).getTime() -
 					new Date(a.created_at).getTime(),
 			)
-			.slice(0, 5);
+			.slice(0, 10);
 
 		// Get shared stories
 		const sharedStoriesList = formattedStories
@@ -125,6 +125,13 @@ export async function GET(
 					new Date(a.created_at).getTime(),
 			)
 			.slice(0, 10);
+
+		// Get all stories (for viewing any story)
+		const allStories = formattedStories.sort(
+			(a, b) =>
+				new Date(b.created_at).getTime() -
+				new Date(a.created_at).getTime(),
+		);
 
 		return NextResponse.json(
 			{
@@ -154,6 +161,7 @@ export async function GET(
 				},
 				recentStories,
 				sharedStories: sharedStoriesList,
+				allStories,
 				isOwnProfile: dbUser.id === profileUser.id,
 			},
 			{ status: 200 },
