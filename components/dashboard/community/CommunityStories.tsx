@@ -61,7 +61,6 @@ export default function CommunityStories() {
 	const storiesRef = useRef<HTMLDivElement>(null);
 	const headerRef = useRef<HTMLDivElement>(null);
 	const searchRef = useRef<HTMLDivElement>(null);
-	const hasAnimatedRef = useRef(false);
 
 	// Fetch shared stories
 	useEffect(() => {
@@ -181,49 +180,6 @@ export default function CommunityStories() {
 
 		return () => ctx.revert();
 	}, []);
-
-	// Stories grid animation (runs when stories are first loaded or filtered)
-	useEffect(() => {
-		if (!storiesRef.current || filteredStories.length === 0 || isLoading) {
-			return;
-		}
-
-		// Use requestAnimationFrame to ensure DOM is ready
-		requestAnimationFrame(() => {
-			const container = storiesRef.current;
-			if (!container) return;
-
-			const items = Array.from(container.children) as HTMLElement[];
-
-			if (items.length === 0) return;
-
-			// Only animate from 0 if this is the first time
-			if (!hasAnimatedRef.current) {
-				// Remove the opacity-0 class from container
-				container.classList.remove('opacity-0');
-
-				// Set initial state for items
-				gsap.set(items, { opacity: 0, y: 30 });
-
-				// Animate in
-				gsap.to(items, {
-					opacity: 1,
-					y: 0,
-					duration: 0.6,
-					stagger: 0.08,
-					ease: 'power2.out',
-					delay: 0.1,
-					onComplete: () => {
-						hasAnimatedRef.current = true;
-					},
-				});
-			} else {
-				// For subsequent updates (filtering), ensure everything is visible
-				container.classList.remove('opacity-0');
-				gsap.set(items, { opacity: 1, y: 0 });
-			}
-		});
-	}, [filteredStories, isLoading]);
 
 	const formatDate = (date: Date | string) => {
 		const d = typeof date === 'string' ? new Date(date) : date;
@@ -397,7 +353,7 @@ export default function CommunityStories() {
 				) : filteredStories.length > 0 ? (
 					<div
 						ref={storiesRef}
-						className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 opacity-0"
+						className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6"
 					>
 						{filteredStories.map((story) => (
 							<Card

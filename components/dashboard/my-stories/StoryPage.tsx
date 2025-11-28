@@ -22,7 +22,6 @@ import {
 	BookMarked,
 	Tag,
 } from 'lucide-react';
-import { gsap } from 'gsap';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -110,38 +109,6 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 			setIsLoading(false);
 		}
 	}, [storyId]);
-
-	// GSAP Animations
-	useEffect(() => {
-		if (!story || isLoading) return;
-
-		const ctx = gsap.context(() => {
-			// Header animation
-			if (headerRef.current) {
-				gsap.from(headerRef.current.children, {
-					opacity: 0,
-					y: 20,
-					duration: 0.8,
-					stagger: 0.15,
-					ease: 'power2.out',
-					delay: 0.2,
-				});
-			}
-
-			// Content animation
-			if (contentRef.current) {
-				gsap.from(contentRef.current, {
-					opacity: 0,
-					y: 30,
-					duration: 0.8,
-					ease: 'power2.out',
-					delay: 0.4,
-				});
-			}
-		});
-
-		return () => ctx.revert();
-	}, [story, isLoading]);
 
 	const formatDate = (date: Date | string) => {
 		const d = typeof date === 'string' ? new Date(date) : date;

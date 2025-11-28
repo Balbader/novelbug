@@ -178,44 +178,6 @@ export default function Dashboard() {
 				});
 			}
 
-			// Stats cards animation
-			if (statsRef.current) {
-				const cards = Array.from(statsRef.current.children);
-				gsap.from(cards, {
-					opacity: 0,
-					scale: 0.9,
-					duration: 0.6,
-					stagger: 0.1,
-					ease: 'back.out(1.2)',
-					delay: 0.4,
-				});
-			}
-
-			// Stories grid animation
-			if (storiesRef.current) {
-				const observer = new IntersectionObserver(
-					(entries) => {
-						entries.forEach((entry) => {
-							if (entry.isIntersecting) {
-								const items = Array.from(
-									entry.target.children,
-								) as HTMLElement[];
-								gsap.from(items, {
-									opacity: 0,
-									y: 30,
-									duration: 0.6,
-									stagger: 0.08,
-									ease: 'power2.out',
-								});
-								observer.unobserve(entry.target);
-							}
-						});
-					},
-					{ threshold: 0.1 },
-				);
-				observer.observe(storiesRef.current);
-			}
-
 			// Quick actions animation
 			if (quickActionsRef.current) {
 				gsap.from(quickActionsRef.current.children, {
