@@ -69,7 +69,7 @@ export function FeaturesSection() {
 			<div className="container mx-auto max-w-6xl">
 				<div className="text-center mb-12 sm:mb-16 md:mb-20">
 					<h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light mb-4 sm:mb-5 text-slate-900 dark:text-slate-50 tracking-tight px-2 sm:px-0">
-						Why NovelBug Works?
+						Because Growing Minds Deserve Great Stories
 					</h2>
 					<p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-sans font-light tracking-wide px-4 sm:px-0">
 						Transform any topic into an enchanting bedtime story
@@ -100,7 +100,8 @@ export function FeaturesSection() {
 							</h3>
 							<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
 								Every lesson becomes a captivating bedtime
-								adventure that your child will look forward to hearing every night.
+								adventure that your child will look forward to
+								hearing every night.
 							</p>
 						</div>
 					</div>
@@ -150,7 +151,8 @@ export function FeaturesSection() {
 							</h3>
 							<p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-light tracking-wide">
 								Create special moments while learning together,
-								making bedtime both educational, magical and special.
+								making bedtime both educational, magical and
+								special.
 							</p>
 						</div>
 					</div>

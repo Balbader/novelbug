@@ -138,10 +138,10 @@ export function HeroSection() {
 						ref={titleRef}
 						className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-light tracking-tight text-white/95 leading-[1.1] px-2 sm:px-0"
 					>
-						Smart Bedtime Stories for
+						Bedtime Stories that
 						<br className="hidden sm:block" />
 						<span className="sm:hidden"> </span>
-						<span className="font-normal">Smart Kids</span>
+						<span className="font-normal">Grow Bright Minds</span>
 					</h1>
 
 					{/* Subtitle with refined spacing */}
@@ -149,9 +149,9 @@ export function HeroSection() {
 						ref={subtitleRef}
 						className="text-base sm:text-lg md:text-xl text-white leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-wide px-2 sm:px-0"
 					>
-						Every subject, concept, or curiosity becomes a magical
-						bedtime adventure. Transform what you want your child to
-						learn into stories they'll want to hear.
+						Every topic, concept, or curiosity turns into an
+						adventure, magical, memorable, and made for curious
+						kids.
 					</p>
 
 					<Link href="/generate" className="sm:hidden">

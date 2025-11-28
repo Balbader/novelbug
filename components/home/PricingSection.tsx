@@ -67,19 +67,14 @@ export function Pricing() {
 	}, []);
 
 	const features = {
-		free: [
-			'Create unlimited stories',
-			'Access to basic story templates',
-			'Save your favorite stories',
-			'Share stories with family',
-		],
 		premium: [
-			'Everything in Free',
+			'Create unlimited stories',
 			'Advanced story customization',
 			'Priority story generation',
 			'Export stories as PDF',
 			'Ad-free experience',
 			'Early access to new features',
+			'Remain at beta price forever',
 		],
 	};
 
@@ -94,71 +89,26 @@ export function Pricing() {
 						Simple, Transparent Pricing
 					</h2>
 					<p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-sans font-light tracking-wide px-4 sm:px-0">
-						Choose the plan that works best for your family
+						Join the beta now and get lifetime access to all future
+						features
+						<br /> at the beta price forever.
 					</p>
 				</div>
 
 				<div
 					ref={pricingRef}
-					className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto"
+					className="flex justify-center max-w-4xl mx-auto"
 				>
-					{/* Free Plan */}
-					<Card className="relative flex flex-col border-slate-200/60 dark:border-slate-800/60 hover:border-slate-300/80 dark:hover:border-slate-700/80 hover:shadow-xl transition-all duration-500">
-						<CardHeader className="text-center pb-4">
-							<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50">
-								Free
-							</CardTitle>
-							<div className="mt-4">
-								<span className="text-4xl sm:text-5xl font-serif font-light text-slate-900 dark:text-slate-50">
-									$0
-								</span>
-								<span className="text-slate-600 dark:text-slate-400 font-sans font-light text-lg ml-1">
-									/month
-								</span>
-							</div>
-							<CardDescription className="text-slate-600 dark:text-slate-400 font-sans font-light mt-2">
-								Perfect for getting started
-							</CardDescription>
-						</CardHeader>
-						<CardContent className="flex-1">
-							<ul className="space-y-3">
-								{features.free.map((feature, index) => (
-									<li
-										key={index}
-										className="flex items-start gap-3"
-									>
-										<Check
-											className="size-5 text-slate-600 dark:text-slate-400 mt-0.5 flex-shrink-0"
-											strokeWidth={2}
-										/>
-										<span className="text-sm text-slate-700 dark:text-slate-300 font-sans font-light">
-											{feature}
-										</span>
-									</li>
-								))}
-							</ul>
-						</CardContent>
-						<CardFooter className="pt-6">
-							<Button
-								variant="outline"
-								className="w-full border-slate-200 shadow-sm hover:shadow-md font-sans font-light text-sm tracking-wide transition-all duration-300 cursor-pointer"
-								asChild
-							>
-								<Link href="/auth">Get Started</Link>
-							</Button>
-						</CardFooter>
-					</Card>
-
 					{/* Premium Plan */}
-					<Card className="relative flex flex-col border-2 border-[#D97D55]/40 dark:border-[#D97D55]/40 hover:border-[#D97D55]/60 dark:hover:border-[#D97D55]/60 hover:shadow-xl transition-all duration-500">
+					<Card className="relative flex flex-col border-2 border-[#D97D55]/40 dark:border-[#D97D55]/40 hover:border-[#D97D55]/60 dark:hover:border-[#D97D55]/60 hover:shadow-xl transition-all duration-500 w-full max-w-md">
 						<div className="absolute -top-4 left-1/2 -translate-x-1/2">
 							<span className="bg-[#D97D55] text-white text-xs font-sans font-medium px-3 py-1 rounded-full shadow-md">
-								Most Popular
+								Limited Lifetime Offer
 							</span>
 						</div>
 						<CardHeader className="text-center pb-4 pt-6">
 							<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50">
-								Premium
+								Lifetime Beta Membership Deal
 							</CardTitle>
 							<div className="mt-4">
 								<span className="text-4xl sm:text-5xl font-serif font-light text-slate-900 dark:text-slate-50">
@@ -169,7 +119,12 @@ export function Pricing() {
 								</span>
 							</div>
 							<CardDescription className="text-slate-600 dark:text-slate-400 font-sans font-light mt-2">
-								For the ultimate storytelling experience
+								<span className="font-bold">
+									No ads, No spams, No limits, just stories.
+								</span>
+								<br />
+								Join the beta now and get lifetime access to all
+								future features at a special price.
 							</CardDescription>
 						</CardHeader>
 						<CardContent className="flex-1">
@@ -208,7 +163,7 @@ export function Pricing() {
 							>
 								<Link href="/auth">
 									<Sparkles className="size-4 mr-2" />
-									Upgrade to Premium
+									Join the Beta Now
 								</Link>
 							</Button>
 						</CardFooter>

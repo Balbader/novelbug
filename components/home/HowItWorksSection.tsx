@@ -74,7 +74,7 @@ export function HowItWorksSection() {
 			<div className="container mx-auto max-w-6xl">
 				<div className="text-center mb-12 sm:mb-16 md:mb-20">
 					<h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light mb-4 sm:mb-5 text-slate-900 dark:text-slate-50 tracking-tight px-2 sm:px-0">
-						How It Works
+						When Learning Feels Like Magic
 					</h2>
 					<p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-sans font-light tracking-wide px-4 sm:px-0">
 						Simple, automated, and powerful. Transform any topic
