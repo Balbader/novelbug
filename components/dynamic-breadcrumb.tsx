@@ -35,9 +35,10 @@ export function DynamicBreadcrumb({ username }: DynamicBreadcrumbProps) {
 	// Check if we're on a story page and fetch the story title
 	useEffect(() => {
 		const fetchStoryTitle = async () => {
-			// Check if we're on a story page: path should include 'my-stories' and last segment is a UUID
+			// Check if we're on a story page: path should include 'my-stories' or 'community' and last segment is a UUID
 			const isStoryPage =
-				pathname.includes('/my-stories/') &&
+				(pathname.includes('/my-stories/') ||
+					pathname.includes('/community/')) &&
 				segments.length > 0 &&
 				isUUID(segments[segments.length - 1]);
 
@@ -68,6 +69,7 @@ export function DynamicBreadcrumb({ username }: DynamicBreadcrumbProps) {
 			dashboard: 'Dashboard',
 			generate: 'Generate Story',
 			'my-stories': 'My Stories',
+			community: 'Community Stories',
 		};
 
 		// If this is the last segment and it's a UUID (story ID), use the story title
