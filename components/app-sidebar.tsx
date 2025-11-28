@@ -73,14 +73,12 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 		{
 			title: 'Community Stories',
 			icon: Globe,
-			url: user?.username
-				? `/${user.username}/dashboard/community`
-				: '#',
+			url: user?.username ? `/${user.username}/dashboard/community` : '#',
 		},
 		{
 			title: 'My Profile',
 			icon: User,
-			url: '#',
+			url: user?.username ? `/${user.username}/profile` : '#',
 		},
 	];
 
