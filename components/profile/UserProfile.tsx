@@ -691,20 +691,6 @@ export default function UserProfile() {
 									</div>
 								</div>
 							</div>
-							{isOwnProfile && (
-								<Link href={`/${username}/dashboard`}>
-									<Button
-										variant="outline"
-										className="font-sans font-light shadow-md hover:shadow-lg transition-all"
-										style={{
-											borderColor: '#D97D55',
-											color: '#D97D55',
-										}}
-									>
-										Edit Profile
-									</Button>
-								</Link>
-							)}
 						</div>
 					</CardContent>
 				</Card>
