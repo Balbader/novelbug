@@ -27,19 +27,6 @@ import {
 import Link from 'next/link';
 import { log } from '@/lib/print-helpers';
 
-const navSecondary = [
-	{
-		title: 'Support',
-		url: '#',
-		icon: LifeBuoy,
-	},
-	{
-		title: 'Feedback',
-		url: '#',
-		icon: Send,
-	},
-];
-
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 	user?: {
 		name: string;
@@ -115,6 +102,15 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 			icon: User,
 			// Always use the logged-in user's username for "My Profile", not the display username
 			url: currentUsername ? `/${currentUsername}/profile` : '#',
+		},
+	];
+
+	// Generate secondary navigation items (Feedback, Support, etc.)
+	const navSecondary = [
+		{
+			title: 'Feedback',
+			url: currentUsername ? `/${currentUsername}/feedback` : '#',
+			icon: Send,
 		},
 	];
 
