@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
 	BookOpen,
@@ -50,6 +51,40 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
 	log('User data in sidebar', user);
+	const [loggedInUsername, setLoggedInUsername] = useState<string | null>(
+		null,
+	);
+
+	// Fetch the current logged-in user's username to ensure "My Profile" always points to the correct user
+	useEffect(() => {
+		const fetchCurrentUser = async () => {
+			try {
+				// Get the current pathname to extract username
+				const pathname = window.location.pathname;
+				const pathParts = pathname.split('/').filter(Boolean);
+
+				// Fetch any user profile to get the currentUser.username from the API response
+				// The API always returns currentUser.username which is the logged-in user's username
+				if (pathParts.length > 0) {
+					const response = await fetch(`/api/users/${pathParts[0]}`);
+					if (response.ok) {
+						const data = await response.json();
+						if (data.success && data.currentUser?.username) {
+							setLoggedInUsername(data.currentUser.username);
+						}
+					}
+				}
+			} catch (error) {
+				console.error('Failed to fetch current user:', error);
+			}
+		};
+
+		fetchCurrentUser();
+	}, []);
+
+	// Use loggedInUsername if available, otherwise fall back to user.username
+	// But ensure we always use the logged-in user's username for "My Profile"
+	const currentUsername = loggedInUsername || user?.username;
 
 	// Generate navigation items with username
 	const navMain = [
@@ -78,7 +113,8 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 		{
 			title: 'My Profile',
 			icon: User,
-			url: user?.username ? `/${user.username}/profile` : '#',
+			// Always use the logged-in user's username for "My Profile", not the display username
+			url: currentUsername ? `/${currentUsername}/profile` : '#',
 		},
 	];
 

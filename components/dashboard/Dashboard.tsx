@@ -163,37 +163,6 @@ export default function Dashboard() {
 		fetchStories();
 	}, []);
 
-	// GSAP Animations
-	useEffect(() => {
-		const ctx = gsap.context(() => {
-			// Welcome section animation
-			if (welcomeRef.current) {
-				gsap.from(welcomeRef.current.children, {
-					opacity: 0,
-					y: 20,
-					duration: 0.8,
-					stagger: 0.15,
-					ease: 'power2.out',
-					delay: 0.2,
-				});
-			}
-
-			// Quick actions animation
-			if (quickActionsRef.current) {
-				gsap.from(quickActionsRef.current.children, {
-					opacity: 0,
-					x: -20,
-					duration: 0.6,
-					stagger: 0.1,
-					ease: 'power2.out',
-					delay: 0.6,
-				});
-			}
-		});
-
-		return () => ctx.revert();
-	}, [stats]);
-
 	const formatDate = (date: Date | string) => {
 		const d = typeof date === 'string' ? new Date(date) : date;
 		return new Intl.DateTimeFormat('en-US', {
@@ -298,7 +267,7 @@ export default function Dashboard() {
 									</div>
 									<div className="flex-1 min-w-0">
 										<h3 className="font-serif font-normal text-white text-lg sm:text-xl mb-0.5 sm:mb-1 truncate">
-											New Story
+											Create Story
 										</h3>
 										<p className="text-xs sm:text-sm text-white/90 font-sans font-medium truncate">
 											Start creating
@@ -394,136 +363,6 @@ export default function Dashboard() {
 							</CardContent>
 						</Card>
 					</Link>
-				</div>
-
-				{/* Statistics Cards */}
-				<div
-					ref={statsRef}
-					className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
-				>
-					<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
-						<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
-							<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
-								Total Stories
-							</CardDescription>
-						</CardHeader>
-						<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
-							<div className="flex items-center gap-2 sm:gap-3">
-								<div
-									className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
-									style={{
-										backgroundColor: '#F4E9D7',
-									}}
-								>
-									<BookOpen
-										className="size-4 sm:size-5"
-										style={{ color: '#D97D55' }}
-									/>
-								</div>
-								<div className="min-w-0 flex-1">
-									<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
-										{stats.totalStories}
-									</CardTitle>
-									<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
-										Stories created
-									</p>
-								</div>
-							</div>
-						</CardContent>
-					</Card>
-
-					<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
-						<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
-							<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
-								Favorite Topic
-							</CardDescription>
-						</CardHeader>
-						<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
-							<div className="flex items-center gap-2 sm:gap-3">
-								<div
-									className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
-									style={{
-										backgroundColor: '#F4E9D7',
-									}}
-								>
-									<Heart
-										className="size-4 sm:size-5"
-										style={{ color: '#D97D55' }}
-									/>
-								</div>
-								<div className="min-w-0 flex-1">
-									<CardTitle className="text-lg sm:text-xl font-serif font-normal text-slate-900 dark:text-slate-50 capitalize truncate">
-										{stats.favoriteTopic || 'None yet'}
-									</CardTitle>
-									<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
-										Most created
-									</p>
-								</div>
-							</div>
-						</CardContent>
-					</Card>
-
-					<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
-						<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
-							<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
-								Reading Time
-							</CardDescription>
-						</CardHeader>
-						<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
-							<div className="flex items-center gap-2 sm:gap-3">
-								<div
-									className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
-									style={{
-										backgroundColor: '#F4E9D7',
-									}}
-								>
-									<Clock
-										className="size-4 sm:size-5"
-										style={{ color: '#D97D55' }}
-									/>
-								</div>
-								<div className="min-w-0 flex-1">
-									<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
-										{stats.totalReadingTime}
-									</CardTitle>
-									<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
-										Minutes read
-									</p>
-								</div>
-							</div>
-						</CardContent>
-					</Card>
-
-					<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
-						<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
-							<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
-								This Week
-							</CardDescription>
-						</CardHeader>
-						<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
-							<div className="flex items-center gap-2 sm:gap-3">
-								<div
-									className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
-									style={{
-										backgroundColor: '#F4E9D7',
-									}}
-								>
-									<TrendingUp
-										className="size-4 sm:size-5"
-										style={{ color: '#D97D55' }}
-									/>
-								</div>
-								<div className="min-w-0 flex-1">
-									<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
-										{stats.storiesThisWeek}
-									</CardTitle>
-									<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
-										New stories
-									</p>
-								</div>
-							</div>
-						</CardContent>
-					</Card>
 				</div>
 
 				{/* Recent Stories */}
@@ -682,6 +521,142 @@ export default function Dashboard() {
 							</CardContent>
 						</Card>
 					)}
+
+					{/* Statistics Cards */}
+					<div className="space-y-3 sm:space-y-4">
+						<h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50">
+							Stats
+						</h2>
+						<div
+							ref={statsRef}
+							className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
+						>
+							<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+								<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
+									<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
+										Total Stories
+									</CardDescription>
+								</CardHeader>
+								<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+									<div className="flex items-center gap-2 sm:gap-3">
+										<div
+											className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
+											style={{
+												backgroundColor: '#F4E9D7',
+											}}
+										>
+											<BookOpen
+												className="size-4 sm:size-5"
+												style={{ color: '#D97D55' }}
+											/>
+										</div>
+										<div className="min-w-0 flex-1">
+											<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
+												{stats.totalStories}
+											</CardTitle>
+											<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
+												Stories created
+											</p>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+
+							<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+								<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
+									<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
+										Favorite Topic
+									</CardDescription>
+								</CardHeader>
+								<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+									<div className="flex items-center gap-2 sm:gap-3">
+										<div
+											className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
+											style={{
+												backgroundColor: '#F4E9D7',
+											}}
+										>
+											<Heart
+												className="size-4 sm:size-5"
+												style={{ color: '#D97D55' }}
+											/>
+										</div>
+										<div className="min-w-0 flex-1">
+											<CardTitle className="text-lg sm:text-xl font-serif font-normal text-slate-900 dark:text-slate-50 capitalize truncate">
+												{stats.favoriteTopic ||
+													'None yet'}
+											</CardTitle>
+											<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
+												Most created
+											</p>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+
+							<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+								<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
+									<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
+										Reading Time
+									</CardDescription>
+								</CardHeader>
+								<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+									<div className="flex items-center gap-2 sm:gap-3">
+										<div
+											className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
+											style={{
+												backgroundColor: '#F4E9D7',
+											}}
+										>
+											<Clock
+												className="size-4 sm:size-5"
+												style={{ color: '#D97D55' }}
+											/>
+										</div>
+										<div className="min-w-0 flex-1">
+											<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
+												{stats.totalReadingTime}
+											</CardTitle>
+											<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
+												Minutes read
+											</p>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+
+							<Card className="border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 h-full">
+								<CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
+									<CardDescription className="font-sans font-light text-xs sm:text-sm tracking-wide">
+										This Week
+									</CardDescription>
+								</CardHeader>
+								<CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+									<div className="flex items-center gap-2 sm:gap-3">
+										<div
+											className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
+											style={{
+												backgroundColor: '#F4E9D7',
+											}}
+										>
+											<TrendingUp
+												className="size-4 sm:size-5"
+												style={{ color: '#D97D55' }}
+											/>
+										</div>
+										<div className="min-w-0 flex-1">
+											<CardTitle className="text-2xl sm:text-3xl font-serif font-normal text-slate-900 dark:text-slate-50 truncate">
+												{stats.storiesThisWeek}
+											</CardTitle>
+											<p className="text-xs text-slate-500 dark:text-slate-500 font-sans font-light mt-0.5 sm:mt-1">
+												New stories
+											</p>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
