@@ -32,6 +32,7 @@ import {
 	Award,
 	Zap,
 	Edit,
+	UserPlus,
 } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -111,6 +112,8 @@ export default function UserProfile() {
 	const [isCountryDialogOpen, setIsCountryDialogOpen] = useState(false);
 	const [countryInput, setCountryInput] = useState('');
 	const [isUpdatingCountry, setIsUpdatingCountry] = useState(false);
+	const [followersCount, setFollowersCount] = useState<number>(0);
+	const [followingCount, setFollowingCount] = useState<number>(0);
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
 
@@ -144,8 +147,42 @@ export default function UserProfile() {
 			}
 		};
 
+		const fetchFollowData = async () => {
+			try {
+				const response = await fetch(`/api/users/${username}/follow`);
+				if (response.ok) {
+					const data = await response.json();
+					if (data.success) {
+						// Ensure we're getting the correct counts for the profile user
+						// followersCount = people who follow this user
+						// followingCount = people this user follows
+						setFollowersCount(
+							typeof data.followersCount === 'number'
+								? data.followersCount
+								: 0,
+						);
+						setFollowingCount(
+							typeof data.followingCount === 'number'
+								? data.followingCount
+								: 0,
+						);
+					}
+				} else {
+					// If API fails, set to 0
+					setFollowersCount(0);
+					setFollowingCount(0);
+				}
+			} catch (err) {
+				console.error('Failed to fetch follow data:', err);
+				// Set to 0 on error
+				setFollowersCount(0);
+				setFollowingCount(0);
+			}
+		};
+
 		if (username) {
 			fetchProfile();
+			fetchFollowData();
 		}
 	}, [username]);
 
@@ -696,7 +733,7 @@ export default function UserProfile() {
 				</Card>
 
 				{/* Statistics Grid */}
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
 					<Card className="group border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-default">
 						<CardHeader className="pb-3">
 							<CardDescription className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
@@ -769,6 +806,46 @@ export default function UserProfile() {
 							</CardTitle>
 							<p className="text-xs text-slate-500 dark:text-slate-400 font-sans font-light">
 								new stories
+							</p>
+						</CardContent>
+					</Card>
+
+					<Card className="group border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-default">
+						<CardHeader className="pb-3">
+							<CardDescription className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+								<div className="p-2 rounded-lg bg-pink-100 dark:bg-pink-900/30 group-hover:bg-pink-200 dark:group-hover:bg-pink-900/50 transition-colors">
+									<Users className="size-4 text-pink-600 dark:text-pink-400" />
+								</div>
+								Followers
+							</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<CardTitle className="text-4xl sm:text-5xl font-serif font-light text-slate-900 dark:text-slate-50 mb-1">
+								{followersCount}
+							</CardTitle>
+							<p className="text-xs text-slate-500 dark:text-slate-400 font-sans font-light">
+								{followersCount === 1
+									? 'follower'
+									: 'followers'}
+							</p>
+						</CardContent>
+					</Card>
+
+					<Card className="group border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-950 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-default">
+						<CardHeader className="pb-3">
+							<CardDescription className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+								<div className="p-2 rounded-lg bg-cyan-100 dark:bg-cyan-900/30 group-hover:bg-cyan-200 dark:group-hover:bg-cyan-900/50 transition-colors">
+									<UserPlus className="size-4 text-cyan-600 dark:text-cyan-400" />
+								</div>
+								Following
+							</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<CardTitle className="text-4xl sm:text-5xl font-serif font-light text-slate-900 dark:text-slate-50 mb-1">
+								{followingCount}
+							</CardTitle>
+							<p className="text-xs text-slate-500 dark:text-slate-400 font-sans font-light">
+								following
 							</p>
 						</CardContent>
 					</Card>
@@ -847,7 +924,7 @@ export default function UserProfile() {
 									</Link>
 								)}
 								{sharedStories.length > 0 && (
-									<Link href={`/(pages)/community-stories`}>
+									<Link href={`/${username}/dashboard/community`}>
 										<Button
 											variant="ghost"
 											size="sm"
