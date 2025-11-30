@@ -81,7 +81,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 			icon: LayoutDashboard,
 		},
 		{
-			title: 'Generate Story',
+			title: 'Create Story',
 			url: user?.username ? `/${user.username}/dashboard/generate` : '#',
 			icon: Sparkles,
 		},
