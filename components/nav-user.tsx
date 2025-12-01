@@ -40,11 +40,13 @@ export function NavUser({
 	};
 }) {
 	const { isMobile } = useSidebar();
-	const [logoutRedirectUrl, setLogoutRedirectUrl] = useState<string>('/home');
+	const [logoutRedirectUrl, setLogoutRedirectUrl] = useState<string>('https://www.novelbug.com/home');
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
-			setLogoutRedirectUrl(`${window.location.origin}/home`);
+			// Use production URL for logout redirect
+			// This ensures consistent behavior across all environments
+			setLogoutRedirectUrl('https://www.novelbug.com/home');
 		}
 	}, []);
 
