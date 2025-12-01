@@ -40,13 +40,13 @@ export function NavUser({
 	};
 }) {
 	const { isMobile } = useSidebar();
-	const [logoutRedirectUrl, setLogoutRedirectUrl] = useState<string>('https://www.novelbug.com/home');
+	const [postLogoutRedirectUrl, setPostLogoutRedirectUrl] = useState<string>('https://www.novelbug.com/home');
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			// Use production URL for logout redirect
 			// This ensures consistent behavior across all environments
-			setLogoutRedirectUrl('https://www.novelbug.com/home');
+			setPostLogoutRedirectUrl('https://www.novelbug.com/home');
 		}
 	}, []);
 
@@ -252,7 +252,7 @@ export function NavUser({
 						<DropdownMenuSeparator className="my-2" />
 						<DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-red-50/50 dark:hover:bg-red-950/20 text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400">
 							<LogoutLink
-								postLogoutRedirectURL={logoutRedirectUrl}
+								postLogoutRedirectURL={postLogoutRedirectUrl}
 								className="flex items-center w-full"
 							>
 								<div
