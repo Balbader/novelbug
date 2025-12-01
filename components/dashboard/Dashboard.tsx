@@ -51,6 +51,12 @@ interface DashboardStats {
 	recentStories: Story[];
 }
 
+interface UserInfo {
+	username: string;
+	first_name: string;
+	login_count: number;
+}
+
 export default function Dashboard() {
 	const [stats, setStats] = useState<DashboardStats>({
 		totalStories: 0,
@@ -60,6 +66,7 @@ export default function Dashboard() {
 		recentStories: [],
 	});
 	const [isLoading, setIsLoading] = useState(true);
+	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 	const pathname = usePathname();
 	const username = pathname?.split('/')[1] || '';
 
@@ -98,6 +105,31 @@ export default function Dashboard() {
 			return createdDate >= weekAgo;
 		}).length;
 	};
+
+	// Fetch user info
+	useEffect(() => {
+		const fetchUserInfo = async () => {
+			if (!username) return;
+
+			try {
+				const response = await fetch(`/api/users/${username}`);
+				if (response.ok) {
+					const data = await response.json();
+					if (data.success && data.user) {
+						setUserInfo({
+							username: data.user.username,
+							first_name: data.user.first_name,
+							login_count: data.user.login_count || 0,
+						});
+					}
+				}
+			} catch (error) {
+				console.error('Failed to fetch user info:', error);
+			}
+		};
+
+		fetchUserInfo();
+	}, [username]);
 
 	// Fetch user stories
 	useEffect(() => {
@@ -180,10 +212,16 @@ export default function Dashboard() {
 					<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
 						<div className="flex-1 min-w-0">
 							<h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-slate-900 dark:text-slate-50 mb-1 sm:mb-2 tracking-tight leading-tight">
-								Welcome Back! ✨
+								{userInfo
+									? userInfo.login_count <= 2
+										? `Welcome ${userInfo.first_name || userInfo.username}! ✨`
+										: `Welcome Back ${userInfo.first_name || userInfo.username}! ✨`
+									: 'Welcome Back! ✨'}
 							</h1>
 							<p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 font-sans font-light tracking-wide">
-								Ready to create more magical bedtime stories?
+								{userInfo && userInfo.login_count <= 2
+									? "We're excited to have you here! Let's create your first magical bedtime story."
+									: 'Ready to create more magical bedtime stories?'}
 							</p>
 						</div>
 						<Link
