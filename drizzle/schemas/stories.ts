@@ -7,7 +7,7 @@ export const storiesTable = sqliteTable('stories', {
 	id: text('id').primaryKey(),
 	user_id: text('user_id')
 		.notNull()
-		.references(() => usersTable.id, { onDelete: 'cascade' }),
+		.references(() => usersTable.id),
 	story_data_id: text('story_data_id')
 		.notNull()
 		.references(() => storiesDataTable.id),
