@@ -23,6 +23,7 @@ import {
 	Tag,
 	Share2,
 	Trash2,
+	Facebook,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -372,6 +373,42 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 		}
 	};
 
+	const handleShareToFacebook = () => {
+		if (!story || !story.shared) {
+			toast.error('Story must be shared first', {
+				description:
+					'Please share your story to the community before sharing on Facebook.',
+			});
+			return;
+		}
+
+		// Create the public URL for the story based on the current origin.
+		// This will point to the public community story page:
+		// app/(pages)/community-stories/[id]/page.tsx -> /community-stories/:id
+		const url = new URL(window.location.href);
+		url.pathname = `/community-stories/${storyId}`;
+		url.search = '';
+		url.hash = '';
+		const publicUrl = url.toString();
+
+		// Facebook Share Dialog URL
+		const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+			publicUrl,
+		)}`;
+
+		// Open Facebook share dialog in a new window
+		const width = 600;
+		const height = 400;
+		const left = (window.innerWidth - width) / 2;
+		const top = (window.innerHeight - height) / 2;
+
+		window.open(
+			facebookShareUrl,
+			'facebook-share-dialog',
+			`width=${width},height=${height},left=${left},top=${top},toolbar=0,menubar=0,location=0,status=0,scrollbars=1,resizable=1`,
+		);
+	};
+
 	const handleDelete = async () => {
 		if (!story) return;
 
@@ -568,7 +605,7 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 							)}
 						</div>
 						{!isEditing ? (
-							<div className="flex gap-2">
+							<div className="flex gap-2 flex-wrap">
 								<Button
 									onClick={handleEdit}
 									variant="outline"
@@ -597,6 +634,20 @@ export default function StoryPage({ storyId }: { storyId: string }) {
 									<Share2 className="size-4 mr-2" />
 									{story.shared ? 'Shared' : 'Share'}
 								</Button>
+								{story.shared && (
+									<Button
+										onClick={handleShareToFacebook}
+										variant="outline"
+										className="font-sans font-light"
+										style={{
+											borderColor: '#1877F2',
+											color: '#1877F2',
+										}}
+									>
+										<Facebook className="size-4 mr-2" />
+										Share to Facebook
+									</Button>
+								)}
 								<Button
 									onClick={handleDelete}
 									variant="outline"
