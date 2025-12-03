@@ -119,17 +119,17 @@ export function HeroSection() {
 			<div
 				className="absolute inset-0 bg-cover bg-center bg-no-repeat"
 				style={{
-					backgroundImage: 'url(/bedtimeStory.png)',
+					backgroundImage: 'url(/papa-story.png)',
 					transform: 'scale(1.05)',
 				}}
 			/>
 
-			{/* Refined gradient overlays */}
-			<div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/20 to-slate-950/50 z-0" />
-			<div className="absolute inset-0 bg-gradient-to-r from-slate-950/30 via-transparent to-slate-950/30 z-0" />
+			{/* Refined gradient overlays (subtle, warmer, and less intense) */}
+			<div className="absolute inset-0 bg-gradient-to-b from-slate-950/55 via-amber-900/25 to-slate-950/65 z-0" />
+			<div className="absolute inset-0 bg-gradient-to-r from-amber-900/25 via-transparent to-rose-900/25 z-0" />
 
-			{/* Subtle vignette effect */}
-			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_transparent_50%,_rgba(15,23,42,0.3)_100%)] z-0" />
+			{/* Very soft warm vignette effect */}
+			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_transparent_60%,_rgba(120,53,15,0.35)_100%)] z-0" />
 
 			<div className="container mx-auto max-w-5xl relative z-10">
 				<div className="max-w-3xl mx-auto text-center space-y-6 sm:space-y-8">
@@ -138,7 +138,7 @@ export function HeroSection() {
 						ref={titleRef}
 						className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-light tracking-tight text-white/95 leading-[1.1] px-2 sm:px-0"
 					>
-						Bedtime Stories that
+						Smart Stories that
 						<br className="hidden sm:block" />
 						<span className="sm:hidden"> </span>
 						<span className="font-normal">Grow Bright Minds</span>
@@ -147,7 +147,7 @@ export function HeroSection() {
 					{/* Subtitle with refined spacing */}
 					<p
 						ref={subtitleRef}
-						className="text-base sm:text-lg md:text-xl text-white leading-relaxed max-w-2xl mx-auto font-sans font-light tracking-wide px-2 sm:px-0"
+						className="text-xl sm:text-base md:text-xl text-white leading-relaxed max-w-2xl mx-auto font-sans font-medium tracking-wide px-2 sm:px-0"
 					>
 						Every topic, concept, or curiosity turns into an
 						adventure, magical, memorable, and made for curious
