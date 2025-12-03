@@ -32,25 +32,59 @@ export async function PATCH(
 		}
 
 		const body = await request.json();
-		const { country } = body;
+		const { country, date_of_birth } = body;
 
-		if (country === undefined) {
+		// Build update object with only provided fields
+		const updateData: {
+			country?: string;
+			date_of_birth?: Date;
+		} = {};
+
+		if (country !== undefined) {
+			if (typeof country !== 'string' || country.trim().length === 0) {
+				return NextResponse.json(
+					{ error: 'Country must be a non-empty string' },
+					{ status: 400 },
+				);
+			}
+			updateData.country = country.trim();
+		}
+
+		if (date_of_birth !== undefined) {
+			if (typeof date_of_birth !== 'string') {
+				return NextResponse.json(
+					{ error: 'Date of birth must be a valid date string' },
+					{ status: 400 },
+				);
+			}
+			const date = new Date(date_of_birth);
+			if (isNaN(date.getTime())) {
+				return NextResponse.json(
+					{ error: 'Invalid date of birth format' },
+					{ status: 400 },
+				);
+			}
+			// Validate that the date is not in the future
+			if (date > new Date()) {
+				return NextResponse.json(
+					{ error: 'Date of birth cannot be in the future' },
+					{ status: 400 },
+				);
+			}
+			updateData.date_of_birth = date;
+		}
+
+		// Check if at least one field is provided
+		if (Object.keys(updateData).length === 0) {
 			return NextResponse.json(
-				{ error: 'Country is required' },
+				{
+					error: 'At least one field (country or date_of_birth) must be provided',
+				},
 				{ status: 400 },
 			);
 		}
 
-		if (typeof country !== 'string' || country.trim().length === 0) {
-			return NextResponse.json(
-				{ error: 'Country must be a non-empty string' },
-				{ status: 400 },
-			);
-		}
-
-		const updatedUser = await usersService.update(dbUser.id, {
-			country: country.trim(),
-		});
+		const updatedUser = await usersService.update(dbUser.id, updateData);
 
 		return NextResponse.json(
 			{
@@ -58,6 +92,7 @@ export async function PATCH(
 				user: {
 					id: updatedUser.id,
 					country: updatedUser.country,
+					date_of_birth: updatedUser.date_of_birth,
 				},
 			},
 			{ status: 200 },
