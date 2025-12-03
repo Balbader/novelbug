@@ -129,4 +129,8 @@ export const storiesService = {
 		}
 		return deletedStory;
 	},
+	async deleteStoriesByUserId(userId: string) {
+		const deletedStories = await model.storyModel.deleteByUserId(userId);
+		return deletedStories;
+	},
 };

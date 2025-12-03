@@ -61,6 +61,19 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { format } from 'date-fns';
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface UserData {
 	id: string;
@@ -93,7 +106,10 @@ export default function Settings() {
 		null,
 	);
 	const [isUpdatingDateOfBirth, setIsUpdatingDateOfBirth] = useState(false);
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+	const [isDeletingAccount, setIsDeletingAccount] = useState(false);
 	const pathname = usePathname();
+	const router = useRouter();
 	const username = pathname?.split('/')[1] || '';
 
 	useEffect(() => {
@@ -291,6 +307,49 @@ export default function Settings() {
 		}
 	};
 
+	const handleDeleteAccount = async () => {
+		if (!userData) return;
+
+		setIsDeletingAccount(true);
+		try {
+			const response = await fetch(`/api/users/${username}`, {
+				method: 'DELETE',
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to delete account');
+			}
+
+			if (data.success) {
+				toast.success('Account deleted successfully');
+				// Redirect to logout URL to completely log out the user
+				// This ensures the user is logged out from Kinde and redirected to home
+				if (data.logoutUrl) {
+					setTimeout(() => {
+						window.location.href = data.logoutUrl;
+					}, 1500);
+				} else {
+					// Fallback: redirect to home if logout URL is not provided
+					setTimeout(() => {
+						router.push('/home');
+					}, 1500);
+				}
+			} else {
+				throw new Error(data.error || 'Failed to delete account');
+			}
+		} catch (err) {
+			console.error('Failed to delete account:', err);
+			toast.error(
+				err instanceof Error
+					? err.message
+					: 'Failed to delete account. Please try again.',
+			);
+			setIsDeletingAccount(false);
+		}
+	};
+
 	if (isLoading) {
 		return (
 			<div className="flex items-center justify-center min-h-[400px]">
@@ -334,11 +393,58 @@ export default function Settings() {
 			</div>
 
 			<Tabs defaultValue="profile" className="w-full">
-				<TabsList className="grid w-full max-w-md grid-cols-3 mb-6">
-					<TabsTrigger value="profile">Profile</TabsTrigger>
-					<TabsTrigger value="account">Account</TabsTrigger>
-					<TabsTrigger value="preferences">Preferences</TabsTrigger>
-				</TabsList>
+				<div className="flex items-center justify-between mb-6">
+					<TabsList className="grid w-full max-w-md grid-cols-3">
+						<TabsTrigger value="profile">Profile</TabsTrigger>
+						<TabsTrigger value="account">Account</TabsTrigger>
+						<TabsTrigger value="preferences">
+							Preferences
+						</TabsTrigger>
+					</TabsList>
+					<AlertDialog
+						open={isDeleteDialogOpen}
+						onOpenChange={setIsDeleteDialogOpen}
+					>
+						<AlertDialogTrigger asChild>
+							<Button variant="destructive" className="gap-2">
+								<Trash2 className="size-4" />
+								Delete Account
+							</Button>
+						</AlertDialogTrigger>
+						<AlertDialogContent>
+							<AlertDialogHeader>
+								<AlertDialogTitle>
+									Delete Account
+								</AlertDialogTitle>
+								<AlertDialogDescription>
+									Are you sure you want to delete your
+									account? This action cannot be undone. All
+									your data, including stories, will be
+									permanently deleted.
+								</AlertDialogDescription>
+							</AlertDialogHeader>
+							<AlertDialogFooter>
+								<AlertDialogCancel disabled={isDeletingAccount}>
+									Cancel
+								</AlertDialogCancel>
+								<AlertDialogAction
+									onClick={handleDeleteAccount}
+									disabled={isDeletingAccount}
+									className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+								>
+									{isDeletingAccount ? (
+										<>
+											<Spinner className="size-4 mr-2" />
+											Deleting...
+										</>
+									) : (
+										'Delete Account'
+									)}
+								</AlertDialogAction>
+							</AlertDialogFooter>
+						</AlertDialogContent>
+					</AlertDialog>
+				</div>
 
 				{/* Profile Settings */}
 				<TabsContent value="profile" className="space-y-6">
