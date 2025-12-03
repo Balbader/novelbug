@@ -188,7 +188,7 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator className="my-2" />
 						<DropdownMenuGroup>
-							<DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50">
+							{/* <DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50">
 								<Link href={`/${user.username}/account`}>
 									<div className="flex items-center">
 										<div
@@ -207,8 +207,6 @@ export function NavUser({
 										</span>
 									</div>
 								</Link>
-							</DropdownMenuItem>
-							{/* <DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50">
 								<div
 									className="flex items-center justify-center w-8 h-8 rounded-lg mr-2 transition-all duration-200 group-hover:scale-110"
 									style={{
