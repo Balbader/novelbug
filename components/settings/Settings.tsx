@@ -61,19 +61,9 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { format } from 'date-fns';
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
 import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import DeleteAccountForm from '@/components/delete-account-form/DeleteAccountForm';
 
 interface UserData {
 	id: string;
@@ -307,13 +297,24 @@ export default function Settings() {
 		}
 	};
 
-	const handleDeleteAccount = async () => {
+	const handleDeleteAccount = async (formData: {
+		reason: string;
+		feedback?: string;
+		confirmDelete: boolean;
+	}) => {
 		if (!userData) return;
 
 		setIsDeletingAccount(true);
 		try {
 			const response = await fetch(`/api/users/${username}`, {
 				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					reason: formData.reason,
+					feedback: formData.feedback || undefined,
+				}),
 			});
 
 			const data = await response.json();
@@ -401,52 +402,38 @@ export default function Settings() {
 							Notifications
 						</TabsTrigger>
 					</TabsList>
-					<AlertDialog
+					<Dialog
 						open={isDeleteDialogOpen}
 						onOpenChange={setIsDeleteDialogOpen}
 					>
-						<AlertDialogTrigger asChild>
-							<Button
-								variant="destructive"
-								className="gap-2 cursor-pointer"
-							>
-								<Trash2 className="size-4" />
-								Delete Account
-							</Button>
-						</AlertDialogTrigger>
-						<AlertDialogContent>
-							<AlertDialogHeader>
-								<AlertDialogTitle>
-									Delete Account
-								</AlertDialogTitle>
-								<AlertDialogDescription>
-									Are you sure you want to delete your
-									account? This action cannot be undone. All
-									your data, including stories, will be
-									permanently deleted.
-								</AlertDialogDescription>
-							</AlertDialogHeader>
-							<AlertDialogFooter>
-								<AlertDialogCancel disabled={isDeletingAccount}>
-									Cancel
-								</AlertDialogCancel>
-								<AlertDialogAction
-									onClick={handleDeleteAccount}
-									disabled={isDeletingAccount}
-									className="bg-destructive text-destructive-foreground hover:bg-destructive/90 cursor-pointer disabled:cursor-not-allowed"
-								>
-									{isDeletingAccount ? (
-										<>
-											<Spinner className="size-4 mr-2" />
-											Deleting...
-										</>
-									) : (
-										'Delete Account'
-									)}
-								</AlertDialogAction>
-							</AlertDialogFooter>
-						</AlertDialogContent>
-					</AlertDialog>
+						<Button
+							variant="destructive"
+							className="gap-2 cursor-pointer"
+							onClick={() => setIsDeleteDialogOpen(true)}
+						>
+							<Trash2 className="size-4" />
+							Delete Account
+						</Button>
+						<DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+							<DialogHeader>
+								<DialogTitle>Delete Account</DialogTitle>
+								<DialogDescription>
+									We're sorry to see you go. Please help us
+									improve by sharing why you're leaving.
+								</DialogDescription>
+							</DialogHeader>
+							{userData && (
+								<DeleteAccountForm
+									username={userData.username}
+									onDelete={handleDeleteAccount}
+									onCancel={() =>
+										setIsDeleteDialogOpen(false)
+									}
+									isDeleting={isDeletingAccount}
+								/>
+							)}
+						</DialogContent>
+					</Dialog>
 				</div>
 
 				{/* Profile Settings */}
