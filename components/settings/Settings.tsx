@@ -324,10 +324,18 @@ export default function Settings() {
 
 			if (data.success) {
 				toast.success('Account deleted successfully');
-				// Redirect to home page after deletion
-				setTimeout(() => {
-					router.push('/home');
-				}, 1500);
+				// Redirect to logout URL to completely log out the user
+				// This ensures the user is logged out from Kinde and redirected to home
+				if (data.logoutUrl) {
+					setTimeout(() => {
+						window.location.href = data.logoutUrl;
+					}, 1500);
+				} else {
+					// Fallback: redirect to home if logout URL is not provided
+					setTimeout(() => {
+						router.push('/home');
+					}, 1500);
+				}
 			} else {
 				throw new Error(data.error || 'Failed to delete account');
 			}

@@ -214,24 +214,38 @@ export const storyModel = {
 			.from(storiesTable)
 			.where(eq(storiesTable.user_id, userId));
 
-		// Delete all related story outputs and data
-		for (const story of stories) {
-			// Delete story output
-			await db
-				.delete(storiesOutputTable)
-				.where(eq(storiesOutputTable.id, story.story_output_id));
+		// Collect unique story_output_id and story_data_id values
+		const storyOutputIds = new Set<string>();
+		const storyDataIds = new Set<string>();
 
-			// Delete story data
-			await db
-				.delete(storiesDataTable)
-				.where(eq(storiesDataTable.id, story.story_data_id));
+		for (const story of stories) {
+			if (story.story_output_id) {
+				storyOutputIds.add(story.story_output_id);
+			}
+			if (story.story_data_id) {
+				storyDataIds.add(story.story_data_id);
+			}
 		}
 
-		// Delete all main story records
+		// Delete all main story records first (this will cascade delete likes)
 		const result = await db
 			.delete(storiesTable)
 			.where(eq(storiesTable.user_id, userId))
 			.returning();
+
+		// Now delete story outputs (no longer referenced by stories)
+		for (const outputId of storyOutputIds) {
+			await db
+				.delete(storiesOutputTable)
+				.where(eq(storiesOutputTable.id, outputId));
+		}
+
+		// Finally delete story data (no longer referenced by stories_output)
+		for (const dataId of storyDataIds) {
+			await db
+				.delete(storiesDataTable)
+				.where(eq(storiesDataTable.id, dataId));
+		}
 
 		return result;
 	},

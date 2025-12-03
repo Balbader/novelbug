@@ -45,8 +45,10 @@ export function NavUser({
 	const [postLogoutRedirectUrl, setPostLogoutRedirectUrl] = useState<string>(
 		'https://www.novelbug.com/home',
 	);
+	const [mounted, setMounted] = useState(false);
 
 	useEffect(() => {
+		setMounted(true);
 		if (typeof window !== 'undefined') {
 			// Use production URL for logout redirect
 			// This ensures consistent behavior across all environments
@@ -64,6 +66,61 @@ export function NavUser({
 	};
 
 	const initials = getInitials(user.name);
+
+	// Prevent hydration mismatch by only rendering dropdown after mount
+	if (!mounted) {
+		return (
+			<SidebarMenu>
+				<SidebarMenuItem>
+					<SidebarMenuButton
+						size="lg"
+						className="group relative rounded-xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/30 hover:shadow-md"
+						disabled
+					>
+						<div className="relative flex items-center gap-3 w-full">
+							<div
+								className="relative flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 shrink-0 overflow-hidden"
+								style={{
+									background:
+										'linear-gradient(135deg, #F4E9D7 0%, #FFF5E8 100%)',
+									boxShadow:
+										'0 2px 8px rgba(217, 125, 85, 0.2)',
+								}}
+							>
+								<Avatar className="h-full w-full rounded-xl border-2 border-white/50">
+									{user.avatar && (
+										<AvatarImage
+											src={user.avatar}
+											alt={user.name}
+											className="object-cover"
+										/>
+									)}
+									<AvatarFallback
+										className="rounded-xl text-sm font-semibold"
+										style={{
+											backgroundColor: '#D97D55',
+											color: 'white',
+										}}
+									>
+										{initials}
+									</AvatarFallback>
+								</Avatar>
+							</div>
+							<div className="grid flex-1 text-left text-sm leading-tight min-w-0">
+								<span className="truncate font-sans font-medium text-slate-900 dark:text-slate-50">
+									{user.name}
+								</span>
+								<span className="truncate text-xs font-sans font-light text-slate-500 dark:text-slate-500">
+									{user.email}
+								</span>
+							</div>
+							<ChevronsUpDown className="ml-auto size-4 text-slate-400" />
+						</div>
+					</SidebarMenuButton>
+				</SidebarMenuItem>
+			</SidebarMenu>
+		);
+	}
 
 	return (
 		<SidebarMenu>

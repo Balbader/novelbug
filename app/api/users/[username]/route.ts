@@ -222,10 +222,26 @@ export async function DELETE(
 		// Delete the user account
 		await usersService.delete(dbUser.id);
 
+		// Construct the Kinde logout URL with post-logout redirect
+		const issuerUrl = process.env.KINDE_ISSUER_URL!;
+		let postLogoutRedirectUrl =
+			process.env.KINDE_POST_LOGOUT_REDIRECT_URL || '/home';
+
+		// If the redirect URL is relative, make it absolute using the site URL
+		if (postLogoutRedirectUrl.startsWith('/')) {
+			const siteUrl = process.env.KINDE_SITE_URL || '';
+			postLogoutRedirectUrl = `${siteUrl}${postLogoutRedirectUrl}`;
+		}
+
+		const logoutUrl = `${issuerUrl}/logout?post_logout_redirect_url=${encodeURIComponent(
+			postLogoutRedirectUrl,
+		)}`;
+
 		return NextResponse.json(
 			{
 				success: true,
 				message: 'Account deleted successfully',
+				logoutUrl,
 			},
 			{ status: 200 },
 		);
