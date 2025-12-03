@@ -790,6 +790,11 @@ export default function Settings() {
 															>
 																<Calendar
 																	mode="single"
+																	captionLayout="dropdown"
+																	fromYear={
+																		1900
+																	}
+																	toYear={new Date().getFullYear()}
 																	selected={
 																		selectedDateOfBirth ||
 																		undefined
