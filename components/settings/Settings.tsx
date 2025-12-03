@@ -397,8 +397,8 @@ export default function Settings() {
 					<TabsList className="grid w-full max-w-md grid-cols-3">
 						<TabsTrigger value="profile">Profile</TabsTrigger>
 						<TabsTrigger value="account">Account</TabsTrigger>
-						<TabsTrigger value="preferences">
-							Preferences
+						<TabsTrigger value="notifications">
+							Notifications
 						</TabsTrigger>
 					</TabsList>
 					<AlertDialog
@@ -406,7 +406,10 @@ export default function Settings() {
 						onOpenChange={setIsDeleteDialogOpen}
 					>
 						<AlertDialogTrigger asChild>
-							<Button variant="destructive" className="gap-2">
+							<Button
+								variant="destructive"
+								className="gap-2 cursor-pointer"
+							>
 								<Trash2 className="size-4" />
 								Delete Account
 							</Button>
@@ -430,7 +433,7 @@ export default function Settings() {
 								<AlertDialogAction
 									onClick={handleDeleteAccount}
 									disabled={isDeletingAccount}
-									className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+									className="bg-destructive text-destructive-foreground hover:bg-destructive/90 cursor-pointer disabled:cursor-not-allowed"
 								>
 									{isDeletingAccount ? (
 										<>
@@ -1036,78 +1039,20 @@ export default function Settings() {
 					</Card>
 				</TabsContent>
 
-				{/* Preferences */}
-				<TabsContent value="preferences" className="space-y-6">
+				{/* Notifications */}
+				<TabsContent value="notifications" className="space-y-6">
 					<Card>
 						<CardHeader>
 							<CardTitle className="flex items-center gap-2">
-								<Palette className="size-5 text-[#D97D55]" />
-								Preferences
+								<Bell className="size-5 text-[#D97D55]" />
+								Notifications
 							</CardTitle>
 							<CardDescription>
-								Customize your experience and appearance
+								Manage your notification preferences
 							</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-6">
-							<div className="space-y-2">
-								<Label className="flex items-center gap-2">
-									<Palette className="size-4 text-slate-500" />
-									Avatar Style
-								</Label>
-								<div className="p-3 rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-									<div className="flex items-center justify-between">
-										<div className="flex items-center gap-3">
-											<Avatar className="size-10">
-												<AvatarImage
-													src={avatarUrl}
-													alt="Current avatar"
-												/>
-												<AvatarFallback>
-													{initials}
-												</AvatarFallback>
-											</Avatar>
-											<div>
-												<p className="text-sm font-medium">
-													{userData.avatar_style
-														? AVATAR_STYLES.find(
-																(s) =>
-																	s.value ===
-																	userData.avatar_style,
-															)?.label ||
-															userData.avatar_style
-														: 'Default'}
-												</p>
-												<p className="text-xs text-slate-500">
-													Current avatar style
-												</p>
-											</div>
-										</div>
-										<Button
-											variant="outline"
-											size="sm"
-											onClick={() =>
-												setIsAvatarDialogOpen(true)
-											}
-											className="gap-2"
-										>
-											<Edit className="size-4" />
-											Change
-										</Button>
-									</div>
-								</div>
-								<p className="text-xs text-slate-500">
-									You can change your avatar style from the
-									Profile tab
-								</p>
-							</div>
-
-							<Separator />
-
 							<div className="space-y-4">
-								<h3 className="font-semibold text-lg flex items-center gap-2">
-									<Bell className="size-5 text-slate-600 dark:text-slate-400" />
-									Notifications
-								</h3>
 								<div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
 									<p className="text-sm text-slate-600 dark:text-slate-400">
 										Notification preferences are coming
