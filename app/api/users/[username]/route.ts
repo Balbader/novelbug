@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { usersService } from '@/backend/services/user.service';
 import { storiesService } from '@/backend/services/story.service';
+import { deletedAccountModel } from '@/backend/models/deleted-account.model';
 
 export async function GET(
 	request: NextRequest,
@@ -209,6 +210,39 @@ export async function DELETE(
 		// Verify the user can only delete their own account
 		if (paramUsername !== dbUser.username) {
 			return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+		}
+
+		// Parse request body for deletion reason and feedback
+		let deletionReason = 'other';
+		let deletionFeedback: string | undefined = undefined;
+
+		try {
+			const body = await request.json();
+			if (body.reason) {
+				deletionReason = body.reason;
+			}
+			if (body.feedback) {
+				deletionFeedback = body.feedback;
+			}
+		} catch (error) {
+			// Request body is optional, continue without it
+			console.log('No deletion reason provided in request body');
+		}
+
+		// Save deletion information before deleting the account
+		try {
+			await deletedAccountModel.create({
+				username: dbUser.username,
+				email: dbUser.email,
+				reason: deletionReason,
+				feedback: deletionFeedback || undefined,
+			});
+		} catch (deletionInfoError) {
+			console.error(
+				'Error saving deletion information:',
+				deletionInfoError,
+			);
+			// Continue with deletion even if saving deletion info fails
 		}
 
 		// Delete all user stories first
