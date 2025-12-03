@@ -29,18 +29,22 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from '@/components/ui/sidebar';
+import Link from 'next/link';
 
 export function NavUser({
 	user,
 }: {
 	user: {
 		name: string;
+		username: string;
 		email: string;
 		avatar?: string;
 	};
 }) {
 	const { isMobile } = useSidebar();
-	const [postLogoutRedirectUrl, setPostLogoutRedirectUrl] = useState<string>('https://www.novelbug.com/home');
+	const [postLogoutRedirectUrl, setPostLogoutRedirectUrl] = useState<string>(
+		'https://www.novelbug.com/home',
+	);
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
@@ -165,7 +169,7 @@ export function NavUser({
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator className="my-2" />
 						<DropdownMenuGroup>
-							<DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-[#F4E9D7]/50 dark:hover:bg-slate-800/50">
+							{/* <DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-[#F4E9D7]/50 dark:hover:bg-slate-800/50">
 								<div
 									className="flex items-center justify-center w-8 h-8 rounded-lg mr-2 transition-all duration-200 group-hover:scale-110"
 									style={{
@@ -180,27 +184,31 @@ export function NavUser({
 								<span className="font-sans font-medium text-sm text-slate-700 dark:text-slate-300 group-hover:text-[#D97D55] transition-colors duration-200">
 									Upgrade to Pro
 								</span>
-							</DropdownMenuItem>
+							</DropdownMenuItem> */}
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator className="my-2" />
 						<DropdownMenuGroup>
 							<DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50">
-								<div
-									className="flex items-center justify-center w-8 h-8 rounded-lg mr-2 transition-all duration-200 group-hover:scale-110"
-									style={{
-										backgroundColor: '#E8F4F8',
-									}}
-								>
-									<User
-										className="size-4"
-										style={{ color: '#4A90E2' }}
-									/>
-								</div>
-								<span className="font-sans font-light text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-50 transition-colors duration-200">
-									Account
-								</span>
+								<Link href={`/${user.username}/account`}>
+									<div className="flex items-center">
+										<div
+											className="flex items-center justify-center w-8 h-8 rounded-lg mr-2 transition-all duration-200 group-hover:scale-110"
+											style={{
+												backgroundColor: '#E8F4F8',
+											}}
+										>
+											<User
+												className="size-4"
+												style={{ color: '#4A90E2' }}
+											/>
+										</div>
+										<span className="font-sans font-light text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-50 transition-colors duration-200">
+											Account
+										</span>
+									</div>
+								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50">
+							{/* <DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50">
 								<div
 									className="flex items-center justify-center w-8 h-8 rounded-lg mr-2 transition-all duration-200 group-hover:scale-110"
 									style={{
@@ -215,8 +223,8 @@ export function NavUser({
 								<span className="font-sans font-light text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-50 transition-colors duration-200">
 									Billing
 								</span>
-							</DropdownMenuItem>
-							<DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50">
+							</DropdownMenuItem> */}
+							{/* <DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50">
 								<div
 									className="flex items-center justify-center w-8 h-8 rounded-lg mr-2 transition-all duration-200 group-hover:scale-110"
 									style={{
@@ -231,22 +239,26 @@ export function NavUser({
 								<span className="font-sans font-light text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-50 transition-colors duration-200">
 									Notifications
 								</span>
-							</DropdownMenuItem>
+							</DropdownMenuItem> */}
 							<DropdownMenuItem className="group rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50">
-								<div
-									className="flex items-center justify-center w-8 h-8 rounded-lg mr-2 transition-all duration-200 group-hover:scale-110"
-									style={{
-										backgroundColor: '#E8F4F8',
-									}}
-								>
-									<Settings
-										className="size-4"
-										style={{ color: '#4A90E2' }}
-									/>
-								</div>
-								<span className="font-sans font-light text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-50 transition-colors duration-200">
-									Settings
-								</span>
+								<Link href={`/${user.username}/settings`}>
+									<div className="flex items-center">
+										<div
+											className="flex items-center justify-center w-8 h-8 rounded-lg mr-2 transition-all duration-200 group-hover:scale-110"
+											style={{
+												backgroundColor: '#E8F4F8',
+											}}
+										>
+											<Settings
+												className="size-4"
+												style={{ color: '#4A90E2' }}
+											/>
+										</div>
+										<span className="font-sans font-light text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-50 transition-colors duration-200">
+											Settings
+										</span>
+									</div>
+								</Link>
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator className="my-2" />
