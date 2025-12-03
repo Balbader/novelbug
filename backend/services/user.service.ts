@@ -115,4 +115,11 @@ export const usersService = {
 		}
 		return result[0];
 	},
+	async delete(userId: string) {
+		const result = await model.usersModel.delete(userId);
+		if (result.length === 0) {
+			throw new Error('User not found');
+		}
+		return result[0];
+	},
 };

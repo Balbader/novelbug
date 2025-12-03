@@ -75,4 +75,11 @@ export const usersModel = {
 			.where(eq(usersTable.id, id));
 		return users;
 	},
+	async delete(userId: string) {
+		const result = await database
+			.delete(usersTable)
+			.where(eq(usersTable.id, userId))
+			.returning();
+		return result;
+	},
 };

@@ -207,4 +207,32 @@ export const storyModel = {
 
 		return result[0] || null;
 	},
+	deleteByUserId: async (userId: string) => {
+		// Get all stories for this user
+		const stories = await db
+			.select()
+			.from(storiesTable)
+			.where(eq(storiesTable.user_id, userId));
+
+		// Delete all related story outputs and data
+		for (const story of stories) {
+			// Delete story output
+			await db
+				.delete(storiesOutputTable)
+				.where(eq(storiesOutputTable.id, story.story_output_id));
+
+			// Delete story data
+			await db
+				.delete(storiesDataTable)
+				.where(eq(storiesDataTable.id, story.story_data_id));
+		}
+
+		// Delete all main story records
+		const result = await db
+			.delete(storiesTable)
+			.where(eq(storiesTable.user_id, userId))
+			.returning();
+
+		return result;
+	},
 };

@@ -178,3 +178,66 @@ export async function GET(
 		);
 	}
 }
+
+export async function DELETE(
+	request: NextRequest,
+	{ params }: { params: Promise<{ username: string }> },
+) {
+	try {
+		const { getUser, isAuthenticated } = await getKindeServerSession();
+		const user = await getUser();
+		const isUserAuthenticated = await isAuthenticated();
+
+		if (!isUserAuthenticated || !user) {
+			return NextResponse.json(
+				{ error: 'Unauthorized' },
+				{ status: 401 },
+			);
+		}
+
+		// Get user from database
+		const dbUser = await usersService.getByKindeId(user.id);
+		if (!dbUser) {
+			return NextResponse.json(
+				{ error: 'User not found in database' },
+				{ status: 404 },
+			);
+		}
+
+		const { username: paramUsername } = await params;
+
+		// Verify the user can only delete their own account
+		if (paramUsername !== dbUser.username) {
+			return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+		}
+
+		// Delete all user stories first
+		try {
+			await storiesService.deleteStoriesByUserId(dbUser.id);
+		} catch (storyError) {
+			console.error('Error deleting user stories:', storyError);
+			// Continue with user deletion even if story deletion fails
+		}
+
+		// Delete the user account
+		await usersService.delete(dbUser.id);
+
+		return NextResponse.json(
+			{
+				success: true,
+				message: 'Account deleted successfully',
+			},
+			{ status: 200 },
+		);
+	} catch (error) {
+		console.error('Error deleting user account:', error);
+		return NextResponse.json(
+			{
+				error: 'Failed to delete account. Please try again later.',
+				details:
+					error instanceof Error ? error.message : 'Unknown error',
+			},
+			{ status: 500 },
+		);
+	}
+}
