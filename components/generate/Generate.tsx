@@ -40,10 +40,6 @@ import {
 } from 'lucide-react';
 
 const storyFormSchema = z.object({
-	title: z
-		.string()
-		.max(255, 'Title must be less than 255 characters')
-		.optional(),
 	first_name: z
 		.string()
 		.max(100, 'First name must be less than 100 characters')
@@ -273,7 +269,6 @@ export function Generate() {
 	const form = useForm<StoryFormValues>({
 		resolver: zodResolver(storyFormSchema),
 		defaultValues: {
-			title: '',
 			age_group: '',
 			language: '',
 			topic: '',
@@ -368,7 +363,6 @@ export function Generate() {
 			// Filter out empty optional fields
 			const payload = {
 				...data,
-				title: data.title?.trim() || undefined,
 				first_name: data.first_name || undefined,
 				gender: data.gender?.trim() || undefined,
 			};
@@ -772,36 +766,6 @@ export function Generate() {
 									onSubmit={form.handleSubmit(onSubmit)}
 									className="space-y-8"
 								>
-									{/* Title Field */}
-									<FormField
-										control={form.control}
-										name="title"
-										render={({ field }) => (
-											<FormItem className="space-y-3">
-												<FormLabel className="text-base font-medium text-slate-700 flex items-center gap-2">
-													<BookOpen className="h-4 w-4 text-[#8B6F47]" />
-													Story Title
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder="e.g., The Adventure of the Curious Cat"
-														className="bg-white/80 border-slate-300/50 focus:border-[#8B6F47] focus:ring-[#8B6F47]/20 h-11 text-base"
-														{...field}
-														value={
-															field.value || ''
-														}
-													/>
-												</FormControl>
-												<FormDescription className="text-sm text-slate-500">
-													Give your story a title
-													(optional - we can generate
-													one for you)
-												</FormDescription>
-												<FormMessage />
-											</FormItem>
-										)}
-									/>
-
 									{/* Two Column Layout for First Name and Gender */}
 									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
 										{/* First Name Field */}
