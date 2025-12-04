@@ -37,7 +37,9 @@ import {
 	PenTool,
 	User,
 	Heart,
+	Download,
 } from 'lucide-react';
+import { jsPDF } from 'jspdf';
 
 const storyFormSchema = z.object({
 	first_name: z
@@ -404,6 +406,104 @@ export function Generate() {
 		form.reset();
 	};
 
+	const handleDownloadStory = () => {
+		if (!generatedStory) return;
+
+		const doc = new jsPDF();
+		const pageWidth = doc.internal.pageSize.getWidth();
+		const pageHeight = doc.internal.pageSize.getHeight();
+		const margin = 20;
+		const maxWidth = pageWidth - 2 * margin;
+		let yPosition = margin;
+
+		// Helper function to add a new page if needed
+		const checkNewPage = (requiredHeight: number) => {
+			if (yPosition + requiredHeight > pageHeight - margin) {
+				doc.addPage();
+				yPosition = margin;
+				return true;
+			}
+			return false;
+		};
+
+		// Add title
+		doc.setFontSize(24);
+		doc.setFont('helvetica', 'bold');
+		const titleLines = doc.splitTextToSize(
+			generatedStory.metadata.title,
+			maxWidth,
+		);
+		doc.text(titleLines, margin, yPosition);
+		yPosition += titleLines.length * 8 + 10;
+
+		// Add metadata
+		doc.setFontSize(10);
+		doc.setFont('helvetica', 'normal');
+		const metadata = [
+			`Age Group: ${generatedStory.metadata.age_group}`,
+			`Topic: ${generatedStory.metadata.topic} - ${generatedStory.metadata.subtopic}`,
+			`Style: ${generatedStory.metadata.style}`,
+		];
+		metadata.forEach((meta) => {
+			checkNewPage(8);
+			doc.text(meta, margin, yPosition);
+			yPosition += 6;
+		});
+		yPosition += 5;
+
+		// Add story content
+		doc.setFontSize(12);
+		doc.setFont('helvetica', 'normal');
+
+		// Split story into paragraphs
+		const paragraphs = generatedStory.story
+			.split(/\n\s*\n|\n(?=\S)/)
+			.map((p) => p.trim())
+			.filter((p) => p.length > 0);
+
+		// Remove title if it appears as first paragraph
+		let storyParagraphs = paragraphs;
+		if (
+			paragraphs.length > 0 &&
+			paragraphs[0]
+				.toLowerCase()
+				.includes(generatedStory.metadata.title.toLowerCase())
+		) {
+			storyParagraphs = paragraphs.slice(1);
+		}
+
+		storyParagraphs.forEach((paragraph) => {
+			// Split paragraph into lines that fit the page width
+			const lines = doc.splitTextToSize(paragraph, maxWidth);
+
+			// Check if we need a new page before adding this paragraph
+			const paragraphHeight = lines.length * 6 + 4;
+			checkNewPage(paragraphHeight);
+
+			// Add paragraph with indentation for first line
+			lines.forEach((line: string, index: number) => {
+				checkNewPage(6);
+				const indent = index === 0 ? 10 : 0;
+				doc.text(line, margin + indent, yPosition);
+				yPosition += 6;
+			});
+			yPosition += 2; // Space between paragraphs
+		});
+
+		// Add "The End" at the bottom
+		checkNewPage(15);
+		yPosition += 5;
+		doc.setFontSize(14);
+		doc.setFont('helvetica', 'italic');
+		doc.text('❦', pageWidth / 2, yPosition, { align: 'center' });
+		yPosition += 8;
+		doc.text('The End', pageWidth / 2, yPosition, { align: 'center' });
+
+		// Save the PDF
+		const fileName = `${generatedStory.metadata.title.replace(/[^a-z0-9]/gi, '_')}.pdf`;
+		doc.save(fileName);
+	};
+
 	// Format story text to look like a real book
 	const formatStoryText = (text: string, title?: string): React.ReactNode => {
 		if (!text) return null;
@@ -713,8 +813,17 @@ export function Generate() {
 							</div>
 						</div>
 
-						{/* Action Button */}
-						<div className="mt-8 flex justify-center">
+						{/* Action Buttons */}
+						<div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+							<Button
+								onClick={handleDownloadStory}
+								variant="outline"
+								size="lg"
+								className="bg-white/90 border-slate-300/50 hover:bg-white text-slate-700 shadow-lg"
+							>
+								<Download className="mr-2 h-4 w-4" />
+								Download Story
+							</Button>
 							<Button
 								onClick={handleGenerateNew}
 								variant="outline"
