@@ -31,7 +31,6 @@ import {
 	Tag,
 	Palette,
 	Loader2,
-	CheckCircle2,
 	Wand2,
 	Book,
 	PenTool,
