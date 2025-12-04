@@ -124,12 +124,8 @@ export function HeroSection() {
 				}}
 			/>
 
-			{/* Refined gradient overlays (subtle, warmer, and less intense) */}
-			<div className="absolute inset-0 bg-gradient-to-b from-slate-950/55 via-amber-900/25 to-slate-950/65 z-0" />
-			<div className="absolute inset-0 bg-gradient-to-r from-amber-900/25 via-transparent to-rose-900/25 z-0" />
-
-			{/* Very soft warm vignette effect */}
-			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_transparent_60%,_rgba(120,53,15,0.35)_100%)] z-0" />
+			{/* Dark brown overlay */}
+			<div className="absolute inset-0 bg-[#1a1209]/70 z-0" />
 
 			<div className="container mx-auto max-w-5xl relative z-10">
 				<div className="max-w-3xl mx-auto text-center space-y-6 sm:space-y-8">
