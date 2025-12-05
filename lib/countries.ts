@@ -1,6 +1,3 @@
-/**
- * Comprehensive list of countries for selection
- */
 export const COUNTRIES = [
 	'Afghanistan',
 	'Albania',
