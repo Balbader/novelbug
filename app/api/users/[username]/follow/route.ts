@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { usersService } from '@/backend/services/user.service';
 import { followsService } from '@/backend/services/follow.service';
+import { getPostHogClient } from '@/lib/posthog-server';
 
 export async function POST(
 	request: NextRequest,
@@ -45,6 +46,17 @@ export async function POST(
 		}
 
 		await followsService.followUser(dbUser.id, profileUser.id);
+
+		// Track user followed event
+		const posthog = getPostHogClient();
+		posthog.capture({
+			distinctId: dbUser.id,
+			event: 'user_followed',
+			properties: {
+				followed_user_id: profileUser.id,
+				followed_username: profileUser.username,
+			},
+		});
 
 		return NextResponse.json(
 			{
@@ -100,6 +112,17 @@ export async function DELETE(
 		}
 
 		await followsService.unfollowUser(dbUser.id, profileUser.id);
+
+		// Track user unfollowed event
+		const posthog = getPostHogClient();
+		posthog.capture({
+			distinctId: dbUser.id,
+			event: 'user_unfollowed',
+			properties: {
+				unfollowed_user_id: profileUser.id,
+				unfollowed_username: profileUser.username,
+			},
+		});
 
 		return NextResponse.json(
 			{

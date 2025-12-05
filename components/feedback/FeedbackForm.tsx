@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import posthog from 'posthog-js';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -129,6 +130,11 @@ export default function FeedbackForm() {
 					result.message || "We'll review your feedback soon.",
 			});
 
+			// Track feedback submitted
+			posthog.capture('feedback_submitted', {
+				feedback_type: data.type,
+			});
+
 			form.reset({
 				type: undefined,
 				message: '',
@@ -136,6 +142,8 @@ export default function FeedbackForm() {
 				name: userInfo?.name || '',
 			});
 		} catch (error) {
+			// Track feedback error
+			posthog.captureException(error);
 			toast.error('Failed to send feedback', {
 				description:
 					error instanceof Error

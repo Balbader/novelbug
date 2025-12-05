@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { usersService } from '@/backend/services/user.service';
 import { likesService } from '@/backend/services/like.service';
+import { getPostHogClient } from '@/lib/posthog-server';
 
 export async function POST(
 	request: NextRequest,
@@ -31,6 +32,17 @@ export async function POST(
 
 		await likesService.likeStory(dbUser.id, storyId);
 		const likesCount = await likesService.getLikesCount(storyId);
+
+		// Track story liked event
+		const posthog = getPostHogClient();
+		posthog.capture({
+			distinctId: dbUser.id,
+			event: 'story_liked',
+			properties: {
+				story_id: storyId,
+				likes_count: likesCount,
+			},
+		});
 
 		return NextResponse.json(
 			{
@@ -81,6 +93,17 @@ export async function DELETE(
 
 		await likesService.unlikeStory(dbUser.id, storyId);
 		const likesCount = await likesService.getLikesCount(storyId);
+
+		// Track story unliked event
+		const posthog = getPostHogClient();
+		posthog.capture({
+			distinctId: dbUser.id,
+			event: 'story_unliked',
+			properties: {
+				story_id: storyId,
+				likes_count: likesCount,
+			},
+		});
 
 		return NextResponse.json(
 			{

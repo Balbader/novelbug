@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import posthog from 'posthog-js';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -71,8 +72,15 @@ export default function Contact() {
 				description: "We'll get back to you soon.",
 			});
 
+			// Track contact form submitted
+			posthog.capture('contact_form_submitted', {
+				subject: data.subject,
+			});
+
 			form.reset();
 		} catch (error) {
+			// Track contact form error
+			posthog.captureException(error);
 			toast.error('Failed to send message', {
 				description:
 					error instanceof Error

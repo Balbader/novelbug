@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import posthog from 'posthog-js';
 import {
 	Form,
 	FormControl,
@@ -363,6 +364,17 @@ export default function Generate() {
 		setProgress(0);
 		setElapsedTime(0);
 
+		// Track story generation started
+		posthog.capture('story_generation_started', {
+			age_group: data.age_group,
+			language: data.language,
+			topic: data.topic,
+			subtopic: data.subtopic,
+			style: data.style,
+			has_first_name: !!data.first_name,
+			has_gender: !!data.gender,
+		});
+
 		try {
 			// Filter out empty optional fields
 			const payload = {
@@ -395,6 +407,17 @@ export default function Generate() {
 
 			setGeneratedStory(result);
 
+			// Track story generation completed
+			posthog.capture('story_generation_completed', {
+				title: result.metadata.title,
+				age_group: result.metadata.age_group,
+				language: result.metadata.language,
+				topic: result.metadata.topic,
+				subtopic: result.metadata.subtopic,
+				style: result.metadata.style,
+				generation_time_seconds: elapsedTime,
+			});
+
 			// Save story to database
 			try {
 				const saveResponse = await fetch('/api/stories/save', {
@@ -417,6 +440,15 @@ export default function Generate() {
 					console.error('Failed to save story to database');
 					// Don't throw error - story generation was successful
 					// Just log the error
+				} else {
+					// Track story saved
+					posthog.capture('story_saved', {
+						title: result.metadata.title,
+						age_group: result.metadata.age_group,
+						topic: result.metadata.topic,
+						subtopic: result.metadata.subtopic,
+						style: result.metadata.style,
+					});
 				}
 			} catch (saveErr) {
 				console.error('Error saving story to database:', saveErr);
@@ -424,6 +456,15 @@ export default function Generate() {
 				// Just log the error
 			}
 		} catch (err) {
+			// Track story generation failed
+			posthog.capture('story_generation_failed', {
+				error: err instanceof Error ? err.message : 'Unknown error',
+				age_group: data.age_group,
+				topic: data.topic,
+				subtopic: data.subtopic,
+			});
+			posthog.captureException(err);
+
 			setError(
 				err instanceof Error ? err.message : 'Failed to generate story',
 			);
@@ -433,6 +474,9 @@ export default function Generate() {
 	};
 
 	const handleGenerateNew = () => {
+		// Track generate another story clicked
+		posthog.capture('generate_another_story_clicked');
+
 		setGeneratedStory(null);
 		setError(null);
 		form.reset();

@@ -1,0 +1,62 @@
+[
+  {
+    "event_name": "story_generation_started",
+    "description": "User started generating a new story with selected parameters",
+    "file_path": "components/dashboard/generate/Generate.tsx"
+  },
+  {
+    "event_name": "story_generation_completed",
+    "description": "Story generation completed successfully",
+    "file_path": "components/dashboard/generate/Generate.tsx"
+  },
+  {
+    "event_name": "story_generation_failed",
+    "description": "Story generation encountered an error",
+    "file_path": "components/dashboard/generate/Generate.tsx"
+  },
+  {
+    "event_name": "story_saved",
+    "description": "User's generated story was automatically saved to the database",
+    "file_path": "components/dashboard/generate/Generate.tsx"
+  },
+  {
+    "event_name": "story_liked",
+    "description": "User liked a community story",
+    "file_path": "app/api/stories/[id]/like/route.ts"
+  },
+  {
+    "event_name": "story_unliked",
+    "description": "User unliked a community story",
+    "file_path": "app/api/stories/[id]/like/route.ts"
+  },
+  {
+    "event_name": "user_followed",
+    "description": "User followed another user",
+    "file_path": "app/api/users/[username]/follow/route.ts"
+  },
+  {
+    "event_name": "user_unfollowed",
+    "description": "User unfollowed another user",
+    "file_path": "app/api/users/[username]/follow/route.ts"
+  },
+  {
+    "event_name": "contact_form_submitted",
+    "description": "User submitted the contact form",
+    "file_path": "components/contact/Contact.tsx"
+  },
+  {
+    "event_name": "feedback_submitted",
+    "description": "User submitted feedback (bug report, feature request, or general feedback)",
+    "file_path": "components/feedback/FeedbackForm.tsx"
+  },
+  {
+    "event_name": "account_deletion_initiated",
+    "description": "User initiated account deletion with reason and feedback",
+    "file_path": "components/delete-account-form/DeleteAccountForm.tsx"
+  },
+  {
+    "event_name": "generate_another_story_clicked",
+    "description": "User clicked to generate another story after completing one",
+    "file_path": "components/dashboard/generate/Generate.tsx"
+  }
+]

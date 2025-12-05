@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import posthog from 'posthog-js';
 import {
 	Form,
 	FormControl,
@@ -106,8 +107,15 @@ export default function DeleteAccountForm({
 
 	const onSubmit = async (data: DeleteAccountFormValues) => {
 		try {
+			// Track account deletion initiated
+			posthog.capture('account_deletion_initiated', {
+				reason: data.reason,
+				has_feedback: !!data.feedback,
+			});
+
 			await onDelete(data);
 		} catch (error) {
+			posthog.captureException(error);
 			console.error('Error submitting deletion form:', error);
 		}
 	};
