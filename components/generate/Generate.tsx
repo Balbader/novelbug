@@ -69,6 +69,7 @@ const ageGroups = [
 ];
 
 const languages = [
+	{ value: 'sr', label: 'Serbian' },
 	{ value: 'en', label: 'English' },
 	{ value: 'es', label: 'Spanish' },
 	{ value: 'fr', label: 'French' },
