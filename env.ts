@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { log, error, message } from '@/lib/print-helpers';
 
 const envSchema = z.object({
-	ANTHROPIC_API_KEY: z.string(),
+	OPENAI_API_KEY: z.string(),
 	TURSO_DATABASE_URL: z.string(),
 	TURSO_AUTH_TOKEN: z.string(),
 	RESEND_API_KEY: z.string().optional(), // Optional for contact form emails
@@ -15,7 +15,7 @@ const envSchema = z.object({
 });
 
 const publicEnv: Record<string, string> = {
-	ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY!,
+	OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
 	TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL!,
 	TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN!,
 	RESEND_API_KEY: process.env.RESEND_API_KEY || '',
@@ -57,7 +57,7 @@ export const Env = {
 			key === 'RESEND_API_KEY' ||
 			key === 'TURSO_DATABASE_URL' ||
 			key === 'TURSO_AUTH_TOKEN' ||
-			key === 'ANTHROPIC_API_KEY'
+			key === 'OPENAI_API_KEY'
 		) {
 			return value;
 		}
