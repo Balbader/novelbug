@@ -24,5 +24,5 @@ export const storyGeneratorAgent = new Agent({
 	- The story should flow naturally like a printed book
 
 	The story should be well-structured, with proper pacing, dialogue, and descriptive language appropriate for the target age group.`,
-	model: 'anthropic/claude-haiku-4-5',
+	model: 'openai/gpt-5-mini',
 });

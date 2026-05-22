@@ -37,5 +37,5 @@ export const editStoryAgent = new Agent({
 	- The story should flow naturally like a printed book
 
 	The edited story should feel like the same story, just adapted to the new parameters.`,
-	model: 'anthropic/claude-haiku-4-5',
+	model: 'openai/gpt-5-mini',
 });
